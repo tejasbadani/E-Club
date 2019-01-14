@@ -26,12 +26,13 @@ class _BlogsState extends State<Blogs> with AutomaticKeepAliveClientMixin {
           .collection('ewrite')
           .document('blogs')
           .collection('approved')
+          .orderBy('date', descending: true)
           .snapshots(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           if (snapshot.data.documents.length == 0) {
             return Center(
-              child: Text('NO ARTICLES YET'), 
+              child: Text('NO ARTICLES YET'),
             );
           }
           return ListView.builder(

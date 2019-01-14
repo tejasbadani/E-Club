@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:project_e/model/member_list.dart';
 import 'package:project_e/widgets/member_area/member_list_tile.dart';
+import 'package:flutter/cupertino.dart';
 
 class Alumni extends StatefulWidget {
   @override
@@ -25,10 +26,12 @@ class _AlumniState extends State<Alumni> {
             .collection('alumni')
             .snapshots(),
         builder: (context, snapshot) {
-          if (!snapshot.hasData) {
-            print('LOADING');
-            return Container();
-          } else {
+          if (snapshot.hasData) {
+            if (snapshot.data.documents.length == 0) {
+              return Center(
+                child: Text('NO ALUMNI YET'),
+              );
+            }
             return ListView.builder(
               itemBuilder: (context, index) {
                 final data = snapshot.data.documents[index];
@@ -42,6 +45,16 @@ class _AlumniState extends State<Alumni> {
                 return MemberListTile(member);
               },
               itemCount: snapshot.data.documents.length,
+            );
+          }
+          if (snapshot.connectionState != ConnectionState.done) {
+            return CupertinoActivityIndicator();
+          }
+
+          if (!snapshot.hasData &&
+              snapshot.connectionState == ConnectionState.done) {
+            return Center(
+              child: Text('NOTHING YET'),
             );
           }
         },

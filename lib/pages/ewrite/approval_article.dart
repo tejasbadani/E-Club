@@ -18,21 +18,17 @@ class ApprovalArticle extends StatefulWidget {
 class _ApprovalArticleState extends State<ApprovalArticle> {
   TextEditingController _articleController = TextEditingController();
   FocusNode _articleFocusNode = FocusNode();
+  OverlayState overlayState;
+  OverlayEntry overlayEntry;
+  bool _isLoading = false;
+  bool _isExists = false;
   final _formKey = GlobalKey<FormState>();
   @override
   void initState() {
+    overlayState = Overlay.of(context);
+    overlayEntry = OverlayEntry(builder: (context) => CustomLoading());
     _articleController.text = widget.post.article;
     super.initState();
-  }
-
-  void _isLoading(BuildContext context) {
-    showDialog(
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return CustomLoading();
-      },
-      context: context,
-    );
   }
 
   void _approvedArticle() {
@@ -44,7 +40,8 @@ class _ApprovalArticleState extends State<ApprovalArticle> {
     Firestore.instance.runTransaction((transaction) async {
       DocumentSnapshot postSnapshot = await transaction.get(documentRef);
       if (postSnapshot.exists) {
-        Firestore.instance
+        _isExists = true;
+        await Firestore.instance
             .collection('ewrite')
             .document('not_approved')
             .collection('not_approved_docs')
@@ -61,38 +58,51 @@ class _ApprovalArticleState extends State<ApprovalArticle> {
           'userID': widget.post.userID,
           'rejected': false
         };
-        Firestore.instance
+        await Firestore.instance
             .collection('ewrite')
             .document(widget.post.category)
             .collection('approved')
             .document(widget.post.postID)
             .setData(data);
 
-        Firestore.instance
+        await Firestore.instance
             .collection('ewrite')
             .document('approved')
             .collection('approved_docs')
             .document(widget.post.postID)
-            .setData(data)
-              ..then((err) {
-                Navigator.pop(context);
-                Navigator.pop(context);
-              }).catchError(() {
-                print('ERROR OCCURED');
-              });
+            .setData(data);
       } else {
         print('DOESNT EXIST ANYMORE');
       }
     }).whenComplete(() {
-      Navigator.pop(context);
-      Fluttertoast.showToast(
-          msg: 'Oops. Seems like the another admin has verified the post.',
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 2,
-          textColor: Colors.white,
-          backgroundColor: Colors.red);
-      Navigator.pop(context);
+      if (_isExists) {
+        Fluttertoast.showToast(
+            msg: 'APPROVED',
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIos: 2,
+            textColor: Colors.white,
+            backgroundColor: Colors.green);
+        setState(() {
+          _isLoading = false;
+        });
+        overlayEntry.remove();
+        Navigator.pop(context);
+      } else {
+        Fluttertoast.showToast(
+            msg: 'Oops. Seems like the another admin has verified the post.',
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIos: 2,
+            textColor: Colors.white,
+            backgroundColor: Colors.red);
+        setState(() {
+          _isLoading = false;
+        });
+
+        overlayEntry.remove();
+        Navigator.pop(context);
+      }
     });
   }
 
@@ -105,30 +115,41 @@ class _ApprovalArticleState extends State<ApprovalArticle> {
     Firestore.instance.runTransaction((transaction) async {
       DocumentSnapshot postSnapshot = await transaction.get(documentRef);
       if (postSnapshot.exists) {
-        Firestore.instance
+        _isExists = true;
+        await Firestore.instance
             .collection('ewrite')
             .document('not_approved')
             .collection('not_approved_docs')
             .document(widget.post.postID)
-            .updateData({'rejected': true}).then((err) {
-          Navigator.pop(context);
-          Navigator.pop(context);
-        }).catchError(() {
+            .updateData({'rejected': true}).catchError(() {
           print('ERROR OCCURED');
         });
       } else {
         print('DOESNT EXIST ANYMORE');
       }
     }).whenComplete(() {
-      Navigator.pop(context);
-      Fluttertoast.showToast(
-          msg: 'Oops. Seems like the another admin has verified the post.',
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 2,
-          textColor: Colors.white,
-          backgroundColor: Colors.red);
-      Navigator.pop(context);
+      if (_isExists) {
+        setState(() {
+          _isLoading = false;
+        });
+
+        overlayEntry.remove();
+        Navigator.pop(context);
+      } else {
+        Fluttertoast.showToast(
+            msg: 'Oops. Seems like the another admin has verified the post.',
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIos: 2,
+            textColor: Colors.white,
+            backgroundColor: Colors.red);
+        setState(() {
+          _isLoading = false;
+        });
+
+        overlayEntry.remove();
+        Navigator.pop(context);
+      }
     });
   }
 
@@ -233,10 +254,16 @@ class _ApprovalArticleState extends State<ApprovalArticle> {
                           ),
                           color: Colors.green,
                           onPressed: () {
-                            _isLoading(context);
                             //Firestore.instance.collection('users').document(post.userID).collection('not_approved');
                             if (_formKey.currentState.validate()) {
-                              _approvedArticle();
+                              if (_isLoading == false) {
+                                setState(() {
+                                  _isLoading = true;
+                                });
+
+                                overlayState.insert(overlayEntry);
+                                _approvedArticle();
+                              }
                             }
                           },
                         ),
@@ -247,8 +274,14 @@ class _ApprovalArticleState extends State<ApprovalArticle> {
                           ),
                           color: Colors.red,
                           onPressed: () {
-                            _isLoading(context);
-                            _rejectedArticle();
+                            if (_isLoading == false) {
+                              setState(() {
+                                _isLoading = true;
+                              });
+
+                              overlayState.insert(overlayEntry);
+                              _rejectedArticle();
+                            }
                           },
                         )
                       ],

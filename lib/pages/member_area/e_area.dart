@@ -47,7 +47,7 @@ class _EAreaState extends State<EArea> with AutomaticKeepAliveClientMixin {
             body: StreamBuilder(
               stream: Firestore.instance
                   .collection('evoice')
-                  .orderBy('date', descending: false)
+                  .orderBy('date', descending: true)
                   .snapshots(),
               builder: (context, snapshot) {
                 if (!snapshot.hasData) {

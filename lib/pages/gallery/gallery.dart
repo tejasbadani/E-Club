@@ -30,8 +30,10 @@ class _GalleryState extends State<Gallery> {
 
   Widget _buildGallery() {
     return StreamBuilder(
-      stream:
-          Firestore.instance.collection('gallery').orderBy('title').snapshots(),
+      stream: Firestore.instance
+          .collection('gallery')
+          .orderBy('date', descending: true)
+          .snapshots(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           if (snapshot.data.documents.length == 0) {

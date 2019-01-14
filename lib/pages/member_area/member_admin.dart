@@ -3,7 +3,6 @@ import 'package:project_e/model/member_list.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:project_e/widgets/member_area/member_admin_tile.dart';
 import 'package:flutter/cupertino.dart';
-import './new_gallery.dart';
 import 'package:project_e/widgets/floating_button.dart';
 
 class MemberAdmin extends StatefulWidget {

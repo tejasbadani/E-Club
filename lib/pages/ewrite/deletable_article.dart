@@ -1,10 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:project_e/model/post_ewrite.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:project_e/shared/custom_loading.dart';
 
-class DeleteArticle extends StatelessWidget {
+class DeleteArticle extends StatefulWidget {
   final Post post;
+  //TODO
   DeleteArticle(this.post);
+  @override
+  State<StatefulWidget> createState() {
+    return _DeleteArticleState();
+  }
+}
+
+class _DeleteArticleState extends State<DeleteArticle> {
+  OverlayState overlayState;
+  OverlayEntry overlayEntry;
+  bool _isLoading = false;
+  @override
+  void initState() {
+    overlayState = Overlay.of(context);
+    overlayEntry = OverlayEntry(builder: (context) => CustomLoading());
+    super.initState();
+  }
+
   void _showDialog(BuildContext context) {
     showDialog(
       barrierDismissible: true,
@@ -21,15 +40,15 @@ class DeleteArticle extends StatelessWidget {
                     .collection('ewrite')
                     .document('approved')
                     .collection('approved_docs')
-                    .document(post.postID)
+                    .document(widget.post.postID)
                     .delete();
                 Firestore.instance
                     .collection('ewrite')
-                    .document(post.category)
+                    .document(widget.post.category)
                     .collection('approved')
-                    .document(post.postID)
+                    .document(widget.post.postID)
                     .delete()
-                    .then((val) {
+                    .whenComplete(() {
                   Navigator.pop(context);
                   Navigator.pop(context);
                 });
@@ -68,15 +87,15 @@ class DeleteArticle extends StatelessWidget {
               pinned: true,
               flexibleSpace: FlexibleSpaceBar(
                 title: Text(
-                  post.title.toUpperCase(),
+                  widget.post.title.toUpperCase(),
                   style: TextStyle(fontWeight: FontWeight.w600),
                 ),
                 background: Hero(
-                    tag: post.postID,
+                    tag: widget.post.postID,
                     child: Opacity(
                       opacity: 0.8,
                       child: FadeInImage(
-                        image: NetworkImage(post.imageURL),
+                        image: NetworkImage(widget.post.imageURL),
                         height: 300.0,
                         fit: BoxFit.cover,
                         placeholder: AssetImage('assets/e_club_1.png'),
@@ -91,7 +110,7 @@ class DeleteArticle extends StatelessWidget {
                     margin: EdgeInsets.only(top: 15),
                     alignment: Alignment.center,
                     child: Text(
-                      'BY ${post.subtitle.toUpperCase()}',
+                      'BY ${widget.post.subtitle.toUpperCase()}',
                       style:
                           TextStyle(fontWeight: FontWeight.w500, fontSize: 20),
                     ),
@@ -100,7 +119,7 @@ class DeleteArticle extends StatelessWidget {
                     margin: EdgeInsets.only(top: 10),
                     alignment: Alignment.center,
                     child: Text(
-                      'CATEGORY : ${post.category.toUpperCase()}',
+                      'CATEGORY : ${widget.post.category.toUpperCase()}',
                       style:
                           TextStyle(fontWeight: FontWeight.w400, fontSize: 15),
                     ),
@@ -109,7 +128,7 @@ class DeleteArticle extends StatelessWidget {
                     margin: EdgeInsets.all(15),
                     alignment: Alignment.center,
                     child: Text(
-                      post.article,
+                      widget.post.article,
                       textAlign: TextAlign.justify,
                       style:
                           TextStyle(fontWeight: FontWeight.w300, fontSize: 17),

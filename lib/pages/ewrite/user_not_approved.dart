@@ -40,7 +40,9 @@ class _UserNotApprovedState extends State<UserNotApproved>
                 .collection('ewrite')
                 .document('not_approved')
                 .collection('not_approved_docs')
+                //.orderBy('date', descending: true)
                 .where('userID', isEqualTo: id)
+                
                 .snapshots(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {

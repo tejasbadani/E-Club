@@ -24,6 +24,7 @@ class _ApprovedState extends State<Approved>
           .collection('ewrite')
           .document('approved')
           .collection('approved_docs')
+          .orderBy('date', descending: true)
           .snapshots(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
@@ -62,7 +63,7 @@ class _ApprovedState extends State<Approved>
 
         if (snapshot.connectionState != ConnectionState.done) {
           return CupertinoActivityIndicator();
-        }
+        } 
 
         if (!snapshot.hasData &&
             snapshot.connectionState == ConnectionState.done) {

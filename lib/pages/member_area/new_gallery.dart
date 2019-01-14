@@ -68,7 +68,7 @@ class _AddImageState extends State<AddImage> {
 
       overlayState.insert(overlayEntry);
       DateTime now = DateTime.now();
-      String formattedDate = DateFormat('KK:mm a EEE d MMM').format(now);
+      String formattedDate = DateFormat(' d.MM KK:mm a ').format(now);
       final String url = await _pickSaveImage();
       final data = {
         'date': formattedDate,

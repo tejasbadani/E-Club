@@ -25,6 +25,7 @@ class _EclubWriteState extends State<EclubWrite>
           .collection('ewrite')
           .document('eclub')
           .collection('approved')
+          .orderBy('date', descending: true)
           .snapshots(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {

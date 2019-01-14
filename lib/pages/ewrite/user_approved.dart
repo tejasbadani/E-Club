@@ -42,6 +42,7 @@ class _UserApprovedState extends State<UserApproved>
                 .document('approved')
                 .collection('approved_docs')
                 .where('userID', isEqualTo: id)
+                //.orderBy('date', descending: true)
                 .snapshots(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {

@@ -15,7 +15,6 @@ class NotApproved extends StatefulWidget {
 
 class _NotApprovedState extends State<NotApproved>
     with AutomaticKeepAliveClientMixin {
-  //TODO Add editing functionality
   @override
   bool get wantKeepAlive => true;
   final List<Post> posts = [];

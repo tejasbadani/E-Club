@@ -62,7 +62,7 @@ class _NewVoiceState extends State<NewVoice> {
       overlayState.insert(overlayEntry);
 
       DateTime now = DateTime.now();
-      String formattedDate = DateFormat(' EEE d MMM KK:mm a ').format(now);
+      String formattedDate = DateFormat(' d.MM KK:mm a ').format(now);
       final data = {
         'message': _voiceController.text,
         'username': name,

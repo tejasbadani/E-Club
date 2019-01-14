@@ -36,6 +36,7 @@ class _UserArticleState extends State<UserArticle> {
   }
 
   void _deleteButtonPressed() {
+    //TODO Show prompt first
     Firestore.instance
         .collection('ewrite')
         .document('not_approved')

@@ -192,7 +192,7 @@ class _CreateArticleState extends State<CreateArticle> {
       id = prefs.getString('id');
       photoURL = prefs.getString('photoURL');
       DateTime now = DateTime.now();
-      String formattedDate = DateFormat('KK:mm a EEE d MMM').format(now);
+      String formattedDate = DateFormat(' d.MM KK:mm a ').format(now);
       final String url = await _pickSaveImage();
 
       print('URL $url');

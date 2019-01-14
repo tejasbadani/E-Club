@@ -24,6 +24,7 @@ class _StartupsState extends State<Startups>
           .collection('ewrite')
           .document('start-ups')
           .collection('approved')
+          .orderBy('date', descending: true)
           .snapshots(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
