@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "388044804677",
+    "firebase_url": "https://e-club-90035.firebaseio.com",
+    "project_id": "e-club-90035",
+    "storage_bucket": "e-club-90035.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:388044804677:android:6d8af63af3b950ee",
+        "android_client_info": {
+          "package_name": "com.example.projecte"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "388044804677-77qk701cbeas2ca6u1oq6p9d9hqfi2di.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCXAMoBaqhhk3vYO7pPHj8zPw-vRKu_fd8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
