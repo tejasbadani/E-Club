@@ -35,11 +35,8 @@ dev_dependencies:
   url_launcher: ^4.0.3
   image_cropper: ^0.0.9
   uuid: ^1.0.3
-  transformer_page_view:
   flutter_staggered_grid_view: "^0.2.6" 
-  fluttertoast: ^2.2.5
-  intro_slider: ^1.1.2
-  shimmer: ^1.0.0
+  fluttertoast: ^2.2.6
 
 # For information on the generic Dart part of this file, see the
 # following page: https://www.dartlang.org/tools/pub/pubspec
@@ -111,7 +108,6 @@ flutter:
     - assets/placeholder.png
     - assets/2.0x/placeholder.png
     - assets/3.0x/placeholder.png
-    - assets/placeholder.gif
     - assets/placeholder2.png
     - assets/2.0x/placeholder2.png
     - assets/3.0x/placeholder2.png
