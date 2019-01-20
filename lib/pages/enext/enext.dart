@@ -54,10 +54,14 @@ class _EnextState extends State<Enext> {
       (int index) {
         final currentData = data.data.documents[index];
         final Speaker currentSpeaker = Speaker(
-            id: currentData.documentID,
-            image: currentData['imageURL'],
-            name: currentData['title'],
-            article: currentData['article']);
+          id: currentData.documentID,
+          image: currentData['imageURL'],
+          name: currentData['title'],
+          article: currentData['article'],
+          instagramURL: currentData['instagram'],
+          facebookURL: currentData['facebook'],
+          linkedInURL: currentData['linkedin'],
+        );
         speakers.add(currentSpeaker);
         return Container(
           child: GestureDetector(

@@ -22,7 +22,7 @@ class SpeakerCard extends StatelessWidget {
           height: 5,
         ),
         Center(
-          child: Text(speaker.name),
+          child: Text(speaker.name.toUpperCase()),
         )
       ],
     );

@@ -4,6 +4,7 @@ import 'package:project_e/shared/ensure_visible.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class Settings extends StatefulWidget {
   @override
@@ -22,6 +23,7 @@ class _SettingsState extends State<Settings> {
   TextEditingController _departmentController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   FocusNode _departmentFocus = FocusNode();
+  String _department;
   final GoogleSignIn googleSignIn = GoogleSignIn();
   void _getData() async {
     prefs = await SharedPreferences.getInstance();
@@ -31,14 +33,15 @@ class _SettingsState extends State<Settings> {
       _name = prefs.getString('name');
       _isMember = prefs.getBool('isMember');
       _memberType = prefs.getString('memberType');
-      _userNameController.text = _name;
+      _userNameController.text = _name.toUpperCase();
     });
     final data =
         await Firestore.instance.collection('users').document(_id).get();
     if (data != null) {
       final dataArray = data.data;
       setState(() {
-        _departmentController.text = dataArray['department'];
+        _departmentController.text = dataArray['department'].toUpperCase();
+        _department = dataArray['department'];
       });
     }
   }
@@ -53,6 +56,7 @@ class _SettingsState extends State<Settings> {
     return Container(
       margin: EdgeInsets.only(top: 30),
       child: CircleAvatar(
+        backgroundColor: Theme.of(context).primaryColor,
         backgroundImage: NetworkImage(_profileURL),
         radius: 40,
       ),
@@ -75,6 +79,7 @@ class _SettingsState extends State<Settings> {
           EnsureVisibleWhenFocused(
             focusNode: _usernameFocus,
             child: TextFormField(
+              textCapitalization: TextCapitalization.characters,
               validator: (String val) {
                 if (val.isEmpty) {
                   return 'USERNAME NEEDED';
@@ -84,11 +89,18 @@ class _SettingsState extends State<Settings> {
               keyboardType: TextInputType.text,
               onFieldSubmitted: (String value) {
                 final str = _userNameController.text;
+                Duration time = Duration(seconds: 30);
                 if (_formKey.currentState.validate()) {
                   Firestore.instance
                       .collection('users')
                       .document(_id)
-                      .updateData({'name': str}).then((val) {
+                      .updateData({'name': str}).timeout(time, onTimeout: () {
+                    _showToast(Colors.red, 'Request timed out');
+                    setState(() {
+                      _userNameController.text = _name.toUpperCase();
+                    });
+                  }).whenComplete(() {
+                    _showToast(Colors.green, 'USERNAME CHANGE SUCCESSFUL');
                     prefs.setString('name', _userNameController.text);
                     _name = _userNameController.text;
                   });
@@ -99,7 +111,9 @@ class _SettingsState extends State<Settings> {
                         .document('member-list')
                         .collection(_memberType)
                         .document(_id)
-                        .updateData({'name': str});
+                        .updateData({'name': str}).timeout(time, onTimeout: () {
+                      _showToast(Colors.red, 'Request timed out');
+                    });
                   }
                 }
               },
@@ -115,6 +129,16 @@ class _SettingsState extends State<Settings> {
         ],
       ),
     );
+  }
+
+  void _showToast(Color color, String message) {
+    Fluttertoast.showToast(
+        msg: message,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIos: 2,
+        textColor: Colors.white,
+        backgroundColor: color);
   }
 
   Widget _createDepartmentTextField() {
@@ -133,6 +157,7 @@ class _SettingsState extends State<Settings> {
           EnsureVisibleWhenFocused(
             focusNode: _departmentFocus,
             child: TextFormField(
+              textCapitalization: TextCapitalization.characters,
               validator: (String val) {
                 if (val.isEmpty) {
                   return 'DEPARTMENT NEEDED';
@@ -142,11 +167,19 @@ class _SettingsState extends State<Settings> {
               keyboardType: TextInputType.text,
               onFieldSubmitted: (String value) {
                 final str = _departmentController.text;
+                Duration time = Duration(seconds: 30);
                 if (_formKey.currentState.validate()) {
                   Firestore.instance
                       .collection('users')
                       .document(_id)
-                      .updateData({'department': str});
+                      .updateData({'department': str}).timeout(time,
+                          onTimeout: () {
+                    _departmentController.text = _department.toUpperCase();
+                    _showToast(Colors.red, 'Request timed out');
+                  }).whenComplete(() {
+                    _showToast(Colors.green, 'DEPARTMENT CHANGED SUCCESSFULLY');
+                    _department = _departmentController.text;
+                  });
 
                   if (_memberType != 'none' && _memberType != null) {
                     Firestore.instance
@@ -154,7 +187,10 @@ class _SettingsState extends State<Settings> {
                         .document('member-list')
                         .collection(_memberType)
                         .document(_id)
-                        .updateData({'department': str});
+                        .updateData({'department': str}).timeout(time,
+                            onTimeout: () {
+                      _showToast(Colors.red, 'Request timed out');
+                    });
                   }
                 }
                 //Validate here
@@ -174,6 +210,66 @@ class _SettingsState extends State<Settings> {
     );
   }
 
+  void _showDialogLogout(BuildContext context) {
+    showDialog(
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('LOG OUT?'),
+          content: Text('Are you sure you want to log out?'),
+          actions: <Widget>[
+            RaisedButton(
+              child: Text('YES'),
+              color: Theme.of(context).primaryColor,
+              onPressed: () {
+                Navigator.pop(context);
+                logOut();
+              },
+            ),
+            RaisedButton(
+              color: Theme.of(context).primaryColor,
+              child: Text('NO'),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            )
+          ],
+        );
+      },
+      context: context,
+    );
+  }
+
+  void _showLeaveMember(BuildContext context) {
+    showDialog(
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Leave E CLUB?'),
+          content: Text('Are you sure you want to Resign as an E CLUB member?'),
+          actions: <Widget>[
+            RaisedButton(
+              child: Text('YES'),
+              color: Theme.of(context).primaryColor,
+              onPressed: () {
+                Navigator.pop(context);
+                _leaveEClub();
+              },
+            ),
+            RaisedButton(
+              color: Theme.of(context).primaryColor,
+              child: Text('NO'),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            )
+          ],
+        );
+      },
+      context: context,
+    );
+  }
+
   Widget _buildLogoutButton() {
     return Container(
       margin: EdgeInsets.only(top: 20),
@@ -190,11 +286,31 @@ class _SettingsState extends State<Settings> {
           ),
         ),
         onPressed: () {
-          //TODO Show dialog first
-          logOut();
+          _showDialogLogout(context);
         },
       ),
     );
+  }
+
+  void _leaveEClub() {
+    setState(() {
+      _isMember = false;
+    });
+
+    Firestore.instance.collection('users').document(_id).updateData({
+      'isMember': false,
+      'memberType': 'none',
+      'hasSentRequest': false,
+      'isMemberAdmin': false
+    }).then((val) {
+      _isMember = false;
+      _memberType = 'none';
+
+      prefs.setBool('isMember', false);
+      prefs.setString('memberType', 'none');
+      prefs.setBool('hasSentRequest', false);
+      prefs.setBool('isMemberAdmin', false);
+    });
   }
 
   Widget _buildLeaveEClub() {
@@ -209,25 +325,7 @@ class _SettingsState extends State<Settings> {
               fontWeight: FontWeight.w400, color: Colors.red, fontSize: 18),
         ),
         onPressed: () {
-          //TODO Show dialog first
-          setState(() {
-            _isMember = false;
-          });
-
-          Firestore.instance.collection('users').document(_id).updateData({
-            'isMember': false,
-            'memberType': 'none',
-            'hasSentRequest': false,
-            'isMemberAdmin': false
-          }).then((val) {
-            _isMember = false;
-            _memberType = 'none';
-
-            prefs.setBool('isMember', false);
-            prefs.setString('memberType', 'none');
-            prefs.setBool('hasSentRequest', false);
-            prefs.setBool('isMemberAdmin', false);
-          });
+          _showLeaveMember(context);
         },
       ),
     );

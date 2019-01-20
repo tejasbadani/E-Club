@@ -96,7 +96,7 @@ class _MemberEditListTileState extends State<MemberEditListTile> {
           isThreeLine: true,
           title: Container(
             child: Text(
-              widget.member.name,
+              widget.member.name.toUpperCase(),
               style: TextStyle(fontSize: 25.0, fontWeight: FontWeight.w500),
             ),
             margin: EdgeInsets.only(top: 20),

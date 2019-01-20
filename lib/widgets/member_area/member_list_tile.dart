@@ -20,30 +20,31 @@ class _MemberListTileState extends State<MemberListTile> {
           isThreeLine: true,
           title: Container(
             child: Text(
-              widget.member.name,
-              style: TextStyle(fontSize: 25.0, fontWeight: FontWeight.w500),
+              widget.member.name.toUpperCase(),
+              style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w500),
             ),
-            margin: EdgeInsets.only(top: 30),
+            margin: EdgeInsets.only(top: 20),
           ),
           subtitle: Container(
             child: Text(
-              widget.member.department,
-              style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w300,color: Colors.black),
+              widget.member.department.toUpperCase(),
+              style: TextStyle(fontSize: 15.0, fontWeight: FontWeight.w400,color: Colors.black),
             ),
-            margin: EdgeInsets.only(bottom: 30.0),
+            //margin: EdgeInsets.only(bottom: 20.0),
           ),
           leading: Container(
             
             child: CircleAvatar(
-              radius: 30,
+              radius: 20,
               backgroundImage: NetworkImage(widget.member.profileURL),
               
-              backgroundColor: Colors.lightBlue,
+              backgroundColor: Theme.of(context).primaryColor,
             ),
-            margin: EdgeInsets.symmetric(vertical: 30),
+            margin: EdgeInsets.only(top: 20),
           ),
+          //trailing: Icon(Icons.star,),
         ),
-        Divider(),
+        //Divider(),
       ],
     );
   }

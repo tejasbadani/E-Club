@@ -3,6 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:project_e/shared/ensure_visible.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:project_e/shared/custom_loading.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class MemberApplication extends StatefulWidget {
   @override
@@ -28,14 +29,36 @@ class _MemberApplicationState extends State<MemberApplication> {
   final FocusNode _nameFocusNode = FocusNode();
   final FocusNode _departmentFocusNode = FocusNode();
 
+  void _removeIndicator() {
+    setState(() {
+      _isLoading = false;
+    });
+    overlayEntry.remove();
+  }
+
+  void _showIndicator() {
+    setState(() {
+      _isLoading = true;
+    });
+    overlayEntry = OverlayEntry(builder: (context) => CustomLoading());
+    overlayState.insert(overlayEntry);
+  }
+
+  void _showToast(Color color, String message) {
+    Fluttertoast.showToast(
+        msg: message,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIos: 2,
+        textColor: Colors.white,
+        backgroundColor: color);
+  }
+
   void _submit() async {
     if (_formKey.currentState.validate()) {
       if (_result == true) {
-        setState(() {
-          _isLoading = true;
-        });
-
-        overlayState.insert(overlayEntry);
+        bool _to = false;
+        _showIndicator();
         final data = {
           'department': _departmentController.text,
           'name': _nameController.text,
@@ -48,25 +71,29 @@ class _MemberApplicationState extends State<MemberApplication> {
           'hasSentRequest': true
         }).then((val) {
           prefs.setBool('hasSentRequest', true);
+        }).timeout(Duration(seconds: 30), onTimeout: () {
+          _showToast(Colors.red, 'Request Timed out');
+          _to = true;
         });
-        await Firestore.instance
-            .collection('member-area')
-            .document('member-list')
-            .collection('alumni')
-            .document(id)
-            .setData(data);
-        setState(() {
-          _isLoading = false;
-        });
+        if (_to) {
+          _to = false;
+        } else {
+          await Firestore.instance
+              .collection('member-area')
+              .document('member-list')
+              .collection('alumni')
+              .document(id)
+              .setData(data)
+              .timeout(Duration(seconds: 30), onTimeout: () {
+            _showToast(Colors.red, 'Request Timed out');
+          });
+        }
 
-        overlayEntry.remove();
+        _removeIndicator();
         Navigator.pop(context);
       } else {
-        setState(() {
-          _isLoading = true;
-        });
-
-        overlayState.insert(overlayEntry);
+        bool _to = false;
+        _showIndicator();
         final data = {
           'department': _departmentController.text,
           'name': _nameController.text,
@@ -79,18 +106,25 @@ class _MemberApplicationState extends State<MemberApplication> {
           'hasSentRequest': true
         }).then((val) {
           prefs.setBool('hasSentRequest', true);
+        }).timeout(Duration(seconds: 30), onTimeout: () {
+          _showToast(Colors.red, 'Request Timed out');
+          _to = true;
         });
-        await Firestore.instance
-            .collection('member-area')
-            .document('member-list')
-            .collection('pending')
-            .document(id)
-            .setData(data);
-        setState(() {
-          _isLoading = false;
-        });
+        if (_to) {
+          _to = false;
+        } else {
+          await Firestore.instance
+              .collection('member-area')
+              .document('member-list')
+              .collection('pending')
+              .document(id)
+              .setData(data)
+              .timeout(Duration(seconds: 30), onTimeout: () {
+            _showToast(Colors.red, 'Request Timed out');
+          });
+        }
 
-        overlayEntry.remove();
+        _removeIndicator();
         Navigator.pop(context);
       }
     }
@@ -246,56 +280,66 @@ class _MemberApplicationState extends State<MemberApplication> {
   @override
   void initState() {
     overlayState = Overlay.of(context);
-    overlayEntry = OverlayEntry(builder: (context) => CustomLoading());
     _getProfileURL();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('MEMBER RECEPTION'),
-      ),
-      body: hasSentRequest == false
-          ? Form(
-              key: _formKey,
-              child: SingleChildScrollView(
-                child: Column(
-                  children: <Widget>[
-                    SizedBox(
-                      height: 30,
+    return AbsorbPointer(
+      absorbing: _isLoading,
+      child: WillPopScope(
+        onWillPop: () {
+          print('Back button pressed!');
+          Navigator.pop(context, false);
+          return Future.value(false);
+        },
+        child: Scaffold(
+          appBar: AppBar(
+            title: Text('MEMBER RECEPTION'),
+          ),
+          body: hasSentRequest == false
+              ? Form(
+                  key: _formKey,
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: <Widget>[
+                        SizedBox(
+                          height: 30,
+                        ),
+                        profileURL == null
+                            ? Container()
+                            : _createCircleAvatar(profileURL),
+                        SizedBox(height: 10.0),
+                        name == null
+                            ? Container()
+                            : Text(
+                                name,
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w300,
+                                    fontSize: 25.0),
+                              ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        _createNameTextField(),
+                        _createDepartmentTextField(),
+                        SizedBox(height: 20),
+                        _alumniText(),
+                        _createRadioButtons(),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        _submitButton()
+                      ],
                     ),
-                    profileURL == null
-                        ? Container()
-                        : _createCircleAvatar(profileURL),
-                    SizedBox(height: 10.0),
-                    name == null
-                        ? Container()
-                        : Text(
-                            name,
-                            style: TextStyle(
-                                fontWeight: FontWeight.w300, fontSize: 25.0),
-                          ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    _createNameTextField(),
-                    _createDepartmentTextField(),
-                    SizedBox(height: 20),
-                    _alumniText(),
-                    _createRadioButtons(),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    _submitButton()
-                  ],
+                  ),
+                )
+              : Center(
+                  child: Text('REQUEST ALREADY SENT'),
                 ),
-              ),
-            )
-          : Center(
-              child: Text('REQUEST ALREADY SENT'),
-            ),
+        ),
+      ),
     );
   }
 }

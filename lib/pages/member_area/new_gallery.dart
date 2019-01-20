@@ -23,9 +23,42 @@ class _AddImageState extends State<AddImage> {
   final TextEditingController _titleController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   final FocusNode _titleFocusNode = FocusNode();
+
   OverlayState overlayState;
   OverlayEntry overlayEntry;
   bool _isLoading = false;
+  bool _timedOut = false;
+  bool _timedOut2 = false;
+  @override
+  void initState() {
+    overlayState = Overlay.of(context);
+    super.initState();
+  }
+
+  void _removeIndicator() {
+    setState(() {
+      _isLoading = false;
+    });
+    overlayEntry.remove();
+  }
+
+  void _showIndicator() {
+    setState(() {
+      _isLoading = true;
+    });
+    overlayEntry = OverlayEntry(builder: (context) => CustomLoading());
+    overlayState.insert(overlayEntry);
+  }
+
+  void _showToast(Color color, String message) {
+    Fluttertoast.showToast(
+        msg: message,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIos: 2,
+        textColor: Colors.white,
+        backgroundColor: color);
+  }
 
   Future<Null> _cropImage(File imageFile) async {
     File croppedFile = await ImageCropper.cropImage(
@@ -37,13 +70,6 @@ class _AddImageState extends State<AddImage> {
     });
   }
 
-  @override
-  void initState() {
-    overlayState = Overlay.of(context);
-    overlayEntry = OverlayEntry(builder: (context) => CustomLoading());
-    super.initState();
-  }
-
   Future<dynamic> _pickSaveImage() async {
     var uuid = Uuid();
     StorageReference ref = FirebaseStorage.instance
@@ -51,45 +77,61 @@ class _AddImageState extends State<AddImage> {
         .child('gallery')
         .child('${uuid.v4()}.jpg');
     StorageUploadTask uploadTask = ref.putFile(_image);
-    return (await uploadTask.onComplete).ref.getDownloadURL();
+    Duration time = Duration(seconds: 40);
+
+    final future = await uploadTask.onComplete.timeout(time, onTimeout: () {
+      print('TIMEOUT');
+      uploadTask.cancel();
+      _timedOut = true;
+    });
+    if (_timedOut) {
+      _timedOut = false;
+      return ' ';
+    }
+    return future.ref.getDownloadURL();
+    //return (await uploadTask.onComplete).ref.getDownloadURL();
   }
 
   Future getImage() async {
     var image = await ImagePicker.pickImage(
-        source: ImageSource.gallery, maxHeight: 1000, maxWidth: 1000);
+        source: ImageSource.gallery, maxHeight: 500, maxWidth: 500);
     _cropImage(image);
   }
 
   void _submit() async {
     if (_formKey.currentState.validate() && _image != null) {
-      setState(() {
-        _isLoading = true;
-      });
-
-      overlayState.insert(overlayEntry);
+      _showIndicator();
       DateTime now = DateTime.now();
       String formattedDate = DateFormat(' d.MM KK:mm a ').format(now);
       final String url = await _pickSaveImage();
-      final data = {
-        'date': formattedDate,
-        'title': _titleController.text,
-        'imageURL': url
-      };
-      await Firestore.instance.collection('gallery').document().setData(data);
-
-      Fluttertoast.showToast(
-          msg: 'UPLOADED IMAGE',
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.BOTTOM,
-          timeInSecForIos: 2,
-          textColor: Colors.white,
-          backgroundColor: Colors.green);
-      setState(() {
-        _titleController.text = '';
-        _image = null;
-        _isLoading = false;
-      });
-      overlayEntry.remove();
+      if (url != ' ') {
+        final data = {
+          'date': formattedDate,
+          'title': _titleController.text,
+          'imageURL': url
+        };
+        Duration time = Duration(seconds: 30);
+        await Firestore.instance
+            .collection('gallery')
+            .document()
+            .setData(data)
+            .timeout(time, onTimeout: () {
+          _timedOut2 = true;
+        });
+        if (_timedOut2) {
+          _timedOut2 = false;
+          _removeIndicator();
+          _showToast(
+              Colors.red, 'There seems to be a problem with your connection');
+        } else {
+          setState(() {
+            _titleController.text = '';
+            _image = null;
+          });
+          _showToast(Colors.green, 'UPLOADED IMAGE');
+          _removeIndicator();
+        }
+      }
     } else if (_image == null) {
       setState(() {
         _hasNotChosen = true;
@@ -168,30 +210,40 @@ class _AddImageState extends State<AddImage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Upload Images'),
-      ),
-      body: Form(
-        key: _formKey,
-        child: SingleChildScrollView(
-          child: Column(
-            children: <Widget>[
-              _createTitleTextField(),
-              _createImageIcon(),
-              _hasNotChosen == true
-                  ? Text(
-                      'IMAGE REQUIRED',
-                      style: TextStyle(color: Colors.red),
-                    )
-                  : Container(),
-              _image == null
-                  ? Container()
-                  : Container(
-                      margin: EdgeInsets.symmetric(horizontal: 10),
-                      child: Image.file(_image)),
-              _submitButton()
-            ],
+    return AbsorbPointer(
+      absorbing: _isLoading,
+      child: WillPopScope(
+        onWillPop: () {
+          print('Back button pressed!');
+          Navigator.pop(context, false);
+          return Future.value(false);
+        },
+        child: Scaffold(
+          appBar: AppBar(
+            title: Text('Upload Images'),
+          ),
+          body: Form(
+            key: _formKey,
+            child: SingleChildScrollView(
+              child: Column(
+                children: <Widget>[
+                  _createTitleTextField(),
+                  _createImageIcon(),
+                  _hasNotChosen == true
+                      ? Text(
+                          'IMAGE REQUIRED',
+                          style: TextStyle(color: Colors.red),
+                        )
+                      : Container(),
+                  _image == null
+                      ? Container()
+                      : Container(
+                          margin: EdgeInsets.symmetric(horizontal: 10),
+                          child: Image.file(_image)),
+                  _submitButton()
+                ],
+              ),
+            ),
           ),
         ),
       ),

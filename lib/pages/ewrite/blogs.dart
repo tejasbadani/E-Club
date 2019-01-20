@@ -40,14 +40,15 @@ class _BlogsState extends State<Blogs> with AutomaticKeepAliveClientMixin {
               final data = snapshot.data.documents[index];
 
               final Post post = Post(
-                  imageURL: data['imageURL'],
-                  postID: data.documentID,
-                  subtitle: data['author'],
-                  title: data['title'],
-                  date: data['date'],
-                  userID: data['userID'],
-                  article: data['article'],
-                  category: data['category']);
+                imageURL: data['imageURL'],
+                postID: data.documentID,
+                subtitle: data['author'],
+                title: data['title'],
+                date: data['date'],
+                userID: data['userID'],
+                article: data['article'],
+                category: data['category'],
+              );
 
               posts.add(post);
 

@@ -9,6 +9,7 @@ import 'package:uuid/uuid.dart';
 import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:project_e/shared/custom_loading.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class CreateArticle extends StatefulWidget {
   @override
@@ -27,6 +28,8 @@ class _CreateArticleState extends State<CreateArticle> {
   OverlayEntry overlayEntry;
   String name, id, photoURL;
   File _image;
+  bool _timedOut = false;
+  bool _timedOut2 = false;
   SharedPreferences prefs;
   String _result = 'blogs';
   int _radioValue = 0;
@@ -85,7 +88,7 @@ class _CreateArticleState extends State<CreateArticle> {
 
   Future getImage() async {
     var image = await ImagePicker.pickImage(
-        source: ImageSource.gallery, maxHeight: 1000, maxWidth: 1000);
+        source: ImageSource.gallery, maxHeight: 500, maxWidth: 500);
     _cropImage(image);
   }
 
@@ -153,6 +156,16 @@ class _CreateArticleState extends State<CreateArticle> {
     );
   }
 
+  void _showToast(Color color, String message) {
+    Fluttertoast.showToast(
+        msg: message,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIos: 2,
+        textColor: Colors.white,
+        backgroundColor: color);
+  }
+
   Widget _submitButton() {
     return Container(
       width: 200,
@@ -182,11 +195,7 @@ class _CreateArticleState extends State<CreateArticle> {
 
   void _submit() async {
     if (_formKey.currentState.validate() && _image != null) {
-      setState(() {
-        _isLoading = true;
-      });
-
-      overlayState.insert(overlayEntry);
+      _showIndicator();
       prefs = await SharedPreferences.getInstance();
       name = prefs.getString('name');
       id = prefs.getString('id');
@@ -194,32 +203,48 @@ class _CreateArticleState extends State<CreateArticle> {
       DateTime now = DateTime.now();
       String formattedDate = DateFormat(' d.MM KK:mm a ').format(now);
       final String url = await _pickSaveImage();
+      print('URL IS $url');
+      if (url != ' ') {
+        print('URL $url');
+        final Map<String, dynamic> data = {
+          'article': _articleController.text,
+          'title': _titleController.text,
+          'date': formattedDate,
+          'author': name,
+          'imageURL': url,
+          'category': _result,
+          'userID': id,
+          'rejected': false
+        };
+        Duration time = Duration(seconds: 30);
+        await Firestore.instance
+            .collection('ewrite')
+            .document('not_approved')
+            .collection('not_approved_docs')
+            .document()
+            .setData(data)
+            .timeout(time, onTimeout: () {
+              _timedOut2 = true;
+              _showToast(Colors.red, 'Request timed out. Please try again');
 
-      print('URL $url');
-      final Map<String, dynamic> data = {
-        'article': _articleController.text,
-        'title': _titleController.text,
-        'date': formattedDate,
-        'author': name,
-        'imageURL': url,
-        'category': _result,
-        'userID': id,
-        'rejected': false
-      };
-      await Firestore.instance
-          .collection('ewrite')
-          .document('not_approved')
-          .collection('not_approved_docs')
-          .document()
-          .setData(data);
-      setState(() {
-        _isLoading = false;
-      });
-
-      overlayEntry.remove();
-      Navigator.pop(context);
+              return null;
+            })
+            .whenComplete(() {
+              print('BYE');
+              //2
+            })
+            .catchError(() {})
+            .then((val) {});
+        _removeIndicator();
+        if (_timedOut2 == false) {
+          Navigator.pop(context);
+        }
+      } else {
+        _removeIndicator();
+        _showToast(
+            Colors.red, 'There seems to be a problem with the internet.');
+      }
     } else if (_image == null) {
-      print('EXE');
       setState(() {
         _hasNotChosen = true;
       });
@@ -231,45 +256,76 @@ class _CreateArticleState extends State<CreateArticle> {
     StorageReference ref =
         FirebaseStorage.instance.ref().child(id).child('${uuid.v4()}.jpg');
     StorageUploadTask uploadTask = ref.putFile(_image);
-    return (await uploadTask.onComplete).ref.getDownloadURL();
+    Duration time = Duration(seconds: 40);
+
+    final future = await uploadTask.onComplete.timeout(time, onTimeout: () {
+      print('TIMEOUT');
+      uploadTask.cancel();
+      _timedOut = true;
+    });
+    if (_timedOut) {
+      return ' ';
+    }
+    return future.ref.getDownloadURL();
+  }
+
+  void _removeIndicator() {
+    setState(() {
+      _isLoading = false;
+    });
+    overlayEntry.remove();
+  }
+
+  void _showIndicator() {
+    setState(() {
+      _isLoading = true;
+    });
+    overlayEntry = OverlayEntry(builder: (context) => CustomLoading());
+    overlayState.insert(overlayEntry);
   }
 
   @override
   void initState() {
     overlayState = Overlay.of(context);
-    overlayEntry = OverlayEntry(builder: (context) => CustomLoading());
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Create new article'),
-      ),
-      body: SingleChildScrollView(
-        child: Container(
-          child: Form(
-            key: _formKey,
-            child: Column(
-              children: <Widget>[
-                _createTitleTextField(),
-                _createArticleTextField(),
-                _createRadioButtons(),
-                _createImageButton(),
-                _hasNotChosen == true
-                    ? Text(
-                        'IMAGE REQUIRED',
-                        style: TextStyle(color: Colors.red),
-                      )
-                    : Container(),
-                _image == null
-                    ? Container()
-                    : Container(
-                        margin: EdgeInsets.symmetric(horizontal: 10),
-                        child: Image.file(_image)),
-                _submitButton()
-              ],
+    return AbsorbPointer(
+      absorbing: _isLoading,
+      child: WillPopScope(
+        onWillPop: ()async => true,
+        child: Scaffold(
+          appBar: AppBar(
+            title: Text('Create new article'),
+          ),
+          body: SingleChildScrollView(
+            child: Container(
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  children: <Widget>[
+                    _createTitleTextField(),
+                    _createArticleTextField(),
+                    _createRadioButtons(),
+                    _createImageButton(),
+                    _hasNotChosen == true
+                        ? Text(
+                            'IMAGE REQUIRED',
+                            style: TextStyle(color: Colors.red),
+                          )
+                        : Container(),
+                    _image == null
+                        ? Container()
+                        : Container(
+                            margin: EdgeInsets.symmetric(horizontal: 10),
+                            child: Image.file(_image)),
+                    _submitButton()
+                  ],
+                ),
+              ),
             ),
           ),
         ),

@@ -27,10 +27,10 @@ class EWriteListTile extends StatelessWidget {
                               tag: post.postID,
                               child: FadeInImage(
                                 placeholder:
-                                    Image.asset('assets/e_club_1.png').image,
+                                    Image.asset('assets/placeholder.png').image,
                                 image: NetworkImage(post.imageURL),
                                 width: MediaQuery.of(context).size.width,
-                                fit: BoxFit.cover,
+                                fit: BoxFit.fill,
                               ),
                             ),
                           ),

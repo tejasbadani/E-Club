@@ -22,7 +22,7 @@ class EventCard extends StatelessWidget {
           height: 5,
         ),
         Center(
-          child: Text(event.name),
+          child: Text(event.name.toUpperCase()),
         )
       ],
     );

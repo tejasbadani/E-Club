@@ -6,13 +6,7 @@ class Article extends StatelessWidget {
   Article(this.post);
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () {
-        print('Back button pressed!');
-        Navigator.pop(context, false);
-        return Future.value(false);
-      },
-      child: Scaffold(
+    return Scaffold(
         // appBar: AppBar(
         //   title: Text(product.title),
         // ),
@@ -34,7 +28,7 @@ class Article extends StatelessWidget {
                         image: NetworkImage(post.imageURL),
                         height: 300.0,
                         fit: BoxFit.cover,
-                        placeholder: AssetImage('assets/e_club_1.png'),
+                        placeholder: AssetImage('assets/placeholder2.png'),
                       ),
                     )),
               ),
@@ -66,7 +60,7 @@ class Article extends StatelessWidget {
             )
           ],
         ),
-      ),
-    );
+      );
+    
   }
 }

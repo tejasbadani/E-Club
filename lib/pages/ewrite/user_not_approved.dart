@@ -22,7 +22,7 @@ class _UserNotApprovedState extends State<UserNotApproved>
     super.initState();
   }
 
-  void _getID() async {
+  void _getID() async { 
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       id = prefs.getString('id');

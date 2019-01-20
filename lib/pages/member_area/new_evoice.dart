@@ -4,6 +4,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 import 'package:project_e/shared/custom_loading.dart';
+import 'package:project_e/shared/exclusive_active.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class NewVoice extends StatefulWidget {
   @override
@@ -18,11 +20,36 @@ class _NewVoiceState extends State<NewVoice> {
   String name;
   String _memberType;
   String userID;
+
+  final _formKey = GlobalKey<FormState>();
+  final FocusNode _voiceFocusNode = FocusNode();
+
   OverlayState overlayState;
   OverlayEntry overlayEntry;
   bool _isLoading = false;
-  final _formKey = GlobalKey<FormState>();
-  final FocusNode _voiceFocusNode = FocusNode();
+  bool _timedOut = false;
+  @override
+  void initState() {
+    _getProfileURL();
+    overlayState = Overlay.of(context);
+    super.initState();
+  }
+
+  void _removeIndicator() {
+    setState(() {
+      _isLoading = false;
+    });
+    overlayEntry.remove();
+  }
+
+  void _showIndicator() {
+    setState(() {
+      _isLoading = true;
+    });
+    overlayEntry = OverlayEntry(builder: (context) => CustomLoading());
+    overlayState.insert(overlayEntry);
+  }
+
   Widget _createVoiceField() {
     return Container(
       height: 200,
@@ -55,14 +82,11 @@ class _NewVoiceState extends State<NewVoice> {
 
   void _submit() async {
     if (_formKey.currentState.validate()) {
-      setState(() {
-        _isLoading = true;
-      });
-
-      overlayState.insert(overlayEntry);
-
+      _showIndicator();
       DateTime now = DateTime.now();
       String formattedDate = DateFormat(' d.MM KK:mm a ').format(now);
+      Duration time = Duration(seconds: 30);
+
       final data = {
         'message': _voiceController.text,
         'username': name,
@@ -70,14 +94,33 @@ class _NewVoiceState extends State<NewVoice> {
         'profileURL': profileURL,
         'date': formattedDate
       };
-      await Firestore.instance.collection('evoice').document().setData(data);
-      setState(() {
-        _isLoading = false;
+      await Firestore.instance
+          .collection('evoice')
+          .document()
+          .setData(data)
+          .timeout(time, onTimeout: () {
+        _timedOut = true;
       });
-
-      overlayEntry.remove();
-      Navigator.pop(context);
+      if (!_timedOut) {
+        Navigator.pop(context);
+        _removeIndicator();
+      } else {
+        _removeIndicator();
+        _showToast(
+            Colors.red, 'There seems to be a problem with the connection.');
+        _timedOut = false;
+      }
     }
+  }
+
+  void _showToast(Color color, String message) {
+    Fluttertoast.showToast(
+        msg: message,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIos: 2,
+        textColor: Colors.white,
+        backgroundColor: color);
   }
 
   Widget _submitButton() {
@@ -129,54 +172,58 @@ class _NewVoiceState extends State<NewVoice> {
   }
 
   @override
-  void initState() {
-    overlayState = Overlay.of(context);
-    overlayEntry = OverlayEntry(builder: (context) => CustomLoading());
-    _getProfileURL();
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('NEW E - VOICE'),
-      ),
-      body: _memberType == 'active'
-          ? Form(
-              key: _formKey,
-              child: SingleChildScrollView(
-                child: Column(
-                  children: <Widget>[
-                    SizedBox(
-                      height: 30,
+    return AbsorbPointer(
+      absorbing: _isLoading,
+      child: WillPopScope(
+        onWillPop: () {
+          print('Back button pressed!');
+          Navigator.pop(context, false);
+          return Future.value(false);
+        },
+        child: Scaffold(
+          appBar: AppBar(
+            title: Text('NEW E - VOICE'),
+          ),
+          body: _memberType == 'active'
+              ? Form(
+                  key: _formKey,
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: <Widget>[
+                        SizedBox(
+                          height: 30,
+                        ),
+                        profileURL == null
+                            ? Container()
+                            : _createCircleAvatar(profileURL),
+                        SizedBox(height: 10.0),
+                        name == null
+                            ? Container()
+                            : Text(
+                                name,
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w300,
+                                    fontSize: 25.0),
+                              ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        _createVoiceField(),
+                        SizedBox(
+                          height: 50,
+                        ),
+                        _submitButton(),
+                      ],
                     ),
-                    profileURL == null
-                        ? Container()
-                        : _createCircleAvatar(profileURL),
-                    SizedBox(height: 10.0),
-                    name == null
-                        ? Container()
-                        : Text(
-                            name,
-                            style: TextStyle(
-                                fontWeight: FontWeight.w300, fontSize: 25.0),
-                          ),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    _createVoiceField(),
-                    SizedBox(
-                      height: 50,
-                    ),
-                    _submitButton(),
-                  ],
+                  ),
+                )
+              : Center(
+                  child: ExclusiveActive(
+                      'Oops. Seems like you are not an active member. Contact E club for details.'),
                 ),
-              ),
-            )
-          : Center(
-              child: Text('YOU NEED TO BE AN ACTIVE MEMBER TO SEND E VOICE'),
-            ),
+        ),
+      ),
     );
   }
 }

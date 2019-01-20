@@ -4,6 +4,7 @@ import './new_evoice.dart';
 import 'package:project_e/model/member_area.dart';
 import 'package:project_e/widgets/member_area/e_area_tile.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:project_e/shared/exclusive_member.dart';
 
 class EArea extends StatefulWidget {
   @override
@@ -73,9 +74,7 @@ class _EAreaState extends State<EArea> with AutomaticKeepAliveClientMixin {
             ),
           )
         : Scaffold(
-            body: Center(
-              child: Text('YOU NEED TO BE A MEMBER TO VIEW THIS PAGE'),
-            ),
+            body: Exclusive('YOU NEED TO BE A MEMBER TO VIEW THIS PAGE!'),
           );
   }
 }

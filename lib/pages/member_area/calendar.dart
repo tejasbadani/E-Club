@@ -36,7 +36,7 @@ class _CalendarState extends State<Calendar>
                 child: StreamBuilder(
                   stream: Firestore.instance
                       .collection('calendar-events')
-                      .orderBy('date', descending: true)
+                      .orderBy('accurate', descending: false)
                       .snapshots(),
                   builder: (context, snapshot) {
                     if (!snapshot.hasData) {

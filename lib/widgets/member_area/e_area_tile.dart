@@ -26,12 +26,12 @@ class _MemberAreaTileState extends State<MemberAreaTile> {
                 Container(
                   child: CircleAvatar(
                       radius: _height > 650 ?20.0 : 18,
-                      //backgroundColor: Colors.lightBlue,
+                      backgroundColor: Theme.of(context).primaryColor,
                       backgroundImage: NetworkImage(widget.message.profileURL)),
                   margin: EdgeInsets.only(top: 10, bottom: 10, right: 20),
                 ),
                 Text(
-                  widget.message.name,
+                  widget.message.name.toUpperCase(),
                   style: TextStyle(
                       fontSize: _height > 650 ? 20.0 : 15.0,
                       fontWeight: FontWeight.w600),
