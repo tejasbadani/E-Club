@@ -102,7 +102,7 @@ class _AddImageState extends State<AddImage> {
     if (_formKey.currentState.validate() && _image != null) {
       _showIndicator();
       DateTime now = DateTime.now();
-      String formattedDate = DateFormat(' d.MM KK:mm a ').format(now);
+      String formattedDate = DateFormat(' MM.d KK:mm a ').format(now);
       final String url = await _pickSaveImage();
       if (url != ' ') {
         final data = {

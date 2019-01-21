@@ -3,6 +3,9 @@ import './pages/page_admin.dart';
 import './pages/login.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:io';
+import 'package:project_e/pages/introduction/introduction.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 //import 'package:google_sign_in/google_sign_in.dart';
 
 void main() => runApp(MyApp());
@@ -15,10 +18,40 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
   SharedPreferences prefs;
   //GoogleSignIn googleSignIn;
   bool _isLoggedIn = false;
   //bool _googleSignedIn = false;
+
+  void firebaseCloudMessaging_Listeners() {
+    if (Platform.isIOS) iOS_Permission();
+
+    _firebaseMessaging.getToken().then((token) {
+      print(token);
+    });
+
+    _firebaseMessaging.configure(
+      onMessage: (Map<String, dynamic> message) async {
+        print('on message $message');
+      },
+      onResume: (Map<String, dynamic> message) async {
+        print('on resume $message');
+      },
+      onLaunch: (Map<String, dynamic> message) async {
+        print('on launch $message');
+      },
+    );
+  }
+
+  void iOS_Permission() {
+    _firebaseMessaging.requestNotificationPermissions(
+        IosNotificationSettings(sound: true, badge: true, alert: true));
+    _firebaseMessaging.onIosSettingsRegistered
+        .listen((IosNotificationSettings settings) {
+      print("Settings registered: $settings");
+    });
+  }
 
   void login() async {
     prefs = await SharedPreferences.getInstance();
@@ -65,6 +98,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
+    firebaseCloudMessaging_Listeners();
     login();
   }
 
@@ -79,7 +113,7 @@ class _MyAppState extends State<MyApp> {
           accentColor: Colors.white,
           backgroundColor: Colors.grey,
           fontFamily: 'Rubik'),
-      home: _isLoggedIn ? PageAdmin() : Login(),
+      home: _isLoggedIn ? PageAdmin() : Introduction(),
       routes: {
         '/Main': (BuildContext context) => PageAdmin(),
         '/Login': (BuildContext context) => Login()

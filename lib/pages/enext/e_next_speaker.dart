@@ -124,6 +124,7 @@ class ENextSpeaker extends StatelessWidget {
               expandedHeight: 250,
               pinned: false,
               flexibleSpace: FlexibleSpaceBar(
+                title: Text(''),
                 centerTitle: true,
                 collapseMode: CollapseMode.parallax,
               ),

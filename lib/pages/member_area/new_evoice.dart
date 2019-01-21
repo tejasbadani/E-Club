@@ -84,7 +84,7 @@ class _NewVoiceState extends State<NewVoice> {
     if (_formKey.currentState.validate()) {
       _showIndicator();
       DateTime now = DateTime.now();
-      String formattedDate = DateFormat(' d.MM KK:mm a ').format(now);
+      String formattedDate = DateFormat(' MM.d KK:mm a ').format(now);
       Duration time = Duration(seconds: 30);
 
       final data = {

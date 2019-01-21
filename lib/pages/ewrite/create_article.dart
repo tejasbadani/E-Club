@@ -201,7 +201,7 @@ class _CreateArticleState extends State<CreateArticle> {
       id = prefs.getString('id');
       photoURL = prefs.getString('photoURL');
       DateTime now = DateTime.now();
-      String formattedDate = DateFormat(' d.MM KK:mm a ').format(now);
+      String formattedDate = DateFormat(' MM.d KK:mm a ').format(now);
       final String url = await _pickSaveImage();
       print('URL IS $url');
       if (url != ' ') {
@@ -296,7 +296,7 @@ class _CreateArticleState extends State<CreateArticle> {
     return AbsorbPointer(
       absorbing: _isLoading,
       child: WillPopScope(
-        onWillPop: ()async => true,
+        onWillPop: () async => true,
         child: Scaffold(
           appBar: AppBar(
             title: Text('Create new article'),

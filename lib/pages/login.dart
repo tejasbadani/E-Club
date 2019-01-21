@@ -137,6 +137,15 @@ class _LoginState extends State<Login> {
       backgroundColor: Colors.white,
       body: Stack(
         children: <Widget>[
+          Container(
+            //color: Colors.red,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage("assets/screen4.png"),
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
           Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -166,7 +175,7 @@ class _LoginState extends State<Login> {
                 ),
                 Container(
                   child: GestureDetector(
-                    child: Image.asset('assets/google_sign_in.png'),
+                    child: Image.asset('assets/google2.png'),
                     onTap: () {
                       //Navigator.pushNamed(context, '/Main');
                       _isLoading == true ? disabledButton() : handleSignIn();

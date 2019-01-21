@@ -37,6 +37,7 @@ dev_dependencies:
   uuid: ^1.0.3
   flutter_staggered_grid_view: "^0.2.6" 
   fluttertoast: ^2.2.6
+  firebase_messaging: ^2.1.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://www.dartlang.org/tools/pub/pubspec
@@ -111,6 +112,21 @@ flutter:
     - assets/placeholder2.png
     - assets/2.0x/placeholder2.png
     - assets/3.0x/placeholder2.png
+    - assets/google2.png
+    - assets/2.0x/google2.png
+    - assets/3.0x/google2.png
+    - assets/screen1.png
+    - assets/2.0x/screen1.png
+    - assets/3.0x/screen1.png
+    - assets/screen2.png
+    - assets/2.0x/screen2.png
+    - assets/3.0x/screen2.png
+    - assets/screen3.png
+    - assets/2.0x/screen3.png
+    - assets/3.0x/screen3.png
+    - assets/screen4.png
+    - assets/2.0x/screen4.png
+    - assets/3.0x/screen4.png
     
 
   # An image asset can refer to one or more resolution-specific "variants", see
