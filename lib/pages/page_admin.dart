@@ -157,9 +157,12 @@ class _PageAdminState extends State<PageAdmin> {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) => UserBlogs()));
                   },
+                  splashColor: Colors.transparent,
+                  tooltip: 'YOUR BLOGS',
                   icon: Icon(Icons.person),
                   color: Theme.of(context).primaryColorDark,
-                  iconSize: 32.0,
+                  highlightColor: Colors.transparent,
+                  iconSize: 28.0,
                 )
               : _currentIndex == 2
                   ? IconButton(
@@ -170,20 +173,26 @@ class _PageAdminState extends State<PageAdmin> {
                                 builder: (context) => MemberApplication()));
                       },
                       icon: Icon(Icons.group_add),
+                      tooltip: 'APPLY FOR MEMBERSHIP',
+                      splashColor: Colors.transparent,
                       color: Theme.of(context).primaryColorDark,
-                      iconSize: 32.0,
+                      iconSize: 28.0,
+                      highlightColor: Colors.transparent,
                     )
                   : Container(),
         ],
         leading: _currentIndex == 0 && isEWriteAdmin == true
             ? IconButton(
+              splashColor: Colors.transparent,
+              highlightColor: Colors.transparent,
                 onPressed: () {
                   Navigator.push(context,
                       MaterialPageRoute(builder: (context) => EWriteAdmin()));
                 },
                 icon: Icon(Icons.star),
+                tooltip: 'E WRITE ADMIN',
                 color: Theme.of(context).primaryColorDark,
-                iconSize: 30.0,
+                iconSize: 28.0,
               )
             : _currentIndex == 2 && isMemberAdmin == true
                 ? IconButton(
@@ -193,9 +202,12 @@ class _PageAdminState extends State<PageAdmin> {
                           MaterialPageRoute(
                               builder: (context) => MemberAdmin()));
                     },
+                    tooltip: 'MEMBER ADMIN',
                     icon: Icon(Icons.stars),
+                    splashColor: Colors.transparent,
                     color: Theme.of(context).primaryColorDark,
-                    iconSize: 32.0,
+                    iconSize: 28.0,
+                    highlightColor: Colors.transparent,
                   )
                 : Container(),
         centerTitle: true,

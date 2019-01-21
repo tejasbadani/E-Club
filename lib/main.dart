@@ -116,7 +116,8 @@ class _MyAppState extends State<MyApp> {
       home: _isLoggedIn ? PageAdmin() : Introduction(),
       routes: {
         '/Main': (BuildContext context) => PageAdmin(),
-        '/Login': (BuildContext context) => Login()
+        '/Login': (BuildContext context) => Login(),
+        '/Intro': (BuildContext context) => Introduction()
       },
     );
   }

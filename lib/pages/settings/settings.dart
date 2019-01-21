@@ -383,7 +383,7 @@ class _SettingsState extends State<Settings> {
     prefs = await SharedPreferences.getInstance();
     prefs.clear();
     googleSignIn.signOut();
-    Navigator.pushReplacementNamed(context, '/Login');
+    Navigator.pushReplacementNamed(context, '/Intro');
   }
 
   void _launchURlInstagram() async {

@@ -77,6 +77,39 @@ class ENextSpeaker extends StatelessWidget {
     );
   }
 
+  Widget _createTop() {
+    return Column(
+      children: <Widget>[
+        SizedBox(
+          height: 70,
+        ),
+        Container(
+          decoration: ShapeDecoration(
+            shape: CircleBorder(
+              side: BorderSide(color: Colors.white, width: 3),
+            ),
+          ),
+          margin: EdgeInsets.all(20),
+          child: CircleAvatar(
+            //backgroundImage: NetworkImage(event.image),
+
+            radius: 50,
+            backgroundColor: Colors.blue,
+            backgroundImage: NetworkImage(speaker.image),
+          ),
+        ),
+        Container(
+          margin: EdgeInsets.only(bottom: 25),
+          child: Text(
+            speaker.name.toUpperCase(),
+            style: TextStyle(
+                fontWeight: FontWeight.w500, fontSize: 21, color: Colors.white),
+          ),
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -89,44 +122,13 @@ class ENextSpeaker extends StatelessWidget {
         body: CustomScrollView(
           slivers: <Widget>[
             SliverAppBar(
-              bottom: PreferredSize(
-                preferredSize: Size(MediaQuery.of(context).size.width, 250),
-                child: Column(
-                  children: <Widget>[
-                    Container(
-                      decoration: ShapeDecoration(
-                        shape: CircleBorder(
-                          side: BorderSide(color: Colors.white, width: 3),
-                        ),
-                      ),
-                      margin: EdgeInsets.all(20),
-                      child: CircleAvatar(
-                        //backgroundImage: NetworkImage(event.image),
-
-                        radius: 50,
-                        backgroundColor: Colors.blue,
-                        backgroundImage: NetworkImage(speaker.image),
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(bottom: 25),
-                      child: Text(
-                        speaker.name.toUpperCase(),
-                        style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 21,
-                            color: Colors.white),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              // bottom: PreferredSize(
+              //     preferredSize: Size(MediaQuery.of(context).size.width, 250),
+              //     child: _createTop()),
               expandedHeight: 250,
-              pinned: false,
+              pinned: true,
               flexibleSpace: FlexibleSpaceBar(
-                title: Text(''),
-                centerTitle: true,
-                collapseMode: CollapseMode.parallax,
+                background: _createTop(),
               ),
             ),
             SliverList(

@@ -77,6 +77,37 @@ class ENextEvent extends StatelessWidget {
     );
   }
 
+  Widget _createTop() {
+    return Column(
+      children: <Widget>[
+        SizedBox(
+          height: 70,
+        ),
+        Container(
+          decoration: ShapeDecoration(
+            shape: CircleBorder(
+              side: BorderSide(color: Colors.white, width: 3),
+            ),
+          ),
+          margin: EdgeInsets.all(20),
+          child: CircleAvatar(
+            backgroundImage: NetworkImage(event.image),
+            radius: 50,
+            backgroundColor: Colors.blue,
+          ),
+        ),
+        Container(
+          margin: EdgeInsets.only(bottom: 25),
+          child: Text(
+            event.name.toUpperCase(),
+            style: TextStyle(
+                fontWeight: FontWeight.w500, fontSize: 21, color: Colors.white),
+          ),
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -90,38 +121,15 @@ class ENextEvent extends StatelessWidget {
           slivers: <Widget>[
             SliverAppBar(
               floating: true,
-              bottom: PreferredSize(
-                preferredSize: Size(MediaQuery.of(context).size.width, 250),
-                child: Column(
-                  children: <Widget>[
-                    Container(
-                      decoration: ShapeDecoration(
-                        shape: CircleBorder(
-                          side: BorderSide(color: Colors.white, width: 3),
-                        ),
-                      ),
-                      margin: EdgeInsets.all(20),
-                      child: CircleAvatar(
-                        backgroundImage: NetworkImage(event.image),
-                        radius: 50,
-                        backgroundColor: Colors.blue,
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(bottom: 25),
-                      child: Text(
-                        event.name.toUpperCase(),
-                        style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 21,
-                            color: Colors.white),
-                      ),
-                    ),
-                  ],
-                ),
+              flexibleSpace: FlexibleSpaceBar(
+                background: _createTop(),
               ),
+              // bottom: PreferredSize(
+              //   preferredSize: Size(MediaQuery.of(context).size.width, 250),
+              //   child: _createTop(),
+              // ),
               expandedHeight: 250,
-              pinned: false,
+              pinned: true,
             ),
             SliverList(
               delegate: SliverChildListDelegate(

@@ -239,7 +239,26 @@ class _UserArticleState extends State<UserArticle> {
                             ),
                     ),
                     widget.post.isRejected == true
-                        ? Container()
+                        ? Container(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: <Widget>[
+                                Container(
+                                  margin: EdgeInsets.only(bottom: 30),
+                                  child: IconButton(
+                                    icon: Icon(
+                                      Icons.delete_sweep,
+                                      size: 35,
+                                    ),
+                                    color: Colors.red,
+                                    onPressed: () {
+                                      _showDialog(context);
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )
                         : Container(
                             margin: EdgeInsets.only(bottom: 30, top: 25),
                             child: Row(
