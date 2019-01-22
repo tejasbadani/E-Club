@@ -194,8 +194,8 @@ class _CreateCalendarEventState extends State<CreateCalendarEvent> {
 
   Widget _createSubmitButton() {
     return Container(
-      width: 200,
-      height: 50,
+      width: 150,
+      height: 40,
       margin: EdgeInsets.only(top: 20, bottom: 20),
       child: RaisedButton(
         shape:
@@ -211,7 +211,7 @@ class _CreateCalendarEventState extends State<CreateCalendarEvent> {
           'ADD EVENT',
           style: TextStyle(
             color: Colors.white,
-            fontSize: 20,
+            fontSize: 17,
             fontWeight: FontWeight.w300,
           ),
         ),
@@ -231,7 +231,7 @@ class _CreateCalendarEventState extends State<CreateCalendarEvent> {
         },
         child: Scaffold(
           appBar: AppBar(
-            title: Text('Enter new calendar event'),
+            title: Text('NEW CALENDAR EVENT',style: TextStyle(fontSize: 15),),
           ),
           body: SingleChildScrollView(
             child: Form(

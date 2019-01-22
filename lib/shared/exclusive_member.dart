@@ -33,8 +33,8 @@ class Exclusive extends StatelessWidget {
 
   Widget _buildApplicationButton(BuildContext context) {
     return Container(
-      width: 200,
-      height: 50,
+      width: 150,
+      height: 40,
       margin: EdgeInsets.only(top: 20, bottom: 20),
       child: RaisedButton(
         color: Colors.white,
@@ -56,7 +56,7 @@ class Exclusive extends StatelessWidget {
           'APPLY',
           style: TextStyle(
             color: Color(0xFFCFB53B),
-            fontSize: 20,
+            fontSize: 17,
             fontWeight: FontWeight.w300,
           ),
         ),

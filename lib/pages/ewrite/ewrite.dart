@@ -4,7 +4,6 @@ import './e_club_write.dart';
 import './start_ups.dart';
 
 class EWrite extends StatefulWidget {
-
   @override
   State<StatefulWidget> createState() {
     return _EWriteState();
@@ -22,13 +21,23 @@ class _EWriteState extends State<EWrite> {
             bottom: TabBar(
               tabs: <Widget>[
                 Tab(
-                  text: 'BLOGS',
+                  child: Text(
+                    'BLOGS',
+                    style: TextStyle(fontSize: 12),
+                  ),
+                  //text: 'BLOGS',
                 ),
                 Tab(
-                  text: 'E CLUB',
+                  child: Text(
+                    'E CLUB',
+                    style: TextStyle(fontSize: 12),
+                  ),
                 ),
                 Tab(
-                  text: 'START UPS',
+                  child: Text(
+                    'START UPS',
+                    style: TextStyle(fontSize: 12),
+                  ),
                 )
               ],
             ),
@@ -37,7 +46,6 @@ class _EWriteState extends State<EWrite> {
         body: TabBarView(
           children: <Widget>[Blogs(), EclubWrite(), Startups()],
         ),
-       
       ),
       length: 3,
       initialIndex: 0,

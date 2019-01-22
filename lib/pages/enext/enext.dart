@@ -212,8 +212,8 @@ class _EnextState extends State<Enext> {
             ],
           ),
           Container(
-            width: 200,
-            height: 50,
+            width: 175,
+            height: 40,
             margin: EdgeInsets.only(top: 20, bottom: 20),
             child: RaisedButton(
               shape: RoundedRectangleBorder(
@@ -223,7 +223,7 @@ class _EnextState extends State<Enext> {
                 'REGISTER NOW',
                 style: TextStyle(
                     color: Colors.white,
-                    fontSize: 20,
+                    fontSize: 17,
                     fontWeight: FontWeight.w300),
               ),
             ),

@@ -17,7 +17,7 @@ class _AlumniState extends State<Alumni> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Alumni List'),
+        title: Text('ALUMNI LIST',style: TextStyle(fontSize: 15),),
       ),
       body: StreamBuilder(
         stream: Firestore.instance

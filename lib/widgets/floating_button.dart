@@ -140,6 +140,7 @@ class _CustomFloatingState extends State<CustomFloating>
                 child: Icon(
                   _controller.isDismissed ? Icons.more_vert : Icons.close,
                   color: Colors.white,
+                 
                 ),
               );
             },

@@ -174,15 +174,18 @@ class _LoginState extends State<Login> {
                       fontSize: _height < 650 ? 25 : 30),
                 ),
                 Container(
-                  child: GestureDetector(
-                    child: Image.asset('assets/google2.png'),
-                    onTap: () {
-                      //Navigator.pushNamed(context, '/Main');
-                      _isLoading == true ? disabledButton() : handleSignIn();
-                      //Navigator.pushReplacementNamed(context, '/Main');
-                    },
+                  child: Opacity(
+                    opacity: 0.9,
+                    child: GestureDetector(
+                      child: Image.asset('assets/google2.png'),
+                      onTap: () {
+                        //Navigator.pushNamed(context, '/Main');
+                        _isLoading == true ? disabledButton() : handleSignIn();
+                        //Navigator.pushReplacementNamed(context, '/Main');
+                      },
+                    ),
                   ),
-                  margin: EdgeInsets.fromLTRB(0, 30, 0, 75),
+                  margin: EdgeInsets.fromLTRB(0, 45, 0, 75),
                   width: _width - 50,
                 ),
 

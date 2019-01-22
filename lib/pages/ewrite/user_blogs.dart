@@ -16,7 +16,7 @@ class _UserBlogsState extends State<UserBlogs> {
     return DefaultTabController(
       child: Scaffold(
         appBar: AppBar(
-          title: Text('YOUR SUBMISSIONS'),
+          title: Text('YOUR SUBMISSIONS',style: TextStyle(fontSize: 15),),
           actions: <Widget>[
             IconButton(
               onPressed: () {
@@ -24,18 +24,26 @@ class _UserBlogsState extends State<UserBlogs> {
                     MaterialPageRoute(builder: (context) => CreateArticle()));
               },
               icon: Icon(Icons.create),
-              iconSize: 32,
+              iconSize: 25,
               color: Theme.of(context).accentColor,
             )
           ],
           bottom: TabBar(
             tabs: <Widget>[
               Tab(
-                text: 'APPROVED',
-              ),
+                  child: Text(
+                    'APPROVED',
+                    style: TextStyle(fontSize: 12),
+                  ),
+                  //text: 'BLOGS',
+                ),
               Tab(
-                text: 'NOT APPROVED',
-              ),
+                  child: Text(
+                    'NOT APPROVED',
+                    style: TextStyle(fontSize: 12),
+                  ),
+                  //text: 'BLOGS',
+                ),
             ],
           ),
         ),

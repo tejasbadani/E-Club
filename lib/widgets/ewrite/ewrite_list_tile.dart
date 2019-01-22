@@ -17,12 +17,11 @@ class EWriteListTile extends StatelessWidget {
                 Expanded(
                   child: Center(
                     child: Stack(
+                      alignment: Alignment.center,
                       children: <Widget>[
                         Center(
                           child: Container(
-                            height: 150.0,
-                            //margin: EdgeInsets.only(top: 10),
-                            //padding: EdgeInsets.symmetric(vertical: 20),
+                            height: 145.0,
                             child: Hero(
                               tag: post.postID,
                               child: FadeInImage(
@@ -35,52 +34,56 @@ class EWriteListTile extends StatelessWidget {
                             ),
                           ),
                         ),
-                        Opacity(
-                          opacity: 0.8,
-                          child: Center(
-                            child: Baseline(
-                              baselineType: TextBaseline.alphabetic,
-                              baseline: 98.0,
-                              child: Container(
-                                height: 76.0,
-                                width: MediaQuery.of(context).size.width / 1.2,
-                                color: Colors.white,
-                                child: Opacity(
-                                  opacity: 1.0,
-                                  child: Column(
-                                    children: <Widget>[
-                                      SizedBox(
-                                        height: 5,
+                        Positioned(
+                            bottom: 0,
+                            child: Opacity(
+                              opacity: 0.8,
+                              child: Center(
+                                child: Baseline(
+                                  baselineType: TextBaseline.alphabetic,
+                                  baseline: 99.0,
+                                  child: Container(
+                                    height: 75.0,
+                                    width:
+                                        MediaQuery.of(context).size.width / 1.2,
+                                    color: Colors.white,
+                                    child: Opacity(
+                                      opacity: 1.0,
+                                      child: Column(
+                                        children: <Widget>[
+                                          SizedBox(
+                                            height: 5,
+                                          ),
+                                          Container(
+                                            //margin: EdgeInsets.only(top: 10),
+                                            child: Text(
+                                              post.title.toUpperCase(),
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.w700,
+                                                  fontSize:
+                                                      MediaQuery.of(context)
+                                                                  .size
+                                                                  .height <
+                                                              650
+                                                          ? 25.0
+                                                          : 20),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            height: 15,
+                                          ),
+                                          Text(
+                                            post.subtitle.toUpperCase(),
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w400),
+                                          ),
+                                        ],
                                       ),
-                                      Container(
-                                        //margin: EdgeInsets.only(top: 10),
-                                        child: Text(
-                                          post.title.toUpperCase(),
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.w700,
-                                              fontSize: MediaQuery.of(context)
-                                                          .size
-                                                          .height <
-                                                      650
-                                                  ? 25.0
-                                                  : 20),
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        height: 15,
-                                      ),
-                                      Text(
-                                        post.subtitle.toUpperCase(),
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.w400),
-                                      ),
-                                    ],
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                          ),
-                        )
+                            ))
                       ],
                     ),
                   ),

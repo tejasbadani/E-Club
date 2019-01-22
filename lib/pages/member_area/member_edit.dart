@@ -73,7 +73,7 @@ class _MemberEditState extends State<MemberEdit>
     //getData();
     return Scaffold(
       appBar: AppBar(
-        title: Text('EDIT'),
+        title: Text('EDIT',style: TextStyle(fontSize: 15),),
       ),
       body: StreamBuilder(
         stream: Firestore.instance

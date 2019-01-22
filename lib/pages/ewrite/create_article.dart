@@ -168,8 +168,8 @@ class _CreateArticleState extends State<CreateArticle> {
 
   Widget _submitButton() {
     return Container(
-      width: 200,
-      height: 50,
+      width: 150,
+      height: 40,
       margin: EdgeInsets.only(top: 20, bottom: 20),
       child: RaisedButton(
         shape:
@@ -185,7 +185,7 @@ class _CreateArticleState extends State<CreateArticle> {
           'SUBMIT',
           style: TextStyle(
             color: Colors.white,
-            fontSize: 20,
+            fontSize: 17,
             fontWeight: FontWeight.w300,
           ),
         ),
@@ -299,7 +299,7 @@ class _CreateArticleState extends State<CreateArticle> {
         onWillPop: () async => true,
         child: Scaffold(
           appBar: AppBar(
-            title: Text('Create new article'),
+            title: Text('CREATE NEW ARTICLE',style: TextStyle(fontSize: 15),),
           ),
           body: SingleChildScrollView(
             child: Container(

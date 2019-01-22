@@ -90,72 +90,82 @@ class _MemberEditListTileState extends State<MemberEditListTile> {
 
   @override
   Widget build(BuildContext context) {
+    final _height = MediaQuery.of(context).size.height;
     return Column(
       children: <Widget>[
-        ListTile(
-          isThreeLine: true,
-          title: Container(
-            child: Text(
-              widget.member.name.toUpperCase(),
-              style: TextStyle(fontSize: 25.0, fontWeight: FontWeight.w500),
+        Container(
+          margin: EdgeInsets.only(top: 10),
+          child: ListTile(
+            isThreeLine: true,
+            title: Container(
+              child: Text(
+                widget.member.name.toUpperCase(),
+                style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w500),
+              ),
+              margin: EdgeInsets.only(top: 5),
             ),
-            margin: EdgeInsets.only(top: 20),
-          ),
-          subtitle: Container(
-            child: Column(
-              children: <Widget>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
-                    Container(
-                      margin: EdgeInsets.only(right: 15),
-                      child: RaisedButton(
-                        color: widget.member.memberType == 'active'
-                            ? Theme.of(context).primaryColor
-                            : Colors.white,
-                        onPressed: () {
-                          _onActivePressed();
-                        },
-                        child: Text(
-                          'ACTIVE',
-                          style: TextStyle(
-                              color: widget.member.memberType != 'active'
-                                  ? Theme.of(context).primaryColor
-                                  : Colors.white),
+            subtitle: Container(
+              child: Column(
+                children: <Widget>[
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      Container(
+                        height: _height > 650 ? 40 : 30,
+                        width: _height > 650 ? 90 : 80,
+                        margin: EdgeInsets.only(right: 15,top: 5),
+                        child: RaisedButton(
+                          color: widget.member.memberType == 'active'
+                              ? Theme.of(context).primaryColor
+                              : Colors.white,
+                          onPressed: () {
+                            _onActivePressed();
+                          },
+                          child: Text(
+                            'ACTIVE',
+                            style: TextStyle(
+                                fontSize: _height > 650 ? 15 : 13,
+                                color: widget.member.memberType != 'active'
+                                    ? Theme.of(context).primaryColor
+                                    : Colors.white),
+                          ),
                         ),
                       ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(right: 15),
-                      child: RaisedButton(
-                        color: widget.member.memberType == 'dormant'
-                            ? Theme.of(context).primaryColor
-                            : Colors.white,
-                        onPressed: () {
-                          _onDormantPressed();
-                        },
-                        child: Text(
-                          'DORMANT',
-                          style: TextStyle(
-                              color: widget.member.memberType != 'dormant'
-                                  ? Theme.of(context).primaryColor
-                                  : Colors.white),
+                      Container(
+                        height: _height > 650 ? 40 : 30,
+                        width: _height > 650 ? 110 : 100,
+                        margin: EdgeInsets.only(right: 15,top: 5),
+                        child: RaisedButton(
+                          color: widget.member.memberType == 'dormant'
+                              ? Theme.of(context).primaryColor
+                              : Colors.white,
+                          onPressed: () {
+                            _onDormantPressed();
+                          },
+                          child: Text(
+                            'DORMANT',
+                            style: TextStyle(
+                                fontSize: _height > 650 ? 15 : 13,
+                                color: widget.member.memberType != 'dormant'
+                                    ? Theme.of(context).primaryColor
+                                    : Colors.white),
+                          ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              ],
+                    ],
+                  ),
+                ],
+              ),
+              //margin: EdgeInsets.only(bottom: 30.0),
             ),
-            //margin: EdgeInsets.only(bottom: 30.0),
-          ),
-          leading: Container(
-            child: CircleAvatar(
-              radius: 30,
-              backgroundImage: NetworkImage(widget.member.profileURL),
-              backgroundColor: Colors.lightBlue,
+            leading: Container(
+              child: CircleAvatar(
+                radius: 25,
+                backgroundImage: NetworkImage(widget.member.profileURL),
+                backgroundColor: Colors.lightBlue,
+              ),
+              //margin: EdgeInsets.symmetric(vertical: 30),
             ),
-            //margin: EdgeInsets.symmetric(vertical: 30),
           ),
         ),
         Divider(),

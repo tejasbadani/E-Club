@@ -38,8 +38,13 @@ class _EAreaState extends State<EArea> with AutomaticKeepAliveClientMixin {
     return _isMember == true
         ? Scaffold(
             floatingActionButton: FloatingActionButton(
+              mini: true,
               backgroundColor: Theme.of(context).primaryColor,
-              child: Icon(Icons.add_comment, color: Colors.white),
+              child: Icon(
+                Icons.add_comment,
+                color: Colors.white,
+                size: 19,
+              ),
               onPressed: () {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => NewVoice()));

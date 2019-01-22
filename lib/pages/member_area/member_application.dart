@@ -132,8 +132,8 @@ class _MemberApplicationState extends State<MemberApplication> {
 
   Widget _submitButton() {
     return Container(
-      width: 300,
-      height: 50,
+      width: 200,
+      height: 40,
       margin: EdgeInsets.only(top: 20, bottom: 20),
       child: RaisedButton(
         shape:
@@ -149,7 +149,7 @@ class _MemberApplicationState extends State<MemberApplication> {
           'SEND APPLICATION',
           style: TextStyle(
             color: Colors.white,
-            fontSize: 20,
+            fontSize: 17,
             fontWeight: FontWeight.w300,
           ),
         ),
@@ -295,50 +295,58 @@ class _MemberApplicationState extends State<MemberApplication> {
           return Future.value(false);
         },
         child: Scaffold(
-          appBar: AppBar(
-            title: Text('MEMBER RECEPTION'),
-          ),
-          body: hasSentRequest == false
-              ? Form(
-                  key: _formKey,
-                  child: SingleChildScrollView(
-                    child: Column(
-                      children: <Widget>[
-                        SizedBox(
-                          height: 30,
-                        ),
-                        profileURL == null
-                            ? Container()
-                            : _createCircleAvatar(profileURL),
-                        SizedBox(height: 10.0),
-                        name == null
-                            ? Container()
-                            : Text(
-                                name,
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w300,
-                                    fontSize: 25.0),
-                              ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        _createNameTextField(),
-                        _createDepartmentTextField(),
-                        SizedBox(height: 20),
-                        _alumniText(),
-                        _createRadioButtons(),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        _submitButton()
-                      ],
+            appBar: AppBar(
+              title: Text(
+                'MEMBER RECEPTION',
+                style: TextStyle(fontSize: 15),
+              ),
+            ),
+            body: hasSentRequest == false
+                ? Form(
+                    key: _formKey,
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: <Widget>[
+                          SizedBox(
+                            height: 30,
+                          ),
+                          profileURL == null
+                              ? Container()
+                              : _createCircleAvatar(profileURL),
+                          SizedBox(height: 10.0),
+                          name == null
+                              ? Container()
+                              : Text(
+                                  name,
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w300,
+                                      fontSize: 25.0),
+                                ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          _createNameTextField(),
+                          _createDepartmentTextField(),
+                          SizedBox(height: 20),
+                          _alumniText(),
+                          _createRadioButtons(),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          _submitButton()
+                        ],
+                      ),
                     ),
-                  ),
-                )
-              : Center(
-                  child: Text('REQUEST ALREADY SENT'),
-                ),
-        ),
+                  )
+                : Container(
+                    margin: EdgeInsets.all(15),
+                    child: Center(
+                      child: Text(
+                        'APPLICATION ALREADY SENT OR YOU ARE ALREADY A MEMBER!',
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  )),
       ),
     );
   }

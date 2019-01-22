@@ -21,21 +21,21 @@ class _MemberListTileState extends State<MemberListTile> {
           title: Container(
             child: Text(
               widget.member.name.toUpperCase(),
-              style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w500),
+              style: TextStyle(fontSize: 17.0, fontWeight: FontWeight.w500),
             ),
             margin: EdgeInsets.only(top: 20),
           ),
           subtitle: Container(
             child: Text(
               widget.member.department.toUpperCase(),
-              style: TextStyle(fontSize: 15.0, fontWeight: FontWeight.w400,color: Colors.black),
+              style: TextStyle(fontSize: 13.0, fontWeight: FontWeight.w400,color: Colors.black),
             ),
             //margin: EdgeInsets.only(bottom: 20.0),
           ),
           leading: Container(
             
             child: CircleAvatar(
-              radius: 20,
+              radius: 17,
               backgroundImage: NetworkImage(widget.member.profileURL),
               
               backgroundColor: Theme.of(context).primaryColor,

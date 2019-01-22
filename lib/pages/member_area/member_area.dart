@@ -21,14 +21,26 @@ class _MemberAreaState extends State<MemberArea> {
             bottom: TabBar(
               tabs: <Widget>[
                 Tab(
-                  text: 'MEMBERS',
+                  child: Text(
+                    'MEMBERS',
+                    style: TextStyle(fontSize: 12),
+                  ),
+                  //text: 'BLOGS',
+                ),
+               Tab(
+                  child: Text(
+                    'E AREA',
+                    style: TextStyle(fontSize: 12),
+                  ),
+                  //text: 'BLOGS',
                 ),
                 Tab(
-                  text: 'E AREA',
+                  child: Text(
+                    'CALENDAR',
+                    style: TextStyle(fontSize: 12),
+                  ),
+                  //text: 'BLOGS',
                 ),
-                Tab(
-                  text: 'CALENDAR',
-                )
               ],
             ),
           ),

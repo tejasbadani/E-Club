@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:project_e/pages/ewrite/ewrite_admin.dart';
-
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'dart:io';
 import './member_area/member_area.dart';
 import './gallery/gallery.dart';
 import './enext/enext.dart';
@@ -24,6 +25,7 @@ class PageAdmin extends StatefulWidget {
 SharedPreferences prefs;
 
 class _PageAdminState extends State<PageAdmin> {
+  FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
   int _currentIndex = 2;
   List<Widget> _children;
   final GoogleSignIn googleSignIn = GoogleSignIn();
@@ -38,7 +40,8 @@ class _PageAdminState extends State<PageAdmin> {
               margin: EdgeInsets.only(top: 10.0),
               child: Text(
                 'E WRITE',
-                style: TextStyle(color: Theme.of(context).primaryColor),
+                style: TextStyle(
+                    color: Theme.of(context).primaryColor, fontSize: 11),
               ),
             ),
             activeIcon: Image.asset('assets/asset_6.png')),
@@ -48,7 +51,8 @@ class _PageAdminState extends State<PageAdmin> {
               margin: EdgeInsets.only(top: 10.0),
               child: Text(
                 'E NEXT',
-                style: TextStyle(color: Theme.of(context).primaryColor),
+                style: TextStyle(
+                    color: Theme.of(context).primaryColor, fontSize: 11),
               ),
             ),
             activeIcon: Image.asset('assets/asset_7.png')),
@@ -60,7 +64,8 @@ class _PageAdminState extends State<PageAdmin> {
                 'MEMBERS AREA',
                 textAlign: TextAlign.center,
                 maxLines: 2,
-                style: TextStyle(color: Theme.of(context).primaryColor),
+                style: TextStyle(
+                    color: Theme.of(context).primaryColor, fontSize: 11),
               ),
             ),
             activeIcon: Image.asset('assets/asset_8.png')),
@@ -70,7 +75,8 @@ class _PageAdminState extends State<PageAdmin> {
               margin: EdgeInsets.only(top: 10.0),
               child: Text(
                 'GALLERY',
-                style: TextStyle(color: Theme.of(context).primaryColor),
+                style: TextStyle(
+                    color: Theme.of(context).primaryColor, fontSize: 11),
               ),
             ),
             activeIcon: Image.asset('assets/asset_9.png')),
@@ -80,7 +86,8 @@ class _PageAdminState extends State<PageAdmin> {
               margin: EdgeInsets.only(top: 10.0),
               child: Text(
                 'SETTINGS',
-                style: TextStyle(color: Theme.of(context).primaryColor),
+                style: TextStyle(
+                    color: Theme.of(context).primaryColor, fontSize: 11),
               ),
             ),
             activeIcon: Image.asset('assets/asset_10.png')),
@@ -106,6 +113,7 @@ class _PageAdminState extends State<PageAdmin> {
   @override
   void initState() {
     super.initState();
+    firebaseCloudMessaging();
     _children = [EWrite(), Enext(), MemberArea(), Gallery(), Settings()];
     _getData();
     checkIfLoggedIn();
@@ -146,6 +154,35 @@ class _PageAdminState extends State<PageAdmin> {
     Navigator.pushReplacementNamed(context, '/Login');
   }
 
+  void firebaseCloudMessaging() {
+    if (Platform.isIOS) iosPermission();
+
+    _firebaseMessaging.getToken().then((token) {
+      print(token);
+    });
+
+    _firebaseMessaging.configure(
+      onMessage: (Map<String, dynamic> message) async {
+        print('on message $message');
+      },
+      onResume: (Map<String, dynamic> message) async {
+        print('on resume $message');
+      },
+      onLaunch: (Map<String, dynamic> message) async {
+        print('on launch $message');
+      },
+    );
+  }
+
+  void iosPermission() {
+    _firebaseMessaging.requestNotificationPermissions(
+        IosNotificationSettings(sound: true, badge: true, alert: true));
+    _firebaseMessaging.onIosSettingsRegistered
+        .listen((IosNotificationSettings settings) {
+      print("Settings registered: $settings");
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -183,8 +220,8 @@ class _PageAdminState extends State<PageAdmin> {
         ],
         leading: _currentIndex == 0 && isEWriteAdmin == true
             ? IconButton(
-              splashColor: Colors.transparent,
-              highlightColor: Colors.transparent,
+                splashColor: Colors.transparent,
+                highlightColor: Colors.transparent,
                 onPressed: () {
                   Navigator.push(context,
                       MaterialPageRoute(builder: (context) => EWriteAdmin()));
