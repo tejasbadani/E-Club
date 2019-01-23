@@ -157,6 +157,7 @@ class _UserArticleState extends State<UserArticle> {
                     widget.post.title.toUpperCase(),
                     style: TextStyle(fontWeight: FontWeight.w600),
                   ),
+                  centerTitle: true,
                   background: Hero(
                       tag: widget.post.postID,
                       child: Opacity(

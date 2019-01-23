@@ -199,6 +199,7 @@ class _ApprovalArticleState extends State<ApprovalArticle> {
                 expandedHeight: 256.0,
                 pinned: true,
                 flexibleSpace: FlexibleSpaceBar(
+                  centerTitle: true,
                   title: Text(
                     widget.post.title.toUpperCase(),
                     style: TextStyle(fontWeight: FontWeight.w600),

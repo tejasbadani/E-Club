@@ -76,7 +76,7 @@ class _MyAppState extends State<MyApp> {
           buttonColor: Color(0xFF003366),
           primaryColor: Color(0xFF003366),
           primaryColorDark: Colors.white,
-          accentColor: Colors.white,
+          accentColor: Color(0xFFd3d3d3),
           backgroundColor: Colors.grey,
           fontFamily: 'Rubik'),
       home: _isLoggedIn ? PageAdmin() : Introduction(),

@@ -140,9 +140,11 @@ class _DeleteArticleState extends State<DeleteArticle> {
                 expandedHeight: 256.0,
                 pinned: true,
                 flexibleSpace: FlexibleSpaceBar(
+                  centerTitle: true,
                   title: Text(
                     widget.post.title.toUpperCase(),
                     style: TextStyle(fontWeight: FontWeight.w600),
+                    
                   ),
                   background: Hero(
                       tag: widget.post.postID,

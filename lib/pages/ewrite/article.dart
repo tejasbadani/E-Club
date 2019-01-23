@@ -16,9 +16,11 @@ class Article extends StatelessWidget {
               expandedHeight: 256.0,
               pinned: true,
               flexibleSpace: FlexibleSpaceBar(
+                centerTitle: true,
                 title: Text(
                   post.title.toUpperCase(),
                   style: TextStyle(fontWeight: FontWeight.w600),
+                  
                 ),
                 background: Hero(
                     tag: post.postID,

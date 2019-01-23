@@ -17,7 +17,10 @@ class _AlumniState extends State<Alumni> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('ALUMNI LIST',style: TextStyle(fontSize: 15),),
+        title: Text(
+          'ALUMNI LIST',
+          style: TextStyle(fontSize: 15),
+        ),
       ),
       body: StreamBuilder(
         stream: Firestore.instance
@@ -48,7 +51,9 @@ class _AlumniState extends State<Alumni> {
             );
           }
           if (snapshot.connectionState != ConnectionState.done) {
-            return CupertinoActivityIndicator();
+            return Center(
+              child: CupertinoActivityIndicator(),
+            );
           }
 
           if (!snapshot.hasData &&

@@ -62,7 +62,7 @@ class _NewVoiceState extends State<NewVoice> {
           keyboardType: TextInputType.text,
           textInputAction: TextInputAction.done,
           maxLines: 30,
-          maxLength: 250,
+          maxLength: 500,
           decoration: InputDecoration(
             border: OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(10)),
