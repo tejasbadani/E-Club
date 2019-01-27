@@ -1,27 +1,35 @@
 {
   "project_info": {
-    "project_number": "388044804677",
-    "firebase_url": "https://e-club-90035.firebaseio.com",
-    "project_id": "e-club-90035",
-    "storage_bucket": "e-club-90035.appspot.com"
+    "project_number": "45139712627",
+    "firebase_url": "https://e-club-2019.firebaseio.com",
+    "project_id": "e-club-2019",
+    "storage_bucket": "e-club-2019.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:388044804677:android:6d8af63af3b950ee",
+        "mobilesdk_app_id": "1:45139712627:android:04a602f13a8c446e",
         "android_client_info": {
-          "package_name": "com.example.projecte"
+          "package_name": "com.tejas.projecte"
         }
       },
       "oauth_client": [
         {
-          "client_id": "388044804677-77qk701cbeas2ca6u1oq6p9d9hqfi2di.apps.googleusercontent.com",
+          "client_id": "45139712627-7k9jqsvgssc4u3lg839el6auagfekqc2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.tejas.projecte",
+            "certificate_hash": "294240260252328a2b197b17df1fac72b70e1955"
+          }
+        },
+        {
+          "client_id": "45139712627-g7pn1mgk4ot425j32jc3km4d152ki1c4.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCXAMoBaqhhk3vYO7pPHj8zPw-vRKu_fd8"
+          "current_key": "AIzaSyAojxhlOOBm5CGMnhTVoVA5ZmcZo6sDO_c"
         }
       ],
       "services": {
@@ -29,8 +37,20 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "45139712627-g7pn1mgk4ot425j32jc3km4d152ki1c4.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "45139712627-34sv4aa4sk70e2nd5bu1fjt781b95k3g.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.tejas.projecte"
+              }
+            }
+          ]
         },
         "ads_service": {
           "status": 2
