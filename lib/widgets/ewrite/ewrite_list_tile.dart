@@ -59,14 +59,11 @@ class EWriteListTile extends StatelessWidget {
                                             child: Text(
                                               post.title.toUpperCase(),
                                               style: TextStyle(
-                                                  fontWeight: FontWeight.w700,
-                                                  fontSize:
-                                                      MediaQuery.of(context)
-                                                                  .size
-                                                                  .height <
-                                                              650
-                                                          ? 25.0
-                                                          : 20),
+                                                fontWeight: FontWeight.w700,
+                                                fontSize: 20,
+                                              ),
+                                              textAlign: TextAlign.center,
+                                              maxLines: 2,
                                             ),
                                           ),
                                           SizedBox(
@@ -74,6 +71,7 @@ class EWriteListTile extends StatelessWidget {
                                           ),
                                           Text(
                                             post.subtitle.toUpperCase(),
+                                            overflow: TextOverflow.fade,
                                             style: TextStyle(
                                                 fontWeight: FontWeight.w400),
                                           ),

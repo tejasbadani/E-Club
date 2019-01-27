@@ -203,6 +203,7 @@ class _ApprovalArticleState extends State<ApprovalArticle> {
                   title: Text(
                     widget.post.title.toUpperCase(),
                     style: TextStyle(fontWeight: FontWeight.w600),
+                    textAlign: TextAlign.center,
                   ),
                   background: Hero(
                       tag: widget.post.postID,
@@ -227,6 +228,7 @@ class _ApprovalArticleState extends State<ApprovalArticle> {
                         'BY ${widget.post.subtitle.toUpperCase()}',
                         style: TextStyle(
                             fontWeight: FontWeight.w500, fontSize: 20),
+                        textAlign: TextAlign.center,
                       ),
                     ),
                     Container(
@@ -236,6 +238,7 @@ class _ApprovalArticleState extends State<ApprovalArticle> {
                         'CATEGORY : ${widget.post.category.toUpperCase()}',
                         style: TextStyle(
                             fontWeight: FontWeight.w400, fontSize: 15),
+                        textAlign: TextAlign.center,
                       ),
                     ),
                     Form(

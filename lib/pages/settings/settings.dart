@@ -58,7 +58,7 @@ class _SettingsState extends State<Settings> {
       child: CircleAvatar(
         backgroundColor: Theme.of(context).primaryColor,
         backgroundImage: NetworkImage(_profileURL),
-        radius: 40,
+        radius: 30,
       ),
     );
   }
@@ -143,7 +143,7 @@ class _SettingsState extends State<Settings> {
 
   Widget _createDepartmentTextField() {
     return Container(
-      margin: EdgeInsets.all(20),
+      margin: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
       child: Column(
         children: <Widget>[
           Container(
@@ -273,7 +273,7 @@ class _SettingsState extends State<Settings> {
   Widget _buildLogoutButton() {
     return Container(
       margin: EdgeInsets.only(top: 20),
-      height: 50,
+      height: 40,
       color: Color(0xffDCDCDC),
       width: MediaQuery.of(context).size.width,
       child: FlatButton(
@@ -282,7 +282,7 @@ class _SettingsState extends State<Settings> {
           style: TextStyle(
             fontWeight: FontWeight.w400,
             color: Colors.red,
-            fontSize: 18,
+            fontSize: 15,
           ),
         ),
         onPressed: () {
@@ -315,14 +315,14 @@ class _SettingsState extends State<Settings> {
 
   Widget _buildLeaveEClub() {
     return Container(
-      height: 50,
+      height: 40,
       color: Color(0xffDCDCDC),
       width: MediaQuery.of(context).size.width,
       child: FlatButton(
         child: Text(
           'RESIGN AS MEMBER',
           style: TextStyle(
-              fontWeight: FontWeight.w400, color: Colors.red, fontSize: 18),
+              fontWeight: FontWeight.w400, color: Colors.red, fontSize: 15),
         ),
         onPressed: () {
           _showLeaveMember(context);
@@ -333,11 +333,44 @@ class _SettingsState extends State<Settings> {
 
   Widget _buildContactText() {
     return Container(
-      margin: EdgeInsets.only(top: 20, bottom: 20),
+      margin: EdgeInsets.only(top: 20, bottom: 10),
       child: Text(
         'CONTACT US',
-        style: TextStyle(fontSize: 20, fontWeight: FontWeight.w400),
+        style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
       ),
+    );
+  }
+
+  Widget _buildSnapSieveText() {
+    return Column(
+      children: <Widget>[
+        Container(
+          margin: EdgeInsets.only(top: 10),
+          child: Text(
+            'FROM THE DEVELOPER',
+            style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
+          ),
+        ),
+        Container(
+          margin: EdgeInsets.only(top: 5, bottom: 5, left: 20, right: 20),
+          child: Text(
+            'EVER HAD A PROBLEM OF CHOOSING BETWEEN 2 PICTURES?\n \nDOWNLOAD SNAPSIEVE NOW!',
+            style: TextStyle(fontSize: 13, fontWeight: FontWeight.w100),
+            textAlign: TextAlign.center,
+          ),
+        ),
+        GestureDetector(
+          onTap: (){
+            _launchSnapSieveURL();
+          },
+          child: Container(
+            margin: EdgeInsets.only(bottom: 20, top: 10),
+            child: Image(
+              image: Image.asset('assets/snapsieve.png').image,
+            ),
+          ),
+        ),
+      ],
     );
   }
 
@@ -354,6 +387,8 @@ class _SettingsState extends State<Settings> {
             },
             child: Image(
               image: Image.asset('assets/instagram.png').image,
+              height: 30,
+              width: 30,
             ),
           ),
           GestureDetector(
@@ -363,6 +398,8 @@ class _SettingsState extends State<Settings> {
             },
             child: Image(
               image: Image.asset('assets/linkedin.png').image,
+              height: 30,
+              width: 30,
             ),
           ),
           GestureDetector(
@@ -372,6 +409,8 @@ class _SettingsState extends State<Settings> {
             },
             child: Image(
               image: Image.asset('assets/facebook.png').image,
+              height: 30,
+              width: 30,
             ),
           ),
         ],
@@ -385,6 +424,16 @@ class _SettingsState extends State<Settings> {
     googleSignIn.signOut();
     Navigator.pushReplacementNamed(context, '/Intro');
   }
+
+  void _launchSnapSieveURL() async {
+    const url = 'http://www.snapsieve.com/';
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      print('Could not launch');
+    }
+  }
+
 
   void _launchURlInstagram() async {
     const url = 'https://www.instagram.com/psgtech_eclub/';
@@ -428,13 +477,14 @@ class _SettingsState extends State<Settings> {
                       'EDIT BIO',
                       textAlign: TextAlign.center,
                       style:
-                          TextStyle(fontWeight: FontWeight.w400, fontSize: 25),
+                          TextStyle(fontWeight: FontWeight.w400, fontSize: 20),
                     ),
                   ),
                   _createNameTextField(),
                   _createDepartmentTextField(),
                   _buildContactText(),
                   _buildContactButtons(),
+                  _buildSnapSieveText(),
                   _isMember == true ? _buildLeaveEClub() : Container(),
                   _buildLogoutButton(),
                   //Contact us , log out , be a member no more

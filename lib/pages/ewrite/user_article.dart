@@ -156,6 +156,7 @@ class _UserArticleState extends State<UserArticle> {
                   title: Text(
                     widget.post.title.toUpperCase(),
                     style: TextStyle(fontWeight: FontWeight.w600),
+                    textAlign: TextAlign.center,
                   ),
                   centerTitle: true,
                   background: Hero(
@@ -181,6 +182,7 @@ class _UserArticleState extends State<UserArticle> {
                         'BY ${widget.post.subtitle.toUpperCase()}',
                         style: TextStyle(
                             fontWeight: FontWeight.w500, fontSize: 20),
+                        textAlign: TextAlign.center,
                       ),
                     ),
                     Container(

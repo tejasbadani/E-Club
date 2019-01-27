@@ -120,7 +120,6 @@ class ENextEvent extends StatelessWidget {
         body: CustomScrollView(
           slivers: <Widget>[
             SliverAppBar(
-              floating: true,
               flexibleSpace: FlexibleSpaceBar(
                 background: _createTop(),
               ),

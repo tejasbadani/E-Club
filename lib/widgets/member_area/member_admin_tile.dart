@@ -16,6 +16,7 @@ class _MemberAdminTileState extends State<MemberAdminTile> {
   void _activeMember() async {
     try {
       bool _to = false;
+      bool _done = true;
       final data = {
         'department': widget.member.department,
         'name': widget.member.name,
@@ -68,8 +69,12 @@ class _MemberAdminTileState extends State<MemberAdminTile> {
               .document(widget.member.userID)
               .setData(data)
               .timeout(Duration(seconds: 30), onTimeout: () {
+            _done = false;
             _showToast(Colors.red, 'Request Timed out');
           });
+          if (_done) {
+            _showToast(Colors.green, 'Action Completed');
+          }
         }
       }
     } catch (e) {
@@ -95,7 +100,7 @@ class _MemberAdminTileState extends State<MemberAdminTile> {
       'memberType': 'dormant'
     };
     bool _to = false;
-
+    bool _done = true;
     await Firestore.instance
         .collection('users')
         .document(widget.member.userID)
@@ -141,8 +146,12 @@ class _MemberAdminTileState extends State<MemberAdminTile> {
               .document(widget.member.userID)
               .setData(data)
               .timeout(Duration(seconds: 30), onTimeout: () {
+            _done = false;
             _showToast(Colors.red, 'Request Timed out');
           });
+          if (_done) {
+            _showToast(Colors.green, 'Action Completed');
+          }
         }
       }
     }
@@ -150,6 +159,7 @@ class _MemberAdminTileState extends State<MemberAdminTile> {
 
   void _rejectMember() async {
     bool _to = false;
+    bool _done = true;
     await Firestore.instance
         .collection('member-area')
         .document('member-list')
@@ -168,23 +178,28 @@ class _MemberAdminTileState extends State<MemberAdminTile> {
           .document(widget.member.userID)
           .updateData({'hasSentRequest': false}).timeout(Duration(seconds: 30),
               onTimeout: () {
+        _done = false;
         _showToast(Colors.red, 'Request Timed out');
       });
+      if (_done) {
+        _showToast(Colors.green, 'Action Completed');
+      }
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final _height = MediaQuery.of(context).size.height;
     return Column(
       children: <Widget>[
         ListTile(
-          isThreeLine: true,
+          //isThreeLine: true,
           title: Container(
             child: Text(
               widget.member.name.toUpperCase(),
-              style: TextStyle(fontSize: 25.0, fontWeight: FontWeight.w500),
+              style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w500),
             ),
-            margin: EdgeInsets.only(top: 30),
+            margin: EdgeInsets.only(top: 10),
           ),
           subtitle: Column(
             children: <Widget>[
@@ -192,7 +207,9 @@ class _MemberAdminTileState extends State<MemberAdminTile> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
                   Container(
-                    margin: EdgeInsets.only(right: 15),
+                    height: _height > 650 ? 40 : 30,
+                    width: _height > 650 ? 100 : 90,
+                    margin: EdgeInsets.only(right: 15, top: 10),
                     child: RaisedButton(
                       color: Colors.white,
                       onPressed: () {
@@ -203,11 +220,14 @@ class _MemberAdminTileState extends State<MemberAdminTile> {
                         'ACTIVE',
                         style: TextStyle(
                           color: Theme.of(context).primaryColor,
+                          fontSize: _height > 650 ? 15 : 13,
                         ),
                       ),
                     ),
                   ),
                   Container(
+                    height: _height > 650 ? 40 : 30,
+                    width: _height > 650 ? 110 : 100,
                     margin: EdgeInsets.only(right: 15),
                     child: RaisedButton(
                       color: Colors.white,
@@ -219,6 +239,7 @@ class _MemberAdminTileState extends State<MemberAdminTile> {
                         'DORMANT',
                         style: TextStyle(
                           color: Theme.of(context).primaryColor,
+                          fontSize: _height > 650 ? 15 : 13,
                         ),
                       ),
                     ),
@@ -229,7 +250,9 @@ class _MemberAdminTileState extends State<MemberAdminTile> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
                   Container(
-                    margin: EdgeInsets.only(right: 15),
+                    height: _height > 650 ? 40 : 30,
+                    width: _height > 650 ? 100 : 90,
+                    margin: EdgeInsets.only(right: 15, top: 10),
                     child: RaisedButton(
                       color: Colors.white,
                       onPressed: () {
@@ -240,6 +263,7 @@ class _MemberAdminTileState extends State<MemberAdminTile> {
                         'REJECT',
                         style: TextStyle(
                           color: Theme.of(context).primaryColor,
+                          fontSize: _height > 650 ? 15 : 13,
                         ),
                       ),
                     ),
@@ -250,11 +274,11 @@ class _MemberAdminTileState extends State<MemberAdminTile> {
           ),
           leading: Container(
             child: CircleAvatar(
-              radius: 30,
+              radius: 23,
               backgroundImage: NetworkImage(widget.member.profileURL),
               backgroundColor: Colors.lightBlue,
             ),
-            margin: EdgeInsets.symmetric(vertical: 30),
+            //margin: EdgeInsets.symmetric(vertical: 30),
           ),
         ),
         Divider(),

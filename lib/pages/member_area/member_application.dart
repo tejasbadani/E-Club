@@ -55,9 +55,11 @@ class _MemberApplicationState extends State<MemberApplication> {
   }
 
   void _submit() async {
+    bool _done = true;
     if (_formKey.currentState.validate()) {
       if (_result == true) {
         bool _to = false;
+
         _showIndicator();
         final data = {
           'department': _departmentController.text,
@@ -85,8 +87,12 @@ class _MemberApplicationState extends State<MemberApplication> {
               .document(id)
               .setData(data)
               .timeout(Duration(seconds: 30), onTimeout: () {
+            _done = false;
             _showToast(Colors.red, 'Request Timed out');
           });
+          if (_done) {
+            _showToast(Colors.green, 'APPLICATION SENT');
+          }
         }
 
         _removeIndicator();
@@ -120,8 +126,12 @@ class _MemberApplicationState extends State<MemberApplication> {
               .document(id)
               .setData(data)
               .timeout(Duration(seconds: 30), onTimeout: () {
+            _done = false;
             _showToast(Colors.red, 'Request Timed out');
           });
+          if (_done) {
+            _showToast(Colors.green, 'APPLICATION SENT');
+          }
         }
 
         _removeIndicator();
@@ -170,7 +180,6 @@ class _MemberApplicationState extends State<MemberApplication> {
   }
 
   Widget _createCircleAvatar(String url) {
-    print('EXE');
     return Center(
       child: CircleAvatar(
         backgroundImage: NetworkImage(url),

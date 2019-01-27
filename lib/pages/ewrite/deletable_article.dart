@@ -144,7 +144,7 @@ class _DeleteArticleState extends State<DeleteArticle> {
                   title: Text(
                     widget.post.title.toUpperCase(),
                     style: TextStyle(fontWeight: FontWeight.w600),
-                    
+                    textAlign: TextAlign.center,
                   ),
                   background: Hero(
                       tag: widget.post.postID,
@@ -169,6 +169,7 @@ class _DeleteArticleState extends State<DeleteArticle> {
                         'BY ${widget.post.subtitle.toUpperCase()}',
                         style: TextStyle(
                             fontWeight: FontWeight.w500, fontSize: 20),
+                        textAlign: TextAlign.center,
                       ),
                     ),
                     Container(

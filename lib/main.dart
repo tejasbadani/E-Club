@@ -4,7 +4,6 @@ import './pages/login.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:project_e/pages/introduction/introduction.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatefulWidget {
@@ -71,6 +70,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'E CLUB',
       theme: ThemeData(
           buttonColor: Color(0xFF003366),
