@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'dart:math' as math;
 import 'package:project_e/pages/member_area/member_edit.dart';
 import 'package:project_e/pages/member_area/new_calendar.dart';
-import 'package:project_e/pages/member_area/alumni.dart';
 import 'package:project_e/pages/member_area/new_gallery.dart';
 
 class CustomFloating extends StatefulWidget {
@@ -29,29 +28,6 @@ class _CustomFloatingState extends State<CustomFloating>
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Container(
-          height: 70.0,
-          width: 56.0,
-          alignment: FractionalOffset.topCenter,
-          child: ScaleTransition(
-            scale: CurvedAnimation(
-                parent: _controller,
-                curve: Interval(0.0, 1.0, curve: Curves.easeOut)),
-            child: FloatingActionButton(
-              backgroundColor: Theme.of(context).primaryColor,
-              heroTag: 'alumni',
-              mini: true,
-              onPressed: () {
-                Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => Alumni()));
-              },
-              child: Icon(
-                Icons.star_border,
-                color: Colors.white,
-              ),
-            ),
-          ),
-        ),
         Container(
           height: 70.0,
           width: 56.0,
@@ -140,7 +116,6 @@ class _CustomFloatingState extends State<CustomFloating>
                 child: Icon(
                   _controller.isDismissed ? Icons.more_vert : Icons.close,
                   color: Colors.white,
-                 
                 ),
               );
             },

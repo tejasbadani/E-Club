@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:project_e/shared/ensure_visible.dart';
@@ -23,8 +25,8 @@ class _MemberApplicationState extends State<MemberApplication> {
   bool _isLoading = false;
   SharedPreferences prefs;
   bool hasSentRequest;
-  bool _result = false;
-  int _radioValue = 0;
+  //bool _result = false;
+  //int _radioValue = 0;
   final _formKey = GlobalKey<FormState>();
   final FocusNode _nameFocusNode = FocusNode();
   final FocusNode _departmentFocusNode = FocusNode();
@@ -57,86 +59,43 @@ class _MemberApplicationState extends State<MemberApplication> {
   void _submit() async {
     bool _done = true;
     if (_formKey.currentState.validate()) {
-      if (_result == true) {
-        bool _to = false;
+      bool _to = false;
+      _showIndicator();
+      final data = {
+        'department': _departmentController.text,
+        'name': _nameController.text,
+        'profileURL': profileURL,
+      };
 
-        _showIndicator();
-        final data = {
-          'department': _departmentController.text,
-          'name': _nameController.text,
-          'profileURL': profileURL,
-          'memberType': 'alumni'
-        };
-
-        await Firestore.instance.collection('users').document(id).updateData({
-          'department': _departmentController.text,
-          'hasSentRequest': true
-        }).then((val) {
-          prefs.setBool('hasSentRequest', true);
-        }).timeout(Duration(seconds: 30), onTimeout: () {
-          _showToast(Colors.red, 'Request Timed out');
-          _to = true;
-        });
-        if (_to) {
-          _to = false;
-        } else {
-          await Firestore.instance
-              .collection('member-area')
-              .document('member-list')
-              .collection('alumni')
-              .document(id)
-              .setData(data)
-              .timeout(Duration(seconds: 30), onTimeout: () {
-            _done = false;
-            _showToast(Colors.red, 'Request Timed out');
-          });
-          if (_done) {
-            _showToast(Colors.green, 'APPLICATION SENT');
-          }
-        }
-
-        _removeIndicator();
-        Navigator.pop(context);
+      await Firestore.instance.collection('users').document(id).updateData({
+        'department': _departmentController.text,
+        'hasSentRequest': true
+      }).then((val) {
+        prefs.setBool('hasSentRequest', true);
+      }).timeout(Duration(seconds: 30), onTimeout: () {
+        _showToast(Colors.red, 'Request Timed out');
+        _to = true;
+      });
+      if (_to) {
+        _to = false;
       } else {
-        bool _to = false;
-        _showIndicator();
-        final data = {
-          'department': _departmentController.text,
-          'name': _nameController.text,
-          'profileURL': profileURL,
-          'memberType': 'pending'
-        };
-
-        await Firestore.instance.collection('users').document(id).updateData({
-          'department': _departmentController.text,
-          'hasSentRequest': true
-        }).then((val) {
-          prefs.setBool('hasSentRequest', true);
-        }).timeout(Duration(seconds: 30), onTimeout: () {
+        await Firestore.instance
+            .collection('member-area')
+            .document('member-list')
+            .collection('pending')
+            .document(id)
+            .setData(data)
+            .timeout(Duration(seconds: 30), onTimeout: () {
+          _done = false;
           _showToast(Colors.red, 'Request Timed out');
-          _to = true;
         });
-        if (_to) {
-          _to = false;
-        } else {
-          await Firestore.instance
-              .collection('member-area')
-              .document('member-list')
-              .collection('pending')
-              .document(id)
-              .setData(data)
-              .timeout(Duration(seconds: 30), onTimeout: () {
-            _done = false;
-            _showToast(Colors.red, 'Request Timed out');
-          });
-          if (_done) {
-            _showToast(Colors.green, 'APPLICATION SENT');
-          }
+        if (_done) {
+          _showToast(Colors.green, 'APPLICATION SENT');
         }
-
-        _removeIndicator();
-        Navigator.pop(context);
       }
+
+      _removeIndicator();
+      Navigator.pop(context);
     }
   }
 
@@ -238,53 +197,53 @@ class _MemberApplicationState extends State<MemberApplication> {
     );
   }
 
-  void _handleRadioValueChange(int value) {
-    setState(() {
-      _radioValue = value;
-      switch (_radioValue) {
-        case 0:
-          _result = false;
-          break;
-        case 1:
-          _result = true;
-          break;
-      }
-    });
-  }
+  // void _handleRadioValueChange(int value) {
+  //   setState(() {
+  //     _radioValue = value;
+  //     switch (_radioValue) {
+  //       case 0:
+  //         _result = false;
+  //         break;
+  //       case 1:
+  //         _result = true;
+  //         break;
+  //     }
+  //   });
+  // }
 
-  Widget _alumniText() {
-    return Container(
-      child: Text(
-        'ARE YOU AN E CLUB ALUMNI?',
-        style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20.0),
-      ),
-    );
-  }
+  // Widget _alumniText() {
+  //   return Container(
+  //     child: Text(
+  //       'ARE YOU AN E CLUB ALUMNI?',
+  //       style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20.0),
+  //     ),
+  //   );
+  // }
 
-  Widget _createRadioButtons() {
-    return Container(
-      margin: EdgeInsets.only(top: 20),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Radio(
-            value: 0,
-            groupValue: _radioValue,
-            onChanged: _handleRadioValueChange,
-            activeColor: Theme.of(context).primaryColor,
-          ),
-          Text('NO'),
-          Radio(
-            value: 1,
-            activeColor: Theme.of(context).primaryColor,
-            groupValue: _radioValue,
-            onChanged: _handleRadioValueChange,
-          ),
-          Text('YES'),
-        ],
-      ),
-    );
-  }
+  // Widget _createRadioButtons() {
+  //   return Container(
+  //     margin: EdgeInsets.only(top: 20),
+  //     child: Row(
+  //       mainAxisAlignment: MainAxisAlignment.center,
+  //       children: <Widget>[
+  //         Radio(
+  //           value: 0,
+  //           groupValue: _radioValue,
+  //           onChanged: _handleRadioValueChange,
+  //           activeColor: Theme.of(context).primaryColor,
+  //         ),
+  //         Text('NO'),
+  //         Radio(
+  //           value: 1,
+  //           activeColor: Theme.of(context).primaryColor,
+  //           groupValue: _radioValue,
+  //           onChanged: _handleRadioValueChange,
+  //         ),
+  //         Text('YES'),
+  //       ],
+  //     ),
+  //   );
+  // }
 
   @override
   void initState() {
@@ -306,7 +265,7 @@ class _MemberApplicationState extends State<MemberApplication> {
         child: Scaffold(
             appBar: AppBar(
               title: Text(
-                'MEMBER RECEPTION',
+                'AGENCY RECEPTION',
                 style: TextStyle(fontSize: 15),
               ),
             ),
@@ -337,8 +296,6 @@ class _MemberApplicationState extends State<MemberApplication> {
                           _createNameTextField(),
                           _createDepartmentTextField(),
                           SizedBox(height: 20),
-                          _alumniText(),
-                          _createRadioButtons(),
                           SizedBox(
                             height: 20,
                           ),
@@ -351,7 +308,7 @@ class _MemberApplicationState extends State<MemberApplication> {
                     margin: EdgeInsets.all(15),
                     child: Center(
                       child: Text(
-                        'APPLICATION ALREADY SENT OR YOU ARE ALREADY A MEMBER!',
+                        'APPLICATION ALREADY SENT OR YOU ARE ALREADY AN AGENT!',
                         textAlign: TextAlign.center,
                       ),
                     ),

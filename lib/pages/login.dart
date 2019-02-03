@@ -52,7 +52,6 @@ class _LoginState extends State<Login> {
           'id': firebaseUser.uid,
           'hasSentRequest': false,
           'isMember': false,
-          'memberType': 'none',
           'isMemberAdmin': false,
           'isEWriteAdmin': false
         });
@@ -64,7 +63,6 @@ class _LoginState extends State<Login> {
         await prefs.setBool('isMember', false);
         await prefs.setBool('isMemberAdmin', false);
         await prefs.setBool('isEWriteAdmin', false);
-        await prefs.setString('memberType', 'none');
       } else {
         await prefs.setString('id', documents[0]['id']);
         await prefs.setString('profileURL', documents[0]['photoUrl']);
@@ -73,7 +71,6 @@ class _LoginState extends State<Login> {
         await prefs.setBool('isMember', documents[0]['isMember']);
         await prefs.setBool('isMemberAdmin', documents[0]['isMemberAdmin']);
         await prefs.setBool('isEWriteAdmin', documents[0]['isEWriteAdmin']);
-        await prefs.setString('memberType', documents[0]['memberType']);
       }
       setState(() {
         _isLoading = false;
@@ -152,7 +149,7 @@ class _LoginState extends State<Login> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Container(
-                  child: Image.asset('assets/e_club_1.png'),
+                  child: Image.asset('assets/network.png'),
                   margin: EdgeInsets.only(top: 100),
                   height: 125,
                   width: 125,
@@ -168,7 +165,7 @@ class _LoginState extends State<Login> {
                   height: 25.0,
                 ),
                 Text(
-                  'ENTREPRENEURS CLUB',
+                  'THE NETWORK',
                   style: TextStyle(
                       fontWeight: FontWeight.w700,
                       fontSize: _height < 650 ? 25 : 30),

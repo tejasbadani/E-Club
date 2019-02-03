@@ -79,7 +79,7 @@ class _EAreaState extends State<EArea> with AutomaticKeepAliveClientMixin {
             ),
           )
         : Scaffold(
-            body: Exclusive('YOU NEED TO BE A MEMBER TO VIEW THIS PAGE!'),
+            body: Exclusive('YOU NEED TO BE AN AGENT TO VIEW THIS PAGE!'),
           );
   }
 }

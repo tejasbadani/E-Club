@@ -1,10 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:project_e/shared/ensure_visible.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 import 'package:project_e/shared/custom_loading.dart';
-import 'package:project_e/shared/exclusive_active.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class NewVoice extends StatefulWidget {
@@ -18,7 +19,6 @@ class _NewVoiceState extends State<NewVoice> {
   TextEditingController _voiceController = TextEditingController();
   String profileURL;
   String name;
-  String _memberType;
   String userID;
 
   final _formKey = GlobalKey<FormState>();
@@ -155,7 +155,6 @@ class _NewVoiceState extends State<NewVoice> {
     setState(() {
       profileURL = prefs.getString('profileURL');
       name = prefs.getString('name');
-      _memberType = prefs.getString('memberType');
       userID = prefs.getString('id');
       print(profileURL);
     });
@@ -184,47 +183,41 @@ class _NewVoiceState extends State<NewVoice> {
         child: Scaffold(
           appBar: AppBar(
             title: Text(
-              'NEW E - VOICE',
+              'NEW MESSAGE',
               style: TextStyle(fontSize: 15),
             ),
           ),
-          body: _memberType == 'active'
-              ? Form(
-                  key: _formKey,
-                  child: SingleChildScrollView(
-                    child: Column(
-                      children: <Widget>[
-                        SizedBox(
-                          height: 30,
-                        ),
-                        profileURL == null
-                            ? Container()
-                            : _createCircleAvatar(profileURL),
-                        SizedBox(height: 10.0),
-                        name == null
-                            ? Container()
-                            : Text(
-                                name,
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w300,
-                                    fontSize: 25.0),
-                              ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        _createVoiceField(),
-                        SizedBox(
-                          height: 50,
-                        ),
-                        _submitButton(),
-                      ],
-                    ),
+          body: Form(
+            key: _formKey,
+            child: SingleChildScrollView(
+              child: Column(
+                children: <Widget>[
+                  SizedBox(
+                    height: 30,
                   ),
-                )
-              : Center(
-                  child: ExclusiveActive(
-                      'Oops. Seems like you are not an active member. Contact E club for details.'),
-                ),
+                  profileURL == null
+                      ? Container()
+                      : _createCircleAvatar(profileURL),
+                  SizedBox(height: 10.0),
+                  name == null
+                      ? Container()
+                      : Text(
+                          name,
+                          style: TextStyle(
+                              fontWeight: FontWeight.w300, fontSize: 25.0),
+                        ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  _createVoiceField(),
+                  SizedBox(
+                    height: 50,
+                  ),
+                  _submitButton(),
+                ],
+              ),
+            ),
+          ),
         ),
       ),
     );

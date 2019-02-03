@@ -48,38 +48,7 @@ class _EnextState extends State<Enext> {
     );
   }
 
-  List<Container> _buildGridTileListSpeaker(int count, data) {
-    return List<Container>.generate(
-      count,
-      (int index) {
-        final currentData = data.data.documents[index];
-        final Speaker currentSpeaker = Speaker(
-          id: currentData.documentID,
-          image: currentData['imageURL'],
-          name: currentData['title'],
-          article: currentData['article'],
-          instagramURL: currentData['instagram'],
-          facebookURL: currentData['facebook'],
-          linkedInURL: currentData['linkedin'],
-        );
-        speakers.add(currentSpeaker);
-        return Container(
-          child: GestureDetector(
-            onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) =>
-                          ENextSpeaker(speaker: currentSpeaker)));
-            },
-            child: SpeakerCard(
-              speaker: currentSpeaker,
-            ),
-          ),
-        );
-      },
-    );
-  }
+
 
   void _launchURl() async {
     const url = 'https://flutter.io';
@@ -96,11 +65,12 @@ class _EnextState extends State<Enext> {
       child: Column(
         children: <Widget>[
           Container(
-            margin: EdgeInsets.only(top: 10),
+            margin: EdgeInsets.only(top: 10,left: 10,right: 10),
             child: Text(
-              'E NEXT',
+              'OPENINGS',
+              textAlign: TextAlign.center,
               style: TextStyle(
-                  fontSize: 25,
+                  fontSize: 20,
                   fontWeight: FontWeight.w600,
                   color: Theme.of(context).primaryColor),
             ),
@@ -108,7 +78,7 @@ class _EnextState extends State<Enext> {
           Container(
             margin: EdgeInsets.only(top: 10),
             child: Text(
-              '1st , 2nd March 2019',
+              'COMING SOON',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
             ),
           ),
@@ -116,26 +86,25 @@ class _EnextState extends State<Enext> {
             alignment: Alignment.centerLeft,
             margin: EdgeInsets.only(top: 30, bottom: 10, left: 30),
             child: Text(
-              'EVENTS',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+              'WHY JOIN THE NETWORK?',
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500),
             ),
           ),
           Row(
             children: <Widget>[
               Expanded(
                 child: Container(
+                  margin: EdgeInsets.only(top: 10),
                   height: 150,
                   child: StreamBuilder(
-                    stream: Firestore.instance
-                        .collection('enext')
-                        .document('events')
-                        .collection('event_list')
-                        .snapshots(),
+                    stream:
+                        Firestore.instance.collection('network').snapshots(),
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
                         if (snapshot.data.documents.length == 0) {
                           return Center(
-                            child: Text('NO EVENTS YET'),
+                            child: Text('COMING SOON'),
                           );
                         }
                         return GridView.extent(
@@ -153,7 +122,7 @@ class _EnextState extends State<Enext> {
                       if (!snapshot.hasData &&
                           snapshot.connectionState == ConnectionState.done) {
                         return Center(
-                          child: Text('NO BLOGS'),
+                          child: Text('NOTHING HERE YET'),
                         );
                       }
                     },
@@ -162,55 +131,52 @@ class _EnextState extends State<Enext> {
               ),
             ],
           ),
-          Container(
-            alignment: Alignment.centerLeft,
-            margin: EdgeInsets.only(top: 10, bottom: 10, left: 30),
-            child: Text(
-              'SPEAKERS',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
-            ),
-          ),
-          Row(
-            children: <Widget>[
-              Expanded(
-                child: Container(
-                  height: 150,
-                  child: StreamBuilder(
-                    stream: Firestore.instance
-                        .collection('enext')
-                        .document('speakers')
-                        .collection('speaker_list')
-                        .snapshots(),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        if (snapshot.data.documents.length == 0) {
-                          return Center(
-                            child: Text('NO SPEAKERS YET'),
-                          );
-                        }
-                        return GridView.extent(
-                          scrollDirection: Axis.horizontal,
-                          children: _buildGridTileListSpeaker(
-                              snapshot.data.documents.length, snapshot),
-                          maxCrossAxisExtent: 150,
-                        );
-                      }
-                      if (snapshot.connectionState != ConnectionState.done) {
-                        return CupertinoActivityIndicator();
-                      }
+          // Container(
+          //   alignment: Alignment.centerLeft,
+          //   margin: EdgeInsets.only(top: 10, bottom: 10, left: 30),
+          //   child: Text(
+          //     'WHY JOIN THE NETWORK?',
+          //     style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+          //   ),
+          // ),
+          // Row(
+          //   children: <Widget>[
+          //     Expanded(
+          //       child: Container(
+          //         height: 150,
+          //         child: StreamBuilder(
+          //           stream:
+          //               Firestore.instance.collection('network').snapshots(),
+          //           builder: (context, snapshot) {
+          //             if (snapshot.hasData) {
+          //               if (snapshot.data.documents.length == 0) {
+          //                 return Center(
+          //                   child: Text('COMING SOON'),
+          //                 );
+          //               }
+          //               return GridView.extent(
+          //                 scrollDirection: Axis.horizontal,
+          //                 children: _buildGridTileListSpeaker(
+          //                     snapshot.data.documents.length, snapshot),
+          //                 maxCrossAxisExtent: 150,
+          //               );
+          //             }
+          //             if (snapshot.connectionState != ConnectionState.done) {
+          //               return CupertinoActivityIndicator();
+          //             }
 
-                      if (!snapshot.hasData &&
-                          snapshot.connectionState == ConnectionState.done) {
-                        return Center(
-                          child: Text('NOTHING HERE'),
-                        );
-                      }
-                    },
-                  ),
-                ),
-              ),
-            ],
-          ),
+          //             if (!snapshot.hasData &&
+          //                 snapshot.connectionState == ConnectionState.done) {
+          //               return Center(
+          //                 child: Text('NOTHING HERE YET'),
+          //               );
+          //             }
+          //           },
+          //         ),
+          //       ),
+          //     ),
+          //   ],
+          // ),
           Container(
             width: 175,
             height: 40,

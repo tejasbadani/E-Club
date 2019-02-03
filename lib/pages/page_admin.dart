@@ -39,29 +39,32 @@ class _PageAdminState extends State<PageAdmin> {
             title: Container(
               margin: EdgeInsets.only(top: 10.0),
               child: Text(
-                'E WRITE',
+                'WRITERS ',
+                maxLines: 2,
+                textAlign: TextAlign.center,
                 style: TextStyle(
                     color: Theme.of(context).primaryColor, fontSize: 11),
               ),
             ),
             activeIcon: Image.asset('assets/asset_6.png')),
         BottomNavigationBarItem(
-            icon: Image.asset('assets/asset_2.png'),
+          
+            icon: Image.asset('assets/openings_1.png'),
             title: Container(
               margin: EdgeInsets.only(top: 10.0),
               child: Text(
-                'E NEXT',
+                'OPENINGS',
                 style: TextStyle(
                     color: Theme.of(context).primaryColor, fontSize: 11),
               ),
             ),
-            activeIcon: Image.asset('assets/asset_7.png')),
+            activeIcon: Image.asset('assets/openings.png')),
         BottomNavigationBarItem(
             icon: Image.asset('assets/asset_3.png'),
             title: Container(
               margin: EdgeInsets.only(top: 10.0),
               child: Text(
-                'MEMBERS AREA',
+                'AGENCY',
                 textAlign: TextAlign.center,
                 maxLines: 2,
                 style: TextStyle(
@@ -227,7 +230,7 @@ class _PageAdminState extends State<PageAdmin> {
                       MaterialPageRoute(builder: (context) => EWriteAdmin()));
                 },
                 icon: Icon(Icons.star),
-                tooltip: 'E WRITE ADMIN',
+                tooltip: 'WRITE ADMIN',
                 color: Theme.of(context).primaryColorDark,
                 iconSize: 28.0,
               )
@@ -250,7 +253,7 @@ class _PageAdminState extends State<PageAdmin> {
         centerTitle: true,
         elevation: 0.0,
         title: Text(
-          'E CLUB',
+          'THE NETWORK',
           style: TextStyle(color: Theme.of(context).primaryColorDark),
         ),
       ),

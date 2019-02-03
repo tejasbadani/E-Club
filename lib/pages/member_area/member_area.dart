@@ -22,14 +22,14 @@ class _MemberAreaState extends State<MemberArea> {
               tabs: <Widget>[
                 Tab(
                   child: Text(
-                    'MEMBERS',
+                    'AGENTS',
                     style: TextStyle(fontSize: 12),
                   ),
                   //text: 'BLOGS',
                 ),
                Tab(
                   child: Text(
-                    'E AREA',
+                    'AGENCY',
                     style: TextStyle(fontSize: 12),
                   ),
                   //text: 'BLOGS',

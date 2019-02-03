@@ -12,80 +12,122 @@ class MemberEditListTile extends StatefulWidget {
 }
 
 class _MemberEditListTileState extends State<MemberEditListTile> {
-  void _onActivePressed() {
-    if (widget.member.memberType == 'active') {
-      //DO NOTHING
-    } else if (widget.member.memberType == 'dormant') {
-      Firestore.instance
-          .collection('member-area')
-          .document('member-list')
-          .collection('all')
-          .document(widget.member.userID)
-          .updateData({'memberType': 'active'});
-      Firestore.instance
-          .collection('users')
-          .document(widget.member.userID)
-          .updateData({'memberType': 'active'});
-      Firestore.instance
-          .collection('member-area')
-          .document('member-list')
-          .collection('dormant')
-          .document(widget.member.userID)
-          .delete();
-      final data = {
-        'department': widget.member.department,
-        'name': widget.member.name,
-        'profileURL': widget.member.profileURL,
-        'memberType': 'active'
-      };
-      Firestore.instance
-          .collection('member-area')
-          .document('member-list')
-          .collection('active')
-          .document(widget.member.userID)
-          .setData(data);
-      setState(() {
-        widget.member.memberType = 'active';
-      });
-    }
+  //void _onActivePressed() {
+    // if (widget.member.memberType == 'active') {
+    //   //DO NOTHING
+    // } else if (widget.member.memberType == 'dormant') {
+    //   Firestore.instance
+    //       .collection('member-area')
+    //       .document('member-list')
+    //       .collection('all')
+    //       .document(widget.member.userID)
+    //       .updateData({'memberType': 'active'});
+    //   Firestore.instance
+    //       .collection('users')
+    //       .document(widget.member.userID)
+    //       .updateData({'memberType': 'active'});
+    //   Firestore.instance
+    //       .collection('member-area')
+    //       .document('member-list')
+    //       .collection('dormant')
+    //       .document(widget.member.userID)
+    //       .delete();
+    //   final data = {
+    //     'department': widget.member.department,
+    //     'name': widget.member.name,
+    //     'profileURL': widget.member.profileURL,
+    //     'memberType': 'active'
+    //   };
+    //   Firestore.instance
+    //       .collection('member-area')
+    //       .document('member-list')
+    //       .collection('active')
+    //       .document(widget.member.userID)
+    //       .setData(data);
+    //   setState(() {
+    //     widget.member.memberType = 'active';
+    //   });
+    // }
+  //}
+
+  // void _onDormantPressed() {
+  //   if (widget.member.memberType == 'dormant') {
+  //     //DO NOTHING
+  //   } else if (widget.member.memberType == 'active') {
+  //     Firestore.instance
+  //         .collection('member-area')
+  //         .document('member-list')
+  //         .collection('all')
+  //         .document(widget.member.userID)
+  //         .updateData({'memberType': 'dormant'});
+  //     Firestore.instance
+  //         .collection('users')
+  //         .document(widget.member.userID)
+  //         .updateData({'memberType': 'dormant'});
+  //     Firestore.instance
+  //         .collection('member-area')
+  //         .document('member-list')
+  //         .collection('active')
+  //         .document(widget.member.userID)
+  //         .delete();
+  //     final data = {
+  //       'department': widget.member.department,
+  //       'name': widget.member.name,
+  //       'profileURL': widget.member.profileURL,
+  //       'memberType': 'dormant'
+  //     };
+  //     Firestore.instance
+  //         .collection('member-area')
+  //         .document('member-list')
+  //         .collection('dormant')
+  //         .document(widget.member.userID)
+  //         .setData(data);
+  //     setState(() {
+  //       widget.member.memberType = 'dormant';
+  //     });
+  //   }
+  // }
+
+  void _onRemovePressed() {
+    Firestore.instance
+        .collection('member-area')
+        .document('member-list')
+        .collection('active')
+        .document(widget.member.userID)
+        .delete();
+    Firestore.instance
+        .collection('users')
+        .document(widget.member.userID)
+        .updateData({'isMember': false});
   }
 
-  void _onDormantPressed() {
-    if (widget.member.memberType == 'dormant') {
-      //DO NOTHING
-    } else if (widget.member.memberType == 'active') {
-      Firestore.instance
-          .collection('member-area')
-          .document('member-list')
-          .collection('all')
-          .document(widget.member.userID)
-          .updateData({'memberType': 'dormant'});
-      Firestore.instance
-          .collection('users')
-          .document(widget.member.userID)
-          .updateData({'memberType': 'dormant'});
-      Firestore.instance
-          .collection('member-area')
-          .document('member-list')
-          .collection('active')
-          .document(widget.member.userID)
-          .delete();
-      final data = {
-        'department': widget.member.department,
-        'name': widget.member.name,
-        'profileURL': widget.member.profileURL,
-        'memberType': 'dormant'
-      };
-      Firestore.instance
-          .collection('member-area')
-          .document('member-list')
-          .collection('dormant')
-          .document(widget.member.userID)
-          .setData(data);
-      setState(() {
-        widget.member.memberType = 'dormant';
-      });
-    }
+  void _showDialog(BuildContext context) {
+    showDialog(
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('REMOVE AGENT?'),
+          content: Text('Are you sure you want to remove the agent ?'),
+          actions: <Widget>[
+            RaisedButton(
+              child: Text('YES'),
+              color: Theme.of(context).primaryColor,
+              onPressed: () {
+                _onRemovePressed();
+              },
+            ),
+            RaisedButton(
+              color: Theme.of(context).primaryColor,
+              child: Text('NO'),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            )
+          ],
+        );
+      },
+      context: context,
+    );
   }
 
   @override
@@ -113,45 +155,41 @@ class _MemberEditListTileState extends State<MemberEditListTile> {
                       Container(
                         height: _height > 650 ? 40 : 30,
                         width: _height > 650 ? 90 : 80,
-                        margin: EdgeInsets.only(right: 15,top: 5),
+                        margin: EdgeInsets.only(right: 15, top: 5),
                         child: RaisedButton(
-                          color: widget.member.memberType == 'active'
-                              ? Theme.of(context).primaryColor
-                              : Colors.white,
+                          color: Theme.of(context).primaryColor,
                           onPressed: () {
-                            _onActivePressed();
+                            _showDialog(context);
                           },
                           child: Text(
-                            'ACTIVE',
+                            'REMOVE',
                             style: TextStyle(
                                 fontSize: _height > 650 ? 15 : 13,
-                                color: widget.member.memberType != 'active'
-                                    ? Theme.of(context).primaryColor
-                                    : Colors.white),
+                                color: Colors.white),
                           ),
                         ),
                       ),
-                      Container(
-                        height: _height > 650 ? 40 : 30,
-                        width: _height > 650 ? 110 : 100,
-                        margin: EdgeInsets.only(right: 15,top: 5),
-                        child: RaisedButton(
-                          color: widget.member.memberType == 'dormant'
-                              ? Theme.of(context).primaryColor
-                              : Colors.white,
-                          onPressed: () {
-                            _onDormantPressed();
-                          },
-                          child: Text(
-                            'DORMANT',
-                            style: TextStyle(
-                                fontSize: _height > 650 ? 15 : 13,
-                                color: widget.member.memberType != 'dormant'
-                                    ? Theme.of(context).primaryColor
-                                    : Colors.white),
-                          ),
-                        ),
-                      ),
+                      // Container(
+                      //   height: _height > 650 ? 40 : 30,
+                      //   width: _height > 650 ? 110 : 100,
+                      //   margin: EdgeInsets.only(right: 15,top: 5),
+                      //   child: RaisedButton(
+                      //     color: widget.member.memberType == 'dormant'
+                      //         ? Theme.of(context).primaryColor
+                      //         : Colors.white,
+                      //     onPressed: () {
+                      //       //_onDormantPressed();
+                      //     },
+                      //     child: Text(
+                      //       'DORMANT',
+                      //       style: TextStyle(
+                      //           fontSize: _height > 650 ? 15 : 13,
+                      //           color: widget.member.memberType != 'dormant'
+                      //               ? Theme.of(context).primaryColor
+                      //               : Colors.white),
+                      //     ),
+                      //   ),
+                      // ),
                     ],
                   ),
                 ],

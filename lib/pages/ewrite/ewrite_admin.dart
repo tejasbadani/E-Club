@@ -15,7 +15,7 @@ class _EWriteAdminState extends State<EWriteAdmin> {
     return DefaultTabController(
       child: Scaffold(
         appBar: AppBar(
-          title: Text('E WRITE ADMIN',style: TextStyle(fontSize: 15),),
+          title: Text('WRITERS SPACE ADMIN',style: TextStyle(fontSize: 15),),
           bottom: TabBar( 
             tabs: <Widget>[
               Tab(

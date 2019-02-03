@@ -16,17 +16,15 @@ class _MemberAdminTileState extends State<MemberAdminTile> {
   void _activeMember() async {
     try {
       bool _to = false;
-      bool _done = true;
       final data = {
         'department': widget.member.department,
         'name': widget.member.name,
         'profileURL': widget.member.profileURL,
-        'memberType': 'active'
       };
       Firestore.instance
           .collection('users')
           .document(widget.member.userID)
-          .updateData({'memberType': 'active', 'isMember': true}).timeout(
+          .updateData({ 'isMember': true}).timeout(
               Duration(seconds: 30), onTimeout: () {
         _showToast(Colors.red, 'Request Timed out');
         _to = true;
@@ -50,31 +48,13 @@ class _MemberAdminTileState extends State<MemberAdminTile> {
           Firestore.instance
               .collection('member-area')
               .document('member-list')
-              .collection('all')
+              .collection('active')
               .document(widget.member.userID)
               .setData(data)
               .timeout(Duration(seconds: 30), onTimeout: () {
             _showToast(Colors.red, 'Request Timed out');
             _to = true;
           });
-        }
-
-        if (_to) {
-          _to = false;
-        } else {
-          Firestore.instance
-              .collection('member-area')
-              .document('member-list')
-              .collection('active')
-              .document(widget.member.userID)
-              .setData(data)
-              .timeout(Duration(seconds: 30), onTimeout: () {
-            _done = false;
-            _showToast(Colors.red, 'Request Timed out');
-          });
-          if (_done) {
-            _showToast(Colors.green, 'Action Completed');
-          }
         }
       }
     } catch (e) {
@@ -92,70 +72,70 @@ class _MemberAdminTileState extends State<MemberAdminTile> {
         backgroundColor: color);
   }
 
-  void _dormantMember() async {
-    final data = {
-      'department': widget.member.department,
-      'name': widget.member.name,
-      'profileURL': widget.member.profileURL,
-      'memberType': 'dormant'
-    };
-    bool _to = false;
-    bool _done = true;
-    await Firestore.instance
-        .collection('users')
-        .document(widget.member.userID)
-        .updateData(
-      {'memberType': 'dormant', 'isMember': true},
-    ).timeout(Duration(seconds: 30), onTimeout: () {
-      _showToast(Colors.red, 'Request Timed out');
-      _to = true;
-    });
-    if (_to) {
-      _to = false;
-    } else {
-      await Firestore.instance
-          .collection('member-area')
-          .document('member-list')
-          .collection('pending')
-          .document(widget.member.userID)
-          .delete()
-          .timeout(Duration(seconds: 30), onTimeout: () {
-        _showToast(Colors.red, 'Request Timed out');
-        _to = true;
-      });
-      if (_to) {
-        _to = false;
-      } else {
-        await Firestore.instance
-            .collection('member-area')
-            .document('member-list')
-            .collection('all')
-            .document(widget.member.userID)
-            .setData(data)
-            .timeout(Duration(seconds: 30), onTimeout: () {
-          _showToast(Colors.red, 'Request Timed out');
-          _to = true;
-        });
-        if (_to) {
-          _to = false;
-        } else {
-          await Firestore.instance
-              .collection('member-area')
-              .document('member-list')
-              .collection('dormant')
-              .document(widget.member.userID)
-              .setData(data)
-              .timeout(Duration(seconds: 30), onTimeout: () {
-            _done = false;
-            _showToast(Colors.red, 'Request Timed out');
-          });
-          if (_done) {
-            _showToast(Colors.green, 'Action Completed');
-          }
-        }
-      }
-    }
-  }
+  // void _dormantMember() async {
+  //   final data = {
+  //     'department': widget.member.department,
+  //     'name': widget.member.name,
+  //     'profileURL': widget.member.profileURL,
+  //     'memberType': 'dormant'
+  //   };
+  //   bool _to = false;
+  //   bool _done = true;
+  //   await Firestore.instance
+  //       .collection('users')
+  //       .document(widget.member.userID)
+  //       .updateData(
+  //     {'memberType': 'dormant', 'isMember': true},
+  //   ).timeout(Duration(seconds: 30), onTimeout: () {
+  //     _showToast(Colors.red, 'Request Timed out');
+  //     _to = true;
+  //   });
+  //   if (_to) {
+  //     _to = false;
+  //   } else {
+  //     await Firestore.instance
+  //         .collection('member-area')
+  //         .document('member-list')
+  //         .collection('pending')
+  //         .document(widget.member.userID)
+  //         .delete()
+  //         .timeout(Duration(seconds: 30), onTimeout: () {
+  //       _showToast(Colors.red, 'Request Timed out');
+  //       _to = true;
+  //     });
+  //     if (_to) {
+  //       _to = false;
+  //     } else {
+  //       await Firestore.instance
+  //           .collection('member-area')
+  //           .document('member-list')
+  //           .collection('all')
+  //           .document(widget.member.userID)
+  //           .setData(data)
+  //           .timeout(Duration(seconds: 30), onTimeout: () {
+  //         _showToast(Colors.red, 'Request Timed out');
+  //         _to = true;
+  //       });
+  //       if (_to) {
+  //         _to = false;
+  //       } else {
+  //         await Firestore.instance
+  //             .collection('member-area')
+  //             .document('member-list')
+  //             .collection('dormant')
+  //             .document(widget.member.userID)
+  //             .setData(data)
+  //             .timeout(Duration(seconds: 30), onTimeout: () {
+  //           _done = false;
+  //           _showToast(Colors.red, 'Request Timed out');
+  //         });
+  //         if (_done) {
+  //           _showToast(Colors.green, 'Action Completed');
+  //         }
+  //       }
+  //     }
+  //   }
+  // }
 
   void _rejectMember() async {
     bool _to = false;
@@ -217,7 +197,7 @@ class _MemberAdminTileState extends State<MemberAdminTile> {
                         _activeMember();
                       },
                       child: Text(
-                        'ACTIVE',
+                        'ACCEPT',
                         style: TextStyle(
                           color: Theme.of(context).primaryColor,
                           fontSize: _height > 650 ? 15 : 13,
@@ -225,30 +205,6 @@ class _MemberAdminTileState extends State<MemberAdminTile> {
                       ),
                     ),
                   ),
-                  Container(
-                    height: _height > 650 ? 40 : 30,
-                    width: _height > 650 ? 110 : 100,
-                    margin: EdgeInsets.only(right: 15),
-                    child: RaisedButton(
-                      color: Colors.white,
-                      onPressed: () {
-                        //_onDormantPressed();
-                        _dormantMember();
-                      },
-                      child: Text(
-                        'DORMANT',
-                        style: TextStyle(
-                          color: Theme.of(context).primaryColor,
-                          fontSize: _height > 650 ? 15 : 13,
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
                   Container(
                     height: _height > 650 ? 40 : 30,
                     width: _height > 650 ? 100 : 90,

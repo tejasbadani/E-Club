@@ -89,7 +89,6 @@ class _MemberListState extends State<MemberList>
                   department: data['department'],
                   name: data['name'],
                   profileURL: data['profileURL'],
-                  memberType: data['memberType'],
                   userID: data.documentID);
               members.add(member);
               return MemberListTile(member);

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:project_e/shared/ensure_visible.dart';
 import 'package:image_picker/image_picker.dart';
@@ -68,7 +70,7 @@ class _CreateArticleState extends State<CreateArticle> {
             groupValue: _radioValue,
             onChanged: _handleRadioValueChange,
           ),
-          Text('E CLUB'),
+          Text('ELS'),
         ],
       ),
     );

@@ -24,7 +24,7 @@ class _GalleryObjectState extends State<GalleryObject> {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(0.0),
                 child: FadeInImage(
-                  placeholder: Image.asset('assets/e_club_1.png').image,
+                  placeholder: Image.asset('assets/network.png').image,
                   image: NetworkImage(widget.img.imageURL),
                   fit: BoxFit.cover,
                 ),

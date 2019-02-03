@@ -29,14 +29,15 @@ class _EWriteState extends State<EWrite> {
                 ),
                 Tab(
                   child: Text(
-                    'E CLUB',
+                    'ELS',
                     style: TextStyle(fontSize: 12),
                   ),
                 ),
                 Tab(
                   child: Text(
-                    'START UPS',
+                    'THE NETWORK',
                     style: TextStyle(fontSize: 12),
+                    textAlign: TextAlign.center,
                   ),
                 )
               ],

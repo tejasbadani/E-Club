@@ -70,6 +70,7 @@ class _BlogsState extends State<Blogs> with AutomaticKeepAliveClientMixin {
 
         if (!snapshot.hasData &&
             snapshot.connectionState == ConnectionState.done) {
+              
           return Center(
             child: Text('NO BLOGS'),
           );

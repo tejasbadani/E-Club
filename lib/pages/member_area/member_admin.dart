@@ -31,7 +31,7 @@ class _MemberAdminState extends State<MemberAdmin> {
       ),
       appBar: AppBar(
         title: Text(
-          'MEMBER ADMIN',
+          'AGENT ADMIN',
           style: TextStyle(fontSize: 15),
         ),
       ),
@@ -55,8 +55,7 @@ class _MemberAdminState extends State<MemberAdmin> {
                     department: data['department'],
                     name: data['name'],
                     profileURL: data['profileURL'],
-                    userID: data.documentID,
-                    memberType: data['memberType']);
+                    userID: data.documentID);
                 members.add(member);
                 return MemberAdminTile(member);
               },

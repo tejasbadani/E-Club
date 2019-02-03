@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:project_e/model/event_list.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -206,7 +208,7 @@ class ENextEvent extends StatelessWidget {
 //               //   child: FadeInImage(
 //               //     height: 100,
 //               //     width: 95,
-//               //     placeholder: Image.asset('assets/e_club_1.png').image,
+//               //     placeholder: Image.asset('assets/network.png').image,
 //               //     image: NetworkImage(event.image),
 //               //     fit: BoxFit.cover,
 //               //   ),

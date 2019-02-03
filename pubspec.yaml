@@ -7,7 +7,7 @@ description: A new Flutter project.
 # Both the version and the builder number may be overridden in flutter
 # build by specifying --build-name and --build-number, respectively.
 # Read more about versioning at semver.org.
-version: 1.0.0+1
+version: 1.0.0+2
 
 environment:
   sdk: ">=2.0.0-dev.68.0 <3.0.0"
@@ -136,6 +136,15 @@ flutter:
     - assets/snapsieve.png
     - assets/2.0x/snapsieve.png
     - assets/3.0x/snapsieve.png
+    - assets/network.png
+    - assets/2.0x/network.png
+    - assets/3.0x/network.png
+    - assets/openings.png
+    - assets/2.0x/openings.png
+    - assets/3.0x/openings.png
+    - assets/openings_1.png
+    - assets/2.0x/openings_1.png
+    - assets/3.0x/openings_1.png
     
 
   # An image asset can refer to one or more resolution-specific "variants", see

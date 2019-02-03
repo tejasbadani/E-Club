@@ -5,11 +5,10 @@ class Member {
   final String department;
   final String profileURL;
   final String userID;
-  String memberType;
-  Member(
-      {@required this.name,
-      @required this.department,
-      @required this.profileURL,
-      @required this.userID,
-      @required this.memberType});
+  Member({
+    @required this.name,
+    @required this.department,
+    @required this.profileURL,
+    @required this.userID,
+  });
 }

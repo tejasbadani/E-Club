@@ -13,7 +13,7 @@ class EventCard extends StatelessWidget {
           child: FadeInImage(
             height: 100,
             width: 95,
-            placeholder: Image.asset('assets/e_club_1.png').image,
+            placeholder: Image.asset('assets/network.png').image,
             image: NetworkImage(event.image),
             fit: BoxFit.cover,
           ),
@@ -21,9 +21,17 @@ class EventCard extends StatelessWidget {
         SizedBox(
           height: 5,
         ),
-        Center(
-          child: Text(event.name.toUpperCase()),
-        )
+        Container(
+          margin: EdgeInsets.symmetric(horizontal: 20),
+          child: Center(
+            child: Text(
+              event.name.toUpperCase(),
+              maxLines: 2,
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 12),
+            ),
+          ),
+        ),
       ],
     );
   }

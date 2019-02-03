@@ -13,7 +13,7 @@ class SpeakerCard extends StatelessWidget {
           child: FadeInImage(
             height: 100,
             width: 95,
-            placeholder: Image.asset('assets/e_club_1.png').image,
+            placeholder: Image.asset('assets/network.png').image,
             image: NetworkImage(speaker.image),
             fit: BoxFit.cover,
           ),

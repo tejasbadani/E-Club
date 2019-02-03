@@ -4,6 +4,7 @@ import './pages/login.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:project_e/pages/introduction/introduction.dart';
+
 void main() => runApp(MyApp());
 
 class MyApp extends StatefulWidget {
@@ -24,7 +25,7 @@ class _MyAppState extends State<MyApp> {
     final token = prefs.getString('id');
 
     //_googleSignedIn = await googleSignIn.isSignedIn();
-    if (token != null ) {
+    if (token != null) {
       setState(() {
         _isLoggedIn = true;
       });
@@ -34,12 +35,10 @@ class _MyAppState extends State<MyApp> {
           if (documents['isMemberAdmin'] == null ||
               documents['hasSentRequest'] == null ||
               documents['isMember'] == null ||
-              documents['memberType'] == null ||
               documents['isEWriteAdmin'] == null) {
             Firestore.instance.collection('users').document(token).updateData({
               'hasSentRequest': false,
               'isMember': false,
-              'memberType': 'none',
               'isMemberAdmin': false,
               'isEWriteAdmin': false
             });
@@ -48,13 +47,11 @@ class _MyAppState extends State<MyApp> {
             prefs.setBool('isMember', false);
             prefs.setBool('isMemberAdmin', false);
             prefs.setBool('isEWriteAdmin', false);
-            prefs.setString('memberType', 'none');
           } else {
             prefs.setBool('hasSentRequest', documents['hasSentRequest']);
             prefs.setBool('isMember', documents['isMember']);
             prefs.setBool('isMemberAdmin', documents['isMemberAdmin']);
             prefs.setBool('isEWriteAdmin', documents['isEWriteAdmin']);
-            prefs.setString('memberType', documents['memberType']);
           }
         }
       });
@@ -71,7 +68,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'E CLUB',
+      title: 'THE NETWORK',
       theme: ThemeData(
           buttonColor: Color(0xFF003366),
           primaryColor: Color(0xFF003366),

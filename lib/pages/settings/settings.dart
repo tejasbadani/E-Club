@@ -17,7 +17,6 @@ class _SettingsState extends State<Settings> {
   SharedPreferences prefs;
   String _id, _profileURL, _name;
   bool _isMember;
-  String _memberType;
   TextEditingController _userNameController = TextEditingController();
   FocusNode _usernameFocus = FocusNode();
   TextEditingController _departmentController = TextEditingController();
@@ -32,7 +31,6 @@ class _SettingsState extends State<Settings> {
       _profileURL = prefs.getString('profileURL');
       _name = prefs.getString('name');
       _isMember = prefs.getBool('isMember');
-      _memberType = prefs.getString('memberType');
       _userNameController.text = _name.toUpperCase();
     });
     final data =
@@ -105,11 +103,11 @@ class _SettingsState extends State<Settings> {
                     _name = _userNameController.text;
                   });
 
-                  if (_memberType != 'none' && _memberType != null) {
+                  if (_isMember) {
                     Firestore.instance
                         .collection('member-area')
                         .document('member-list')
-                        .collection(_memberType)
+                        .collection('active')
                         .document(_id)
                         .updateData({'name': str}).timeout(time, onTimeout: () {
                       _showToast(Colors.red, 'Request timed out');
@@ -180,12 +178,11 @@ class _SettingsState extends State<Settings> {
                     _showToast(Colors.green, 'DEPARTMENT CHANGED SUCCESSFULLY');
                     _department = _departmentController.text;
                   });
-
-                  if (_memberType != 'none' && _memberType != null) {
+                  if (_isMember) {
                     Firestore.instance
                         .collection('member-area')
                         .document('member-list')
-                        .collection(_memberType)
+                        .collection('active')
                         .document(_id)
                         .updateData({'department': str}).timeout(time,
                             onTimeout: () {
@@ -245,15 +242,15 @@ class _SettingsState extends State<Settings> {
       barrierDismissible: true,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Leave E CLUB?'),
-          content: Text('Are you sure you want to Resign as an E CLUB member?'),
+          title: Text('Leave Agency?'),
+          content: Text('Are you sure you want to Resign as an Agent?'),
           actions: <Widget>[
             RaisedButton(
               child: Text('YES'),
               color: Theme.of(context).primaryColor,
               onPressed: () {
                 Navigator.pop(context);
-                _leaveEClub();
+                _leaveAgency();
               },
             ),
             RaisedButton(
@@ -292,22 +289,18 @@ class _SettingsState extends State<Settings> {
     );
   }
 
-  void _leaveEClub() {
+  void _leaveAgency() {
     setState(() {
       _isMember = false;
     });
 
     Firestore.instance.collection('users').document(_id).updateData({
       'isMember': false,
-      'memberType': 'none',
       'hasSentRequest': false,
       'isMemberAdmin': false
     }).then((val) {
       _isMember = false;
-      _memberType = 'none';
-
       prefs.setBool('isMember', false);
-      prefs.setString('memberType', 'none');
       prefs.setBool('hasSentRequest', false);
       prefs.setBool('isMemberAdmin', false);
     });
@@ -320,7 +313,7 @@ class _SettingsState extends State<Settings> {
       width: MediaQuery.of(context).size.width,
       child: FlatButton(
         child: Text(
-          'RESIGN AS MEMBER',
+          'RESIGN AS AGENT',
           style: TextStyle(
               fontWeight: FontWeight.w400, color: Colors.red, fontSize: 15),
         ),
@@ -360,7 +353,7 @@ class _SettingsState extends State<Settings> {
           ),
         ),
         GestureDetector(
-          onTap: (){
+          onTap: () {
             _launchSnapSieveURL();
           },
           child: Container(
@@ -433,7 +426,6 @@ class _SettingsState extends State<Settings> {
       print('Could not launch');
     }
   }
-
 
   void _launchURlInstagram() async {
     const url = 'https://www.instagram.com/psgtech_eclub/';

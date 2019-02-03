@@ -79,7 +79,7 @@ class _MemberEditState extends State<MemberEdit>
         stream: Firestore.instance
             .collection('member-area')
             .document('member-list')
-            .collection('all')
+            .collection('active')
             .snapshots(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
@@ -93,7 +93,6 @@ class _MemberEditState extends State<MemberEdit>
                     department: data['department'],
                     name: data['name'],
                     profileURL: data['profileURL'],
-                    memberType: data['memberType'],
                     userID: data.documentID);
                 members.add(member);
                 // return Dismissible(

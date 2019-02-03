@@ -23,7 +23,7 @@ class Screen1 extends StatelessWidget {
                 baselineType: TextBaseline.ideographic,
                 child: Text(
                   
-                  'WELCOME TO THE \nPSG TECH \nENTREPRENEURS CLUB',
+                  'WELCOME TO THE NETWORK',
                   maxLines: 3,
                   textAlign: TextAlign.center,
                   style: TextStyle(
