@@ -145,7 +145,9 @@ flutter:
     - assets/openings_1.png
     - assets/2.0x/openings_1.png
     - assets/3.0x/openings_1.png
-    
+    - assets/network_1.png
+    - assets/2.0x/network_1.png
+    - assets/3.0x/network_1.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.io/assets-and-images/#resolution-aware.

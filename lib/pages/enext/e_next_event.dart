@@ -137,7 +137,7 @@ class ENextEvent extends StatelessWidget {
                 [
                   Column(
                     children: <Widget>[
-                      _buildContactButtons(),
+                      //_buildContactButtons(),
                       Container(
                         child: Text(
                           event.article,

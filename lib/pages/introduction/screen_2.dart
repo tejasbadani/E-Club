@@ -24,7 +24,7 @@ class Screen2 extends StatelessWidget {
                   Container(
                     margin: EdgeInsets.symmetric(horizontal: 15),
                     child: Text(
-                      'ARE YOU AN AGENT OF THE NETWORK?',
+                      'ARE YOU AN AGENT?',
                       maxLines: 3,
                       textAlign: TextAlign.center,
                       style: TextStyle(

@@ -26,7 +26,7 @@ SharedPreferences prefs;
 
 class _PageAdminState extends State<PageAdmin> {
   FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
-  int _currentIndex = 2;
+  int _currentIndex = 1;
   List<Widget> _children;
   final GoogleSignIn googleSignIn = GoogleSignIn();
   bool isMemberAdmin;
@@ -230,7 +230,7 @@ class _PageAdminState extends State<PageAdmin> {
                       MaterialPageRoute(builder: (context) => EWriteAdmin()));
                 },
                 icon: Icon(Icons.star),
-                tooltip: 'WRITE ADMIN',
+                tooltip: 'WRITES SPACE ADMIN',
                 color: Theme.of(context).primaryColorDark,
                 iconSize: 28.0,
               )

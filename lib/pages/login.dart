@@ -134,22 +134,26 @@ class _LoginState extends State<Login> {
       backgroundColor: Colors.white,
       body: Stack(
         children: <Widget>[
-          Container(
-            //color: Colors.red,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage("assets/screen4.png"),
-                fit: BoxFit.cover,
+          Opacity(
+            opacity: 0.6,
+            child: Container(
+              //color: Colors.red,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage("assets/screen4.png"),
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
           ),
+
           Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Container(
-                  child: Image.asset('assets/network.png'),
+                  child: Image.asset('assets/network_1.png'),
                   margin: EdgeInsets.only(top: 100),
                   height: 125,
                   width: 125,
