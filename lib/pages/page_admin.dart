@@ -26,7 +26,7 @@ SharedPreferences prefs;
 
 class _PageAdminState extends State<PageAdmin> {
   FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
-  int _currentIndex = 1;
+  int _currentIndex = 2;
   List<Widget> _children;
   final GoogleSignIn googleSignIn = GoogleSignIn();
   bool isMemberAdmin;
@@ -39,7 +39,7 @@ class _PageAdminState extends State<PageAdmin> {
             title: Container(
               margin: EdgeInsets.only(top: 10.0),
               child: Text(
-                'WRITERS ',
+                'WRITERS',
                 maxLines: 2,
                 textAlign: TextAlign.center,
                 style: TextStyle(
@@ -48,7 +48,6 @@ class _PageAdminState extends State<PageAdmin> {
             ),
             activeIcon: Image.asset('assets/asset_6.png')),
         BottomNavigationBarItem(
-          
             icon: Image.asset('assets/openings_1.png'),
             title: Container(
               margin: EdgeInsets.only(top: 10.0),

@@ -90,16 +90,19 @@ class _EnextState extends State<Enext> {
 
   Widget _createPhoneNumberTextField() {
     return Container(
-      margin: EdgeInsets.all(20),
+      margin: EdgeInsets.only(top: 50,right: 20,left: 20,bottom: 20),
       child: EnsureVisibleWhenFocused(
         focusNode: _phoneNode,
         child: TextFormField(
           focusNode: _phoneNode,
           //maxLength: 30,
-          keyboardType: TextInputType.phone,
+          
+          keyboardType: TextInputType.text,
+          textInputAction: TextInputAction.done,
           decoration: InputDecoration(
+            contentPadding: EdgeInsets.all(10),
             border: OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(10)),
+              borderRadius: BorderRadius.all(Radius.circular(5)),
             ),
             hintText: 'ENTER PHONE NUMBER',
           ),
@@ -265,8 +268,8 @@ class _EnextState extends State<Enext> {
           ),
           Container(
             width: 175,
-            height: 40,
-            margin: EdgeInsets.only(top: 20, bottom: 20),
+            height: 35,
+            margin: EdgeInsets.only(top: 5, bottom: 20),
             child: RaisedButton(
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10.0)),
