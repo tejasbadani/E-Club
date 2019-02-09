@@ -178,7 +178,9 @@ class _DeleteArticleState extends State<DeleteArticle> {
                       margin: EdgeInsets.only(top: 10),
                       alignment: Alignment.center,
                       child: Text(
-                        'CATEGORY : ${widget.post.category.toUpperCase()}',
+                        widget.post.category == 'eclub'
+                            ? 'CATEGORY : ELS}'
+                            : 'CATEGORY : ${widget.post.category.toUpperCase()}', 
                         style: TextStyle(
                             fontWeight: FontWeight.w400, fontSize: 15),
                       ),

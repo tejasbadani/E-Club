@@ -36,7 +36,7 @@ class Screen2 extends StatelessWidget {
                   Container(
                     margin: EdgeInsets.symmetric(horizontal: 15),
                     child: Text(
-                      'THE MEMBER AREA IS A GREAT WAY TO COMMUNICATE WITH OTHER AGENTS!',
+                      'THE AGENCY IS A GREAT WAY TO COMMUNICATE WITH OTHER AGENTS!',
                       maxLines: 3,
                       textAlign: TextAlign.center,
                       style: TextStyle(

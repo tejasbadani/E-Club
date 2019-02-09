@@ -428,7 +428,7 @@ class _SettingsState extends State<Settings> {
   }
 
   void _launchURlInstagram() async {
-    const url = 'https://www.instagram.com/psgtech_eclub/';
+    const url = 'http://www.snapsieve.com/';
     if (await canLaunch(url)) {
       await launch(url);
     } else {
@@ -437,7 +437,7 @@ class _SettingsState extends State<Settings> {
   }
 
   void _launchURLLinkedin() async {
-    const url = 'https://www.linkedin.com/school/psgtecheclub/';
+    const url = 'http://www.snapsieve.com/';
     if (await canLaunch(url)) {
       await launch(url);
     } else {
@@ -446,7 +446,7 @@ class _SettingsState extends State<Settings> {
   }
 
   void _launchURLFacebook() async {
-    const url = 'https://www.facebook.com/psgtecheclub/';
+    const url = 'http://www.snapsieve.com/';
     if (await canLaunch(url)) {
       await launch(url);
     } else {

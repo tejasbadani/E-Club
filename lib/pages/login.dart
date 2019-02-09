@@ -180,9 +180,9 @@ class _LoginState extends State<Login> {
                     child: GestureDetector(
                       child: Image.asset('assets/google2.png'),
                       onTap: () {
-                        //Navigator.pushNamed(context, '/Main');
+                        
                         _isLoading == true ? disabledButton() : handleSignIn();
-                        //Navigator.pushReplacementNamed(context, '/Main');
+                        
                       },
                     ),
                   ),

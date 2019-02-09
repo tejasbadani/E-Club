@@ -100,8 +100,8 @@ class _MemberEditListTileState extends State<MemberEditListTile> {
     await Firestore.instance
         .collection('users')
         .document(widget.member.userID)
-        .updateData({'isMember': false}).timeout(Duration(seconds: 30),
-            onTimeout: () {
+        .updateData({'isMember': false, 'hasSentRequest': false}).timeout(
+            Duration(seconds: 30), onTimeout: () {
       _done = false;
     });
     if (_done) {

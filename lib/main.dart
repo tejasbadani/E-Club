@@ -4,7 +4,6 @@ import './pages/login.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:project_e/pages/introduction/introduction.dart';
-
 void main() => runApp(MyApp());
 
 class MyApp extends StatefulWidget {
@@ -80,7 +79,7 @@ class _MyAppState extends State<MyApp> {
       routes: {
         '/Main': (BuildContext context) => PageAdmin(),
         '/Login': (BuildContext context) => Login(),
-        '/Intro': (BuildContext context) => Introduction()
+        '/Intro': (BuildContext context) => Introduction(),
       },
     );
   }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:project_e/pages/ewrite/ewrite_admin.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'dart:io';
@@ -10,7 +9,6 @@ import './settings/settings.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:project_e/pages/ewrite/user_blogs.dart';
-
 import './member_area/member_admin.dart';
 import './member_area/member_application.dart';
 import 'package:project_e/pages/ewrite/ewrite.dart';
