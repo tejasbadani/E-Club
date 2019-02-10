@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:project_e/shared/ensure_visible.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -84,7 +83,8 @@ class _NewVoiceState extends State<NewVoice> {
     if (_formKey.currentState.validate()) {
       _showIndicator();
       DateTime now = DateTime.now();
-      String formattedDate = DateFormat(' MM.d KK:mm a ').format(now);
+      int seconds = now.millisecondsSinceEpoch;
+      String formattedDate = DateFormat('KK:mm a d/MM').format(now);
       Duration time = Duration(seconds: 30);
 
       final data = {
@@ -92,7 +92,8 @@ class _NewVoiceState extends State<NewVoice> {
         'username': name,
         'userID': userID,
         'profileURL': profileURL,
-        'date': formattedDate
+        'date': formattedDate,
+        'epoch':seconds
       };
       await Firestore.instance
           .collection('evoice')

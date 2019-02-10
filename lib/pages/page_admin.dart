@@ -12,6 +12,7 @@ import 'package:project_e/pages/ewrite/user_blogs.dart';
 import './member_area/member_admin.dart';
 import './member_area/member_application.dart';
 import 'package:project_e/pages/ewrite/ewrite.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class PageAdmin extends StatefulWidget {
   @override
@@ -29,6 +30,10 @@ class _PageAdminState extends State<PageAdmin> {
   final GoogleSignIn googleSignIn = GoogleSignIn();
   bool isMemberAdmin;
   bool isEWriteAdmin;
+  bool isMember;
+  GlobalKey _key1 = GlobalKey();
+  bool _didShowTutorialMember = false;
+
   Widget buildBottomBar() {
     return BottomNavigationBar(
       items: <BottomNavigationBarItem>[
@@ -107,6 +112,8 @@ class _PageAdminState extends State<PageAdmin> {
     setState(() {
       isMemberAdmin = prefs.getBool('isMemberAdmin');
       isEWriteAdmin = prefs.getBool('isEWriteAdmin');
+      isMember = prefs.getBool('isMember');
+      _didShowTutorialMember = prefs.getBool('tut_member');
     });
   }
 
@@ -116,6 +123,7 @@ class _PageAdminState extends State<PageAdmin> {
     firebaseCloudMessaging();
     _children = [EWrite(), Enext(), MemberArea(), Gallery(), Settings()];
     _getData();
+
     checkIfLoggedIn();
   }
 
@@ -159,6 +167,12 @@ class _PageAdminState extends State<PageAdmin> {
 
     _firebaseMessaging.getToken().then((token) {
       print(token);
+      if (isMember) {
+        Firestore.instance
+            .collection('tokens')
+            .document(token)
+            .setData({'id': token});
+      }
     });
 
     _firebaseMessaging.configure(
@@ -202,19 +216,24 @@ class _PageAdminState extends State<PageAdmin> {
                   iconSize: 28.0,
                 )
               : _currentIndex == 2
-                  ? IconButton(
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => MemberApplication()));
-                      },
-                      icon: Icon(Icons.group_add),
-                      tooltip: 'APPLY FOR MEMBERSHIP',
-                      splashColor: Colors.transparent,
-                      color: Theme.of(context).primaryColorDark,
-                      iconSize: 28.0,
-                      highlightColor: Colors.transparent,
+                  ? Stack(
+                      children: <Widget>[
+                        IconButton(
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => MemberApplication()));
+                          },
+                          icon: Icon(Icons.group_add),
+                          tooltip: 'AGENCY APPLICATION',
+                          key: _key1,
+                          splashColor: Colors.transparent,
+                          color: Theme.of(context).primaryColorDark,
+                          iconSize: 28.0,
+                          highlightColor: Colors.transparent,
+                        ),
+                      ],
                     )
                   : Container(),
         ],
@@ -239,7 +258,7 @@ class _PageAdminState extends State<PageAdmin> {
                           MaterialPageRoute(
                               builder: (context) => MemberAdmin()));
                     },
-                    tooltip: 'MEMBER ADMIN',
+                    tooltip: 'AGENCY ADMIN',
                     icon: Icon(Icons.stars),
                     splashColor: Colors.transparent,
                     color: Theme.of(context).primaryColorDark,
