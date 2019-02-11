@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:project_e/model/member_list.dart';
 import 'package:project_e/widgets/member_area/member_list_tile.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MemberList extends StatefulWidget {
   @override
@@ -12,6 +15,8 @@ class MemberList extends StatefulWidget {
 
 class _MemberListState extends State<MemberList>
     with AutomaticKeepAliveClientMixin {
+  SharedPreferences prefs;
+  bool _didShowSnackBar = false;
   @override
   bool get wantKeepAlive => true;
   final List<Member> membersList = [];
@@ -19,6 +24,39 @@ class _MemberListState extends State<MemberList>
   @override
   void initState() {
     super.initState();
+    _getData();
+    Future.delayed(Duration(seconds: 1), () {
+      _showSnackBar(context);
+    });
+  }
+
+  void _getData() async {
+    prefs = await SharedPreferences.getInstance();
+    if (prefs.getBool('snack1') != null) {
+      _didShowSnackBar = prefs.getBool('snack1');
+    }
+  }
+
+  void _showSnackBar(BuildContext context) {
+    final snackBar = SnackBar(
+      content: Text(
+          'Are you an agent? Click on the button on the top right to join the agency.'),
+      action: SnackBarAction(
+        label: 'OK',
+        textColor: Colors.white,
+        onPressed: () {
+          prefs.setBool('snack1', true);
+        },
+      ),
+      backgroundColor: Theme.of(context).primaryColor,
+      duration: Duration(seconds: 15),
+    );
+
+    print(_didShowSnackBar);
+    if (!_didShowSnackBar || _didShowSnackBar == null) {
+      Scaffold.of(context).showSnackBar(snackBar);
+      prefs.setBool('snack1', true);
+    }
   }
 
   // void getData() async {

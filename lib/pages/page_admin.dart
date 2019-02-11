@@ -34,7 +34,6 @@ class _PageAdminState extends State<PageAdmin> {
   bool isEWriteAdmin;
   bool isMember;
   GlobalKey _key1 = GlobalKey();
-  bool _didShowTutorialMember = false;
 
   Widget buildBottomBar() {
     return BottomNavigationBar(
@@ -115,7 +114,6 @@ class _PageAdminState extends State<PageAdmin> {
       isMemberAdmin = prefs.getBool('isMemberAdmin');
       isEWriteAdmin = prefs.getBool('isEWriteAdmin');
       isMember = prefs.getBool('isMember');
-      _didShowTutorialMember = prefs.getBool('tut_member');
     });
   }
 
@@ -166,7 +164,8 @@ class _PageAdminState extends State<PageAdmin> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text('Notifications'),
-          content: Text('Would you like to receive updates from The Network?'),
+          content: Text(
+              'Would you like to receive notifications about updates from The Network?'),
           actions: <Widget>[
             RaisedButton(
               child: Text('YES'),
@@ -190,6 +189,18 @@ class _PageAdminState extends State<PageAdmin> {
       },
       context: context,
     );
+  }
+
+  void _showSnackBar(BuildContext context) {
+    final snackBar = SnackBar(
+      content: Text(
+          'Are you an agent? Click on the button on the top right to join the agency.'),
+      action: SnackBarAction(
+        label: 'Ok',
+        onPressed: () {},
+      ),
+    );
+    Scaffold.of(context).showSnackBar(snackBar);
   }
 
   void logOut() async {
