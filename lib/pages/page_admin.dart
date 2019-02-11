@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:project_e/pages/ewrite/ewrite_admin.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -120,11 +122,14 @@ class _PageAdminState extends State<PageAdmin> {
   @override
   void initState() {
     super.initState();
-    firebaseCloudMessaging();
+    //firebaseCloudMessaging();
     _children = [EWrite(), Enext(), MemberArea(), Gallery(), Settings()];
     _getData();
 
     checkIfLoggedIn();
+    Future.delayed(Duration(seconds: 2), () {
+      notificationShow();
+    });
   }
 
   void checkIfLoggedIn() async {
@@ -155,6 +160,38 @@ class _PageAdminState extends State<PageAdmin> {
     );
   }
 
+  void _showDialog(BuildContext context) {
+    showDialog(
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Notifications'),
+          content: Text('Would you like to receive updates from The Network?'),
+          actions: <Widget>[
+            RaisedButton(
+              child: Text('YES'),
+              color: Theme.of(context).primaryColor,
+              onPressed: () {
+                didPressYes();
+                prefs.setBool('notifdidAsk', true);
+                Navigator.pop(context);
+              },
+            ),
+            RaisedButton(
+              color: Theme.of(context).primaryColor,
+              child: Text('NO'),
+              onPressed: () {
+                prefs.setBool('notifdidAsk', true);
+                Navigator.pop(context);
+              },
+            )
+          ],
+        );
+      },
+      context: context,
+    );
+  }
+
   void logOut() async {
     prefs = await SharedPreferences.getInstance();
     prefs.clear();
@@ -162,9 +199,19 @@ class _PageAdminState extends State<PageAdmin> {
     Navigator.pushReplacementNamed(context, '/Login');
   }
 
+  void notificationShow() {
+    bool notificationStatus = prefs.getBool('notifdidAsk');
+    if (notificationStatus == false || notificationStatus == null) {
+      _showDialog(context);
+    }
+  }
+
+  void didPressYes() {
+    firebaseCloudMessaging();
+  }
+
   void firebaseCloudMessaging() {
     if (Platform.isIOS) iosPermission();
-
     _firebaseMessaging.getToken().then((token) {
       print(token);
       if (isMember) {
@@ -173,6 +220,10 @@ class _PageAdminState extends State<PageAdmin> {
             .document(token)
             .setData({'id': token});
       }
+      Firestore.instance
+          .collection('writerstoken')
+          .document(token)
+          .setData({'id': token});
     });
 
     _firebaseMessaging.configure(
@@ -199,6 +250,8 @@ class _PageAdminState extends State<PageAdmin> {
 
   @override
   Widget build(BuildContext context) {
+    //notificationShow();
+
     return Scaffold(
       appBar: AppBar(
         actions: <Widget>[

@@ -21,6 +21,7 @@ exports.newMessage = functions.firestore.document('evoice/{messageId}').onCreate
         const username = snapshot.data().username;
         const payload = {
             notification: {
+                badge: '1',
                 title: username,
                 body: text ? (text.length <= 100 ? text : text.substring(0, 97) + '...') : '',
                 icon: snapshot.data().profileURL || '/images/boy.png',
@@ -43,6 +44,66 @@ exports.newMessage = functions.firestore.document('evoice/{messageId}').onCreate
             console.log('Notifications have been sent and tokens cleaned up.');
         }
     });
+
+exports.newBlogArticle = functions.firestore.document('ewrite/blogs/approved/{blogID}').onCreate(
+    async (snapshot: any) => {
+        // Notification details.
+        const text = snapshot.data().title;
+        const username = snapshot.data().author;
+        const payload = {
+            notification: {
+                title: 'New Article in Blogs' ,
+                body: text + ' By ' + username,
+                sound: 'default',
+                click_action: `https://${process.env.GCLOUD_PROJECT}.firebaseapp.com`,
+            }
+        };
+
+        // Get the list of device tokens.
+        const allTokens = await admin.firestore().collection('writerstoken').get();
+        const tokens: string[] = [];
+        allTokens.forEach((tokenDoc: any) => {
+            tokens.push(tokenDoc.id);
+        });
+
+        if (tokens.length > 0) {
+            // Send notifications to all tokens.
+            const response = await admin.messaging().sendToDevice(tokens, payload);
+            await cleanupTokens(response, tokens);
+            console.log('Notifications have been sent and tokens cleaned up.');
+        }
+    });
+
+exports.newELSArticle = functions.firestore.document('ewrite/eclub/approved/{eclubID}').onCreate(
+    async (snapshot: any) => {
+        // Notification details.
+        const text = snapshot.data().title;
+        const username = snapshot.data().author;
+        const payload = {
+            notification: {
+                title: 'New Article from the ELS' ,
+                body: text + ' By ' + username,
+                sound: 'default',
+                click_action: `https://${process.env.GCLOUD_PROJECT}.firebaseapp.com`,
+            }
+        };
+
+        // Get the list of device tokens.
+        const allTokens = await admin.firestore().collection('writerstoken').get();
+        const tokens: string[] = [];
+        allTokens.forEach((tokenDoc: any) => {
+            tokens.push(tokenDoc.id);
+        });
+
+        if (tokens.length > 0) {
+            // Send notifications to all tokens.
+            const response = await admin.messaging().sendToDevice(tokens, payload);
+            await cleanupTokens(response, tokens);
+            console.log('Notifications have been sent and tokens cleaned up.');
+        }
+    });
+
+
 function cleanupTokens(response: any, tokens: any) {
     // For each notification we check if there was an error.
     const tokensDelete: any = [];
