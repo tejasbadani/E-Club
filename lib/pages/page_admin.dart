@@ -121,7 +121,13 @@ class _PageAdminState extends State<PageAdmin> {
   void initState() {
     super.initState();
     //firebaseCloudMessaging();
-    _children = [EWrite(), Enext(), MemberArea(), Gallery(), Settings()];
+    _children = [
+      EWrite(),
+      Enext(),
+      MemberArea(),
+      Gallery(),
+      Settings(),
+    ];
     _getData();
 
     checkIfLoggedIn();
