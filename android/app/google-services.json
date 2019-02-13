@@ -15,7 +15,23 @@
       },
       "oauth_client": [
         {
-          "client_id": "45139712627-7k9jqsvgssc4u3lg839el6auagfekqc2.apps.googleusercontent.com",
+          "client_id": "45139712627-r8bt11gar5b79lvr7qfg54u0goaqsnup.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.tejas.projecte",
+            "certificate_hash": "bb2095f05af8a201d6cfcb9624b0689e5e395383"
+          }
+        },
+        {
+          "client_id": "45139712627-ek8dqrqirt43c5q0pu3duujagfevn8gb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.tejas.projecte",
+            "certificate_hash": "b9b0541e4aa5e39cea9d93c10fb89b56eb1b4c4b"
+          }
+        },
+        {
+          "client_id": "45139712627-5nbo42o2mmibiutsr22thon3cpgekkdh.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.tejas.projecte",
