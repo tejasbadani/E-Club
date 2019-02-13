@@ -197,18 +197,6 @@ class _PageAdminState extends State<PageAdmin> {
     );
   }
 
-  void _showSnackBar(BuildContext context) {
-    final snackBar = SnackBar(
-      content: Text(
-          'Are you an agent? Click on the button on the top right to join the agency.'),
-      action: SnackBarAction(
-        label: 'Ok',
-        onPressed: () {},
-      ),
-    );
-    Scaffold.of(context).showSnackBar(snackBar);
-  }
-
   void logOut() async {
     prefs = await SharedPreferences.getInstance();
     prefs.clear();

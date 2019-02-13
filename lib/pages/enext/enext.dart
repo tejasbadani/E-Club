@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:project_e/widgets/enext/event_card.dart';
 import 'package:project_e/model/speaker_list.dart';
 import 'package:project_e/model/event_list.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import './e_next_event.dart';
@@ -69,14 +68,14 @@ class _EnextState extends State<Enext> {
     super.initState();
   }
 
-  void _launchURl() async {
-    const url = 'https://flutter.io';
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      print('Could not launch');
-    }
-  }
+  // void _launchURl() async {
+  //   const url = 'https://flutter.io';
+  //   if (await canLaunch(url)) {
+  //     await launch(url);
+  //   } else {
+  //     print('Could not launch');
+  //   }
+  // }
 
   void _showToast(Color color, String message) {
     Fluttertoast.showToast(

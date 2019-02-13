@@ -2,82 +2,81 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:project_e/model/event_list.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class ENextEvent extends StatelessWidget {
   final Event event;
   ENextEvent({@required this.event});
-  void _launchURlInstagram() async {
-    const url = 'https://www.instagram.com/psgtech_eclub/';
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      print('Could not launch');
-    }
-  }
+  // void _launchURlInstagram() async {
+  //   const url = 'https://www.instagram.com/psgtech_eclub/';
+  //   if (await canLaunch(url)) {
+  //     await launch(url);
+  //   } else {
+  //     print('Could not launch');
+  //   }
+  // }
 
-  void _launchURLLinkedin() async {
-    const url = 'https://www.linkedin.com/school/psgtecheclub/';
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      print('Could not launch');
-    }
-  }
+  // void _launchURLLinkedin() async {
+  //   const url = 'https://www.linkedin.com/school/psgtecheclub/';
+  //   if (await canLaunch(url)) {
+  //     await launch(url);
+  //   } else {
+  //     print('Could not launch');
+  //   }
+  // }
 
-  void _launchURLFacebook() async {
-    const url = 'https://www.facebook.com/psgtecheclub/';
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      print('Could not launch');
-    }
-  }
+  // void _launchURLFacebook() async {
+  //   const url = 'https://www.facebook.com/psgtecheclub/';
+  //   if (await canLaunch(url)) {
+  //     await launch(url);
+  //   } else {
+  //     print('Could not launch');
+  //   }
+  // }
 
-  Widget _buildContactButtons() {
-    return Container(
-      height: 40,
-      margin: EdgeInsets.only(top: 20, bottom: 10),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Container(
-              margin: EdgeInsets.symmetric(horizontal: 15),
-              child: GestureDetector(
-                onTap: () {
-                  print('INSTAGRAM');
-                  _launchURlInstagram();
-                },
-                child: Image(
-                  image: Image.asset('assets/instagram.png').image,
-                ),
-              )),
-          Container(
-              margin: EdgeInsets.symmetric(horizontal: 15),
-              child: GestureDetector(
-                onTap: () {
-                  _launchURLLinkedin();
-                  print('LINKEDIN');
-                },
-                child: Image(
-                  image: Image.asset('assets/linkedin.png').image,
-                ),
-              )),
-          Container(
-              margin: EdgeInsets.symmetric(horizontal: 15),
-              child: GestureDetector(
-                onTap: () {
-                  _launchURLFacebook();
-                  print('FACEBOOK');
-                },
-                child: Image(
-                  image: Image.asset('assets/facebook.png').image,
-                ),
-              )),
-        ],
-      ),
-    );
-  }
+  // Widget _buildContactButtons() {
+  //   return Container(
+  //     height: 40,
+  //     margin: EdgeInsets.only(top: 20, bottom: 10),
+  //     child: Row(
+  //       mainAxisAlignment: MainAxisAlignment.center,
+  //       children: <Widget>[
+  //         Container(
+  //             margin: EdgeInsets.symmetric(horizontal: 15),
+  //             child: GestureDetector(
+  //               onTap: () {
+  //                 print('INSTAGRAM');
+  //                 _launchURlInstagram();
+  //               },
+  //               child: Image(
+  //                 image: Image.asset('assets/instagram.png').image,
+  //               ),
+  //             )),
+  //         Container(
+  //             margin: EdgeInsets.symmetric(horizontal: 15),
+  //             child: GestureDetector(
+  //               onTap: () {
+  //                 _launchURLLinkedin();
+  //                 print('LINKEDIN');
+  //               },
+  //               child: Image(
+  //                 image: Image.asset('assets/linkedin.png').image,
+  //               ),
+  //             )),
+  //         Container(
+  //             margin: EdgeInsets.symmetric(horizontal: 15),
+  //             child: GestureDetector(
+  //               onTap: () {
+  //                 _launchURLFacebook();
+  //                 print('FACEBOOK');
+  //               },
+  //               child: Image(
+  //                 image: Image.asset('assets/facebook.png').image,
+  //               ),
+  //             )),
+  //       ],
+  //     ),
+  //   );
+  // }
 
   Widget _createTop() {
     return Column(
