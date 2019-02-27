@@ -4,12 +4,13 @@ import 'package:project_e/model/post_ewrite.dart';
 import 'package:project_e/widgets/ewrite/ewrite_list_tile.dart';
 import './deletable_article.dart';
 import 'package:flutter/cupertino.dart';
-
 class Approved extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
     return _ApprovedState();
   }
+
+
 }
 
 class _ApprovedState extends State<Approved>
@@ -19,6 +20,7 @@ class _ApprovedState extends State<Approved>
   final List<Post> posts = [];
   @override
   Widget build(BuildContext context) {
+    
     return StreamBuilder(
       stream: Firestore.instance
           .collection('ewrite')

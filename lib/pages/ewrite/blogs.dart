@@ -65,8 +65,8 @@ class _BlogsState extends State<Blogs> with AutomaticKeepAliveClientMixin {
     return StreamBuilder(
       stream: Firestore.instance
           .collection('ewrite')
-          .document('blogs')
-          .collection('approved')
+          .document('approved')
+          .collection('approved_docs')
           .orderBy('date', descending: true)
           .snapshots(),
       builder: (context, snapshot) {

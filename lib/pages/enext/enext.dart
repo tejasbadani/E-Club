@@ -89,13 +89,13 @@ class _EnextState extends State<Enext> {
 
   Widget _createPhoneNumberTextField() {
     return Container(
-      margin: EdgeInsets.only(top: 50,right: 20,left: 20,bottom: 20),
+      margin: EdgeInsets.only(top: 50, right: 20, left: 20, bottom: 20),
       child: EnsureVisibleWhenFocused(
         focusNode: _phoneNode,
         child: TextFormField(
           focusNode: _phoneNode,
           //maxLength: 30,
-          
+
           keyboardType: TextInputType.text,
           textInputAction: TextInputAction.done,
           decoration: InputDecoration(
@@ -151,7 +151,7 @@ class _EnextState extends State<Enext> {
           Container(
             margin: EdgeInsets.only(top: 10, left: 10, right: 10),
             child: Text(
-              'OPENINGS',
+              'WANT TO JOIN?',
               textAlign: TextAlign.center,
               style: TextStyle(
                   fontSize: 20,
@@ -162,8 +162,9 @@ class _EnextState extends State<Enext> {
           Container(
             margin: EdgeInsets.only(top: 10),
             child: Text(
-              'COMING SOON',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
+              'REGISTER NOW!\nWE WILL CONTACT YOU.',
+              style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500),
+              textAlign: TextAlign.center,
             ),
           ),
           Container(

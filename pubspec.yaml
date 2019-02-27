@@ -149,6 +149,9 @@ flutter:
     - assets/network_1.png
     - assets/2.0x/network_1.png
     - assets/3.0x/network_1.png
+    - assets/badge.png
+    - assets/2.0x/badge.png
+    - assets/3.0x/badge.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.io/assets-and-images/#resolution-aware.

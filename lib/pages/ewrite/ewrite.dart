@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import './blogs.dart';
-import './e_club_write.dart';
-import './start_ups.dart';
 
 class EWrite extends StatefulWidget {
   @override
@@ -18,35 +16,13 @@ class _EWriteState extends State<EWrite> {
         appBar: PreferredSize(
           preferredSize: Size(MediaQuery.of(context).size.width, 50),
           child: AppBar(
-            bottom: TabBar(
-              tabs: <Widget>[
-                Tab(
-                  child: Text(
-                    'BLOGS',
-                    style: TextStyle(fontSize: 12),
-                  ),
-                  //text: 'BLOGS',
-                ),
-                Tab(
-                  child: Text(
-                    'ELS',
-                    style: TextStyle(fontSize: 12),
-                  ),
-                ),
-                Tab(
-                  child: Text(
-                    'THE NETWORK',
-                    style: TextStyle(fontSize: 12),
-                    textAlign: TextAlign.center,
-                  ),
-                )
-              ],
+            title: Text(
+              'ARTICLES',
+              style: TextStyle(fontSize: 15),
             ),
           ),
         ),
-        body: TabBarView(
-          children: <Widget>[Blogs(), EclubWrite(), Startups()],
-        ),
+        body: Blogs(),
       ),
       length: 3,
       initialIndex: 0,

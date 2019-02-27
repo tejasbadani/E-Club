@@ -17,7 +17,7 @@ class EWriteListTile extends StatelessWidget {
                 Expanded(
                   child: Center(
                     child: Stack(
-                      alignment: Alignment.center,
+                      alignment: Alignment.bottomCenter,
                       children: <Widget>[
                         Center(
                           child: Container(
@@ -34,6 +34,17 @@ class EWriteListTile extends StatelessWidget {
                             ),
                           ),
                         ),
+                        post.category == 'eclub'
+                            ? Positioned(
+                                top: 0,
+                                right: 0,
+                                child: Image(
+                                  height: 50,
+                                  width: 120,
+                                  image: Image.asset('assets/badge.png').image,
+                                ),
+                              )
+                            : Container(),
                         Positioned(
                             bottom: 0,
                             child: Opacity(
