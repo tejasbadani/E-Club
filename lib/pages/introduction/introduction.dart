@@ -15,7 +15,7 @@ class _IntroductionState extends State<Introduction> {
   final _pageController = PageController(
     initialPage: 0,
   );
-  final array = [Screen1(), Screen2(), Screen3(), Login()];
+  final array = [Screen1(), Screen2(), Login()];
   int _currentPage = 0;
   //double page = _pageController.
 
@@ -58,14 +58,14 @@ class _IntroductionState extends State<Introduction> {
                           _currentPage == 2 ? Colors.white : Colors.grey,
                     ),
                   ),
-                  Container(
-                    margin: EdgeInsets.only(left: 10, right: 10),
-                    child: CircleAvatar(
-                      radius: 5,
-                      backgroundColor:
-                          _currentPage == 3 ? Colors.white : Colors.grey,
-                    ),
-                  ),
+                  // Container(
+                  //   margin: EdgeInsets.only(left: 10, right: 10),
+                  //   child: CircleAvatar(
+                  //     radius: 5,
+                  //     backgroundColor:
+                  //         _currentPage == 3 ? Colors.white : Colors.grey,
+                  //   ),
+                  // ),
                 ],
               ),
             ),
@@ -79,7 +79,7 @@ class _IntroductionState extends State<Introduction> {
           _currentPage = index;
         });
       },
-      itemCount: 4,
+      itemCount: 3,
     );
   }
 }

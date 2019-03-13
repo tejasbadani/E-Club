@@ -27,7 +27,7 @@ SharedPreferences prefs;
 
 class _PageAdminState extends State<PageAdmin> {
   FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
-  int _currentIndex = 2;
+  int _currentIndex = 1;
   List<Widget> _children;
   final GoogleSignIn googleSignIn = GoogleSignIn();
   bool isMemberAdmin;
@@ -38,19 +38,20 @@ class _PageAdminState extends State<PageAdmin> {
   Widget buildBottomBar() {
     return BottomNavigationBar(
       items: <BottomNavigationBarItem>[
-        BottomNavigationBarItem(
-            icon: Image.asset('assets/asset_1.png'),
-            title: Container(
-              margin: EdgeInsets.only(top: 10.0),
-              child: Text(
-                'WRITERS',
-                maxLines: 2,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    color: Theme.of(context).primaryColor, fontSize: 11),
-              ),
-            ),
-            activeIcon: Image.asset('assets/asset_6.png')),
+        // BottomNavigationBarItem(
+        //   icon: Image.asset('assets/asset_1.png'),
+        //   title: Container(
+        //     margin: EdgeInsets.only(top: 10.0),
+        //     child: Text(
+        //       'WRITERS',
+        //       maxLines: 2,
+        //       textAlign: TextAlign.center,
+        //       style: TextStyle(
+        //           color: Theme.of(context).primaryColor, fontSize: 11),
+        //     ),
+        //   ),
+        //   activeIcon: Image.asset('assets/asset_6.png'),
+        // ),
         BottomNavigationBarItem(
             icon: Image.asset('assets/openings_1.png'),
             title: Container(
@@ -122,7 +123,7 @@ class _PageAdminState extends State<PageAdmin> {
     super.initState();
     //firebaseCloudMessaging();
     _children = [
-      EWrite(),
+      //EWrite(),
       Enext(),
       MemberArea(),
       Gallery(),
@@ -261,19 +262,21 @@ class _PageAdminState extends State<PageAdmin> {
       appBar: AppBar(
         actions: <Widget>[
           _currentIndex == 0
-              ? IconButton(
-                  onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => UserBlogs()));
-                  },
-                  splashColor: Colors.transparent,
-                  tooltip: 'YOUR BLOGS',
-                  icon: Icon(Icons.person),
-                  color: Theme.of(context).primaryColorDark,
-                  highlightColor: Colors.transparent,
-                  iconSize: 28.0,
-                )
-              : _currentIndex == 2
+              ?
+              // IconButton(
+              //     onPressed: () {
+              //       Navigator.push(context,
+              //           MaterialPageRoute(builder: (context) => UserBlogs()));
+              //     },
+              //     splashColor: Colors.transparent,
+              //     tooltip: 'YOUR BLOGS',
+              //     icon: Icon(Icons.person),
+              //     color: Theme.of(context).primaryColorDark,
+              //     highlightColor: Colors.transparent,
+              //     iconSize: 28.0,
+              //   )
+              Container()
+              : _currentIndex == 1
                   ? Stack(
                       children: <Widget>[
                         IconButton(
@@ -296,19 +299,20 @@ class _PageAdminState extends State<PageAdmin> {
                   : Container(),
         ],
         leading: _currentIndex == 0 && isEWriteAdmin == true
-            ? IconButton(
-                splashColor: Colors.transparent,
-                highlightColor: Colors.transparent,
-                onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => EWriteAdmin()));
-                },
-                icon: Icon(Icons.star),
-                tooltip: 'WRITES SPACE ADMIN',
-                color: Theme.of(context).primaryColorDark,
-                iconSize: 28.0,
-              )
-            : _currentIndex == 2 && isMemberAdmin == true
+            ? Container()
+            // IconButton(
+            //     splashColor: Colors.transparent,
+            //     highlightColor: Colors.transparent,
+            //     onPressed: () {
+            //       Navigator.push(context,
+            //           MaterialPageRoute(builder: (context) => EWriteAdmin()));
+            //     },
+            //     icon: Icon(Icons.star),
+            //     tooltip: 'WRITES SPACE ADMIN',
+            //     color: Theme.of(context).primaryColorDark,
+            //     iconSize: 28.0,
+            //   )
+            : _currentIndex == 1 && isMemberAdmin == true
                 ? IconButton(
                     onPressed: () {
                       Navigator.push(
