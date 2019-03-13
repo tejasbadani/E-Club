@@ -4,6 +4,7 @@ import './pages/login.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:project_e/pages/introduction/introduction.dart';
+
 void main() => runApp(MyApp());
 
 class MyApp extends StatefulWidget {
@@ -39,18 +40,21 @@ class _MyAppState extends State<MyApp> {
               'hasSentRequest': false,
               'isMember': false,
               'isMemberAdmin': false,
-              'isEWriteAdmin': false
+              'isEWriteAdmin': false,
+              'specialAccess': false
             });
 
             prefs.setBool('hasSentRequest', false);
             prefs.setBool('isMember', false);
             prefs.setBool('isMemberAdmin', false);
             prefs.setBool('isEWriteAdmin', false);
+            prefs.setBool('specialAccess', false);
           } else {
             prefs.setBool('hasSentRequest', documents['hasSentRequest']);
             prefs.setBool('isMember', documents['isMember']);
             prefs.setBool('isMemberAdmin', documents['isMemberAdmin']);
             prefs.setBool('isEWriteAdmin', documents['isEWriteAdmin']);
+            prefs.setBool('specialAccess', documents['specialAccess']);
           }
         }
       });

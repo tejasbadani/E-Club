@@ -4,6 +4,8 @@ import 'package:project_e/pages/member_area/member_edit.dart';
 import 'package:project_e/pages/member_area/new_calendar.dart';
 import 'package:project_e/pages/member_area/new_gallery.dart';
 import 'package:project_e/pages/member_area/registration.dart';
+import 'package:project_e/pages/member_area/special_access.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CustomFloating extends StatefulWidget {
   State<StatefulWidget> createState() {
@@ -14,7 +16,8 @@ class CustomFloating extends StatefulWidget {
 class _CustomFloatingState extends State<CustomFloating>
     with TickerProviderStateMixin {
   AnimationController _controller;
-
+  SharedPreferences prefs;
+  bool specialAccess = false;
   @override
   void initState() {
     _controller = AnimationController(
@@ -22,6 +25,141 @@ class _CustomFloatingState extends State<CustomFloating>
       duration: Duration(milliseconds: 200),
     );
     super.initState();
+    _getData();
+  }
+
+  Widget _returnRegistrationPage() {
+    return Container(
+      height: 70.0,
+      width: 56.0,
+      alignment: FractionalOffset.topCenter,
+      child: ScaleTransition(
+        scale: CurvedAnimation(
+            parent: _controller,
+            curve: Interval(0.0, 1.0, curve: Curves.easeOut)),
+        child: FloatingActionButton(
+          backgroundColor: Theme.of(context).primaryColor,
+          heroTag: 'reg',
+          mini: true,
+          onPressed: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => Registration()));
+          },
+          child: Icon(
+            Icons.receipt,
+            color: Colors.white,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _returnAddImagePage() {
+    return Container(
+      height: 70.0,
+      width: 56.0,
+      alignment: FractionalOffset.topCenter,
+      child: ScaleTransition(
+        scale: CurvedAnimation(
+            parent: _controller,
+            curve: Interval(0.0, 1.0, curve: Curves.easeOut)),
+        child: FloatingActionButton(
+          backgroundColor: Theme.of(context).primaryColor,
+          heroTag: 'image',
+          mini: true,
+          onPressed: () {
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => AddImage()));
+          },
+          child: Icon(
+            Icons.image,
+            color: Colors.white,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _returnAddCalendarPage() {
+    return Container(
+      height: 70.0,
+      width: 56.0,
+      alignment: FractionalOffset.topCenter,
+      child: ScaleTransition(
+        scale: CurvedAnimation(
+            parent: _controller,
+            curve: Interval(0.0, 1.0, curve: Curves.easeOut)),
+        child: FloatingActionButton(
+          backgroundColor: Theme.of(context).primaryColor,
+          heroTag: 'calendar',
+          mini: true,
+          onPressed: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => CreateCalendarEvent()));
+          },
+          child: Icon(
+            Icons.calendar_today,
+            color: Colors.white,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _returnEditMemberPage() {
+    return Container(
+      height: 70.0,
+      width: 56.0,
+      alignment: FractionalOffset.topCenter,
+      child: ScaleTransition(
+        scale: CurvedAnimation(
+          parent: _controller,
+          curve: Interval(0.0, 0.5, curve: Curves.easeOut),
+        ),
+        child: FloatingActionButton(
+          backgroundColor: Theme.of(context).primaryColor,
+          heroTag: 'edit',
+          mini: true,
+          onPressed: () {
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => MemberEdit()));
+          },
+          child: Icon(Icons.people, color: Colors.white),
+        ),
+      ),
+    );
+  }
+
+  void _getData() async {
+    prefs = await SharedPreferences.getInstance();
+    setState(() {
+      print('BOOL ${prefs.getBool('specialAccess')}');
+      specialAccess = prefs.getBool('specialAccess');
+    });
+  }
+
+  Widget _returnSpecialAccessPage() {
+    return Container(
+      height: 70.0,
+      width: 56.0,
+      alignment: FractionalOffset.topCenter,
+      child: ScaleTransition(
+        scale: CurvedAnimation(
+          parent: _controller,
+          curve: Interval(0.0, 0.5, curve: Curves.easeOut),
+        ),
+        child: FloatingActionButton(
+          backgroundColor: Theme.of(context).primaryColor,
+          heroTag: 'special',
+          mini: true,
+          onPressed: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => SpecialAccess()));
+          },
+          child: Icon(Icons.star, color: Colors.white),
+        ),
+      ),
+    );
   }
 
   @override
@@ -29,99 +167,16 @@ class _CustomFloatingState extends State<CustomFloating>
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Container(
-          height: 70.0,
-          width: 56.0,
-          alignment: FractionalOffset.topCenter,
-          child: ScaleTransition(
-            scale: CurvedAnimation(
-                parent: _controller,
-                curve: Interval(0.0, 1.0, curve: Curves.easeOut)),
-            child: FloatingActionButton(
-              backgroundColor: Theme.of(context).primaryColor,
-              heroTag: 'reg',
-              mini: true,
-              onPressed: () {
-                
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => Registration()));
-              },
-              child: Icon(
-                Icons.receipt,
-                color: Colors.white,
+        _returnRegistrationPage(),
+        _returnAddImagePage(),
+        _returnAddCalendarPage(),
+        _returnEditMemberPage(),
+        specialAccess == true
+            ? _returnSpecialAccessPage()
+            : Visibility(
+                child: _returnSpecialAccessPage(),
+                visible: false,
               ),
-            ),
-          ),
-        ),
-        Container(
-          height: 70.0,
-          width: 56.0,
-          alignment: FractionalOffset.topCenter,
-          child: ScaleTransition(
-            scale: CurvedAnimation(
-                parent: _controller,
-                curve: Interval(0.0, 1.0, curve: Curves.easeOut)),
-            child: FloatingActionButton(
-              backgroundColor: Theme.of(context).primaryColor,
-              heroTag: 'image',
-              mini: true,
-              onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => AddImage()));
-              },
-              child: Icon(
-                Icons.image,
-                color: Colors.white,
-              ),
-            ),
-          ),
-        ),
-        Container(
-          height: 70.0,
-          width: 56.0,
-          alignment: FractionalOffset.topCenter,
-          child: ScaleTransition(
-            scale: CurvedAnimation(
-                parent: _controller,
-                curve: Interval(0.0, 1.0, curve: Curves.easeOut)),
-            child: FloatingActionButton(
-              backgroundColor: Theme.of(context).primaryColor,
-              heroTag: 'calendar',
-              mini: true,
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => CreateCalendarEvent()));
-              },
-              child: Icon(
-                Icons.calendar_today,
-                color: Colors.white,
-              ),
-            ),
-          ),
-        ),
-        Container(
-          height: 70.0,
-          width: 56.0,
-          alignment: FractionalOffset.topCenter,
-          child: ScaleTransition(
-            scale: CurvedAnimation(
-              parent: _controller,
-              curve: Interval(0.0, 0.5, curve: Curves.easeOut),
-            ),
-            child: FloatingActionButton(
-              backgroundColor: Theme.of(context).primaryColor,
-              heroTag: 'edit',
-              mini: true,
-              onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => MemberEdit()));
-              },
-              child: Icon(Icons.people, color: Colors.white),
-            ),
-          ),
-        ),
         FloatingActionButton(
           backgroundColor: Theme.of(context).primaryColor,
           heroTag: 'options',

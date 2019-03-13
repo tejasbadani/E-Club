@@ -53,7 +53,8 @@ class _LoginState extends State<Login> {
           'hasSentRequest': false,
           'isMember': false,
           'isMemberAdmin': false,
-          'isEWriteAdmin': false
+          'isEWriteAdmin': false,
+          'specialAccess': false,
         });
         currentUser = firebaseUser;
         await prefs.setString('id', currentUser.uid);
@@ -63,6 +64,7 @@ class _LoginState extends State<Login> {
         await prefs.setBool('isMember', false);
         await prefs.setBool('isMemberAdmin', false);
         await prefs.setBool('isEWriteAdmin', false);
+        await prefs.setBool('specialAccess', false);
       } else {
         await prefs.setString('id', documents[0]['id']);
         await prefs.setString('profileURL', documents[0]['photoUrl']);
@@ -71,6 +73,7 @@ class _LoginState extends State<Login> {
         await prefs.setBool('isMember', documents[0]['isMember']);
         await prefs.setBool('isMemberAdmin', documents[0]['isMemberAdmin']);
         await prefs.setBool('isEWriteAdmin', documents[0]['isEWriteAdmin']);
+        await prefs.setBool('specialAccess', documents[0]['specialAccess']);
       }
       setState(() {
         _isLoading = false;
@@ -180,9 +183,7 @@ class _LoginState extends State<Login> {
                     child: GestureDetector(
                       child: Image.asset('assets/google2.png'),
                       onTap: () {
-                        
                         _isLoading == true ? disabledButton() : handleSignIn();
-                        
                       },
                     ),
                   ),
